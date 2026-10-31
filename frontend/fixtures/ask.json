@@ -1,0 +1,21 @@
+{
+ "illustrative": true,
+ "question": "EXAMPLE question",
+ "answer": "EXAMPLE answer",
+ "citations": [
+  {
+   "doc_id": "opssat-ad-paper",
+   "chunk_id": "opssat-ad-paper#c000",
+   "title": "EXAMPLE citation title",
+   "url": "https://doi.org/10.1038/s41597-025-05035-3",
+   "location": "EXAMPLE",
+   "excerpt": "EXAMPLE excerpt text",
+   "score": 0.5,
+   "license": "CC-BY-4.0"
+  }
+ ],
+ "missing": [
+  "EXAMPLE: the archive contains no incident report for this"
+ ],
+ "model": "EXAMPLE"
+}

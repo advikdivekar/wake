@@ -1,0 +1,109 @@
+{
+  "produced_by": "python -m app.ingestion.opssat --features",
+  "git_sha": "uncommitted",
+  "created_at": "2026-10-31T15:16:35+00:00",
+  "n_segments_compared": 2123,
+  "label_agreement": {
+    "anomaly": 1.0,
+    "train": 1.0,
+    "channel": 1.0,
+    "sampling": 1.0
+  },
+  "features": {
+    "mean": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "var": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "std": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "len": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "duration": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "len_weighted": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "gaps_squared": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "n_peaks": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "smooth10_n_peaks": {
+      "pct_within_tol": 0.9985869053226566,
+      "max_rel_err": 2.0,
+      "n_mismatch": 3
+    },
+    "smooth20_n_peaks": {
+      "pct_within_tol": 0.9952896844088553,
+      "max_rel_err": 2.0,
+      "n_mismatch": 10
+    },
+    "var_div_duration": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "var_div_len": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "diff_peaks": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "diff2_peaks": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "diff_var": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "diff2_var": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 0.0,
+      "n_mismatch": 0
+    },
+    "kurtosis": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 3.4139055347796887e-16,
+      "n_mismatch": 0
+    },
+    "skew": {
+      "pct_within_tol": 1.0,
+      "max_rel_err": 2.963006070962896e-16,
+      "n_mismatch": 0
+    }
+  },
+  "overall_pct_within_tol": 0.9996598105406397,
+  "tolerance": {
+    "rtol": 1e-06,
+    "atol": 1e-12
+  }
+}

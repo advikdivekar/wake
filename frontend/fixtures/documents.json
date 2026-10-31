@@ -1,0 +1,15 @@
+{
+ "illustrative": true,
+ "data": [
+  {
+   "doc_id": "opssat-ad-paper",
+   "title": "EXAMPLE",
+   "url": "https://doi.org/10.1038/s41597-025-05035-3",
+   "license": "CC-BY-4.0",
+   "stored_mode": "full",
+   "n_chunks": 10,
+   "retrieved_at": "2026-10-31",
+   "category": "research"
+  }
+ ]
+}

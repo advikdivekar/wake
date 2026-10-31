@@ -1,0 +1,18 @@
+# Swap components without code changes. See docs/replaceability.md.
+language_model:
+  backend: template            # llamacpp | tinker | template (template = no-LM fallback)
+  base_model: Qwen/Qwen3-8B
+  gguf: models/Qwen3-8B-Q4_K_M.gguf
+  adapter: models/adapter.gguf
+  server: http://localhost:8081
+  tinker_model_path: null      # tinker://... sampler checkpoint (only for backend: tinker)
+tabular_classifier:
+  backend: tabpfn              # tabpfn | xgboost | rf | lr
+  path: models/tabpfn_final.pkl
+thresholds:                    # filled by training/tabpfn/threshold.py from out-of-fold predictions
+  high: null
+  low: null
+retrieval:
+  embedding_model: BAAI/bge-small-en-v1.5
+  fusion: rrf
+  k: 6

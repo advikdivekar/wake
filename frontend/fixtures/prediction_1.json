@@ -1,0 +1,20 @@
+{
+ "illustrative": true,
+ "segment_id": 1,
+ "probability": 0.5,
+ "decision": "queue",
+ "thresholds": {
+  "high": 0.6,
+  "low": 0.3
+ },
+ "model": "EXAMPLE",
+ "contributors": [
+  {
+   "feature": "gaps_squared",
+   "value": 309.0,
+   "z": 1.0,
+   "importance": 0.05,
+   "plain": "EXAMPLE explanation"
+  }
+ ]
+}

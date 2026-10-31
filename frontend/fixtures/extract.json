@@ -1,0 +1,27 @@
+{
+ "illustrative": true,
+ "record_id": "rec-0001",
+ "channel_id": null,
+ "sensor_type": "magnetometer",
+ "units": null,
+ "event_date": null,
+ "publication_date": "2025-04-29",
+ "observation": "EXAMPLE",
+ "operational_response": null,
+ "root_cause": null,
+ "evidence_excerpt": "EXAMPLE",
+ "unknown_fields": [
+  "root_cause",
+  "units"
+ ],
+ "source": {
+  "doc_id": "opssat-ad-paper",
+  "chunk_id": "opssat-ad-paper#c000",
+  "title": "EXAMPLE citation title",
+  "url": "https://doi.org/10.1038/s41597-025-05035-3",
+  "location": "EXAMPLE",
+  "excerpt": "EXAMPLE excerpt text",
+  "score": 0.5,
+  "license": "CC-BY-4.0"
+ }
+}

@@ -1,0 +1,163 @@
+{
+  "produced_by": "python -m app.ingestion.opssat --verify",
+  "git_sha": "uncommitted",
+  "created_at": "2026-10-31T15:16:09+00:00",
+  "source": {
+    "zenodo_record": "https://zenodo.org/records/12588359",
+    "doi": "10.5281/zenodo.12588359",
+    "license": "CC-BY-4.0"
+  },
+  "checksums": {
+    "segments.csv": {
+      "md5": "1f4b6ffd0359efac96a6698ff557e0f9",
+      "expected": "1f4b6ffd0359efac96a6698ff557e0f9",
+      "ok": true
+    },
+    "dataset.csv": {
+      "md5": "c12fb83863afa4463dec07303a20bb14",
+      "expected": "c12fb83863afa4463dec07303a20bb14",
+      "ok": true
+    }
+  },
+  "segments_csv": {
+    "rows": 303493,
+    "columns": [
+      "channel",
+      "timestamp",
+      "value",
+      "label",
+      "sampling",
+      "anomaly",
+      "segment",
+      "train"
+    ],
+    "n_segments": 2123,
+    "time_range": [
+      "2022-01-04 20:00:50+00:00",
+      "2022-06-02 15:10:42+00:00"
+    ]
+  },
+  "dataset_csv": {
+    "rows": 2123,
+    "columns": [
+      "segment",
+      "anomaly",
+      "train",
+      "channel",
+      "sampling",
+      "duration",
+      "len",
+      "mean",
+      "var",
+      "std",
+      "kurtosis",
+      "skew",
+      "n_peaks",
+      "smooth10_n_peaks",
+      "smooth20_n_peaks",
+      "diff_peaks",
+      "diff2_peaks",
+      "diff_var",
+      "diff2_var",
+      "gaps_squared",
+      "len_weighted",
+      "var_div_duration",
+      "var_div_len"
+    ]
+  },
+  "channels": [
+    "CADC0872",
+    "CADC0873",
+    "CADC0874",
+    "CADC0884",
+    "CADC0886",
+    "CADC0888",
+    "CADC0890",
+    "CADC0892",
+    "CADC0894"
+  ],
+  "channels_match_paper": true,
+  "segment_integrity": {
+    "single_channel_per_segment": true,
+    "single_label_per_segment": true
+  },
+  "split": {
+    "train": 1594,
+    "test": 529,
+    "train_anomalous": 321,
+    "test_anomalous": 113
+  },
+  "anomaly_rate": 0.20442769665567592,
+  "sampling_values": {
+    "5": 1330,
+    "1": 793
+  },
+  "per_channel": {
+    "CADC0872": {
+      "segments": 546,
+      "anomalous": 131,
+      "train": 414,
+      "test": 132
+    },
+    "CADC0873": {
+      "segments": 593,
+      "anomalous": 105,
+      "train": 440,
+      "test": 153
+    },
+    "CADC0874": {
+      "segments": 194,
+      "anomalous": 69,
+      "train": 142,
+      "test": 52
+    },
+    "CADC0884": {
+      "segments": 158,
+      "anomalous": 0,
+      "train": 122,
+      "test": 36
+    },
+    "CADC0886": {
+      "segments": 11,
+      "anomalous": 3,
+      "train": 7,
+      "test": 4
+    },
+    "CADC0888": {
+      "segments": 252,
+      "anomalous": 60,
+      "train": 188,
+      "test": 64
+    },
+    "CADC0890": {
+      "segments": 14,
+      "anomalous": 11,
+      "train": 12,
+      "test": 2
+    },
+    "CADC0892": {
+      "segments": 211,
+      "anomalous": 34,
+      "train": 158,
+      "test": 53
+    },
+    "CADC0894": {
+      "segments": 144,
+      "anomalous": 21,
+      "train": 111,
+      "test": 33
+    }
+  },
+  "points_per_segment": {
+    "min": 8,
+    "median": 70.0,
+    "max": 1040
+  },
+  "expected_from_paper": {
+    "segments": 2123,
+    "train": 1494,
+    "test": 529,
+    "channels": 9,
+    "anomaly_rate_approx": 0.2
+  }
+}

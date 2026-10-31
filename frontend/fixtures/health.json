@@ -1,0 +1,8 @@
+{
+ "illustrative": true,
+ "status": "ok",
+ "models": {
+  "tabular": false,
+  "adapter": false
+ }
+}
