@@ -2,6 +2,13 @@
  "illustrative": true,
  "data": [
   {
+   "name": "ablation_base18_test.json",
+   "kind": "json",
+   "produced_by": "python -m training.tabpfn.ablation",
+   "created_at": "2026-10-31T15:50:19+00:00",
+   "git_sha": "f55cb0e"
+  },
+  {
    "name": "baselines_cv_results.csv",
    "kind": "csv"
   },
@@ -18,6 +25,10 @@
    "produced_by": "python -m training.tabpfn.evaluate",
    "created_at": "2026-10-31T15:37:11+00:00",
    "git_sha": "cd57b5a"
+  },
+  {
+   "name": "calibration.png",
+   "kind": "png"
   },
   {
    "name": "calibration_oof.json",
@@ -48,8 +59,22 @@
    "git_sha": "uncommitted"
   },
   {
+   "name": "offline_inference.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.local_inference --offline",
+   "created_at": "2026-10-31T16:49:17+00:00",
+   "git_sha": "9833247"
+  },
+  {
    "name": "ours_vs_published.md",
    "kind": "md"
+  },
+  {
+   "name": "post_numbers.json",
+   "kind": "json",
+   "produced_by": null,
+   "created_at": null,
+   "git_sha": null
   },
   {
    "name": "pr_curve.json",
@@ -57,6 +82,10 @@
    "produced_by": "python -m training.tabpfn.evaluate",
    "created_at": "2026-10-31T15:37:11+00:00",
    "git_sha": "cd57b5a"
+  },
+  {
+   "name": "pr_curve.png",
+   "kind": "png"
   },
   {
    "name": "pr_curve_oof.json",
@@ -73,8 +102,8 @@
    "name": "sft_dataset_stats.json",
    "kind": "json",
    "produced_by": "python -m training.tinker.prepare_sft",
-   "created_at": "2026-10-31T15:38:43+00:00",
-   "git_sha": "dd1242b"
+   "created_at": "2026-10-31T16:14:48+00:00",
+   "git_sha": "ac392e8"
   },
   {
    "name": "significance_tests.json",
@@ -110,6 +139,10 @@
    "kind": "csv"
   },
   {
+   "name": "threshold_tradeoff.png",
+   "kind": "png"
+  },
+  {
    "name": "thresholds.json",
    "kind": "json",
    "produced_by": "python -m training.tabpfn.threshold",
@@ -117,11 +150,71 @@
    "git_sha": "cd57b5a"
   },
   {
+   "name": "tinker_cost.json",
+   "kind": "json",
+   "produced_by": "training/tinker/budget.py",
+   "created_at": null,
+   "git_sha": null
+  },
+  {
+   "name": "tinker_eval_A.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.evaluate --final --backend tinker",
+   "created_at": "2026-10-31T16:23:50+00:00",
+   "git_sha": "9833247"
+  },
+  {
+   "name": "tinker_eval_B.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.evaluate --final --backend tinker",
+   "created_at": "2026-10-31T16:23:50+00:00",
+   "git_sha": "9833247"
+  },
+  {
+   "name": "tinker_eval_C.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.evaluate --final --backend tinker",
+   "created_at": "2026-10-31T16:23:50+00:00",
+   "git_sha": "9833247"
+  },
+  {
+   "name": "tinker_eval_D.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.evaluate --final --backend tinker",
+   "created_at": "2026-10-31T16:23:50+00:00",
+   "git_sha": "9833247"
+  },
+  {
+   "name": "tinker_learning_curve.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.learning_curve",
+   "created_at": "2026-10-31T16:47:31+00:00",
+   "git_sha": "9833247"
+  },
+  {
+   "name": "tinker_learning_curve.png",
+   "kind": "png"
+  },
+  {
    "name": "tinker_metric_spec.json",
    "kind": "json",
    "produced_by": "frozen manually before evaluation (see PROGRESS.md)",
    "created_at": "2026-10-31T15:34:04+00:00",
    "git_sha": "cd57b5a"
+  },
+  {
+   "name": "tinker_runs.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.train",
+   "created_at": null,
+   "git_sha": null
+  },
+  {
+   "name": "tinker_val_base_local.json",
+   "kind": "json",
+   "produced_by": "python -m training.tinker.evaluate --model base --split val --backend local",
+   "created_at": "2026-10-31T16:20:46+00:00",
+   "git_sha": "9833247"
   }
  ]
 }

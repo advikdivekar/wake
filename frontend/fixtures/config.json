@@ -1,12 +1,12 @@
 {
  "illustrative": true,
  "language_model": {
-  "backend": "template",
+  "backend": "llamacpp",
   "base_model": "Qwen/Qwen3-8B",
   "gguf": "models/Qwen3-8B-Q4_K_M.gguf",
   "adapter": "models/adapter.gguf",
   "server": "http://localhost:8081",
-  "tinker_model_path": null
+  "tinker_model_path": "tinker://ecf1c236-b8b8-5cec-8a4b-9558bf4dce0f:train:0/sampler_weights/final-v2-ep3"
  },
  "tabular_classifier": {
   "backend": "tabpfn",

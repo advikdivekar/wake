@@ -119,6 +119,9 @@ def main():
         "published": published(),
         "channels": channels,
         "timeline": timeline,
+        "significance": [{"baseline": short(t["baseline"]), "mcnemar_p": t["mcnemar"]["exact_mcnemar_p"],
+                          "auprc_diff_ci95": t["auprc_diff_ci95"]}
+                         for t in (load("significance_tests.json") or {"tests": []})["tests"]],
         "traces": traces(con, predictions()),
     }
     OUT.parent.mkdir(exist_ok=True)

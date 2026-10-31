@@ -3,6 +3,6 @@
  "status": "ok",
  "models": {
   "tabular": true,
-  "adapter": false
+  "adapter": true
  }
 }
