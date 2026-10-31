@@ -13,3 +13,4 @@ evaluations/.*.lock
 Screenshot*
 Pasted text*
 data/processed/sft/outputs/
+dev/assets/
