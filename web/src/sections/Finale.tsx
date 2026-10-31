@@ -53,7 +53,7 @@ export default function Finale() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {live ? <a href={api.exportUrl()} className="btn btn-primary">Export the mission memory archive</a>
               : <span className="btn btn-ghost cursor-not-allowed opacity-70" title="Run the backend (make api) to export">Export needs the live backend (make api)</span>}
-            <a href="https://github.com/advikdivekar/the-last-satellite" className="btn btn-ghost" target="_blank" rel="noreferrer">Source on GitHub</a>
+            <a href="https://github.com/advikdivekar/wake" className="btn btn-ghost" target="_blank" rel="noreferrer">Source on GitHub</a>
           </div>
         </Reveal>
       </div>

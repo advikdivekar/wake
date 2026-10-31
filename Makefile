@@ -55,3 +55,9 @@ site-data:        ## export real numbers for the landing site (site/data.js)
 	$(PY) -m scripts.build_site_data
 site: site-data   ## landing site at http://localhost:8765
 	cd site && python3 -m http.server 8765
+snapshot:         ## export real API responses for the static web console
+	$(PY) -m scripts.export_snapshot
+web:              ## cinematic console (dev server; uses the live API on :8000 if running)
+	cd web && npm install && npm run dev
+web-build:
+	cd web && npm ci && npx vite build
