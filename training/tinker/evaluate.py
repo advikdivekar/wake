@@ -32,7 +32,10 @@ def load(split):
 def get_model(model: str, backend: str, tinker_path: str | None):
     cfg = load_config()["language_model"]
     if backend == "local":
-        return LlamaCppLM(cfg["server"], name=f"local:{model}", lora_scale=0.0 if model == "base" else 1.0)
+        from app.common.paths import ROOT
+        has_adapter = (ROOT / cfg["adapter"]).exists()
+        scale = (0.0 if model == "base" else 1.0) if has_adapter else None
+        return LlamaCppLM(cfg["server"], name=f"local:{model}", lora_scale=scale)
     if model == "base":
         return TinkerLM(None, cfg["base_model"])
     return TinkerLM(tinker_path or cfg.get("tinker_model_path"), cfg["base_model"])

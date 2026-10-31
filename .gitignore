@@ -7,3 +7,4 @@ data/raw/
 data/processed/*.db
 .DS_Store
 data/documents/_cache/
+third_party/
