@@ -344,7 +344,7 @@ I exported the adapter as PEFT (one tensor rename: `unembed_tokens` → `lm_head
 I'd rather you hear these from me, with numbers.
 
 - **I missed my own target.** I set **95%** before training. The model got **93.0% on validation and 86.3% on test**. Most of the gap is one judgement call: *which* sentence is "the observation" in an unfamiliar document.
-- **Fine-tuning made one task worse.** Citing the right source for a telemetry term fell from **96.2% to 82.7%** (p = 0.016). That task had only 32 training examples, and the tuned model learned to answer "not in the archive" too eagerly.
+- **Fine-tuning made one task worse.** Citing the right source for a telemetry term fell from **96.2% to 82.7%** (p = 0.016). That task had the least training data, and the tuned model learned to answer "not in the archive" too eagerly.
 - **The offline adapter is a sibling.** Tinker doesn't let you download *sampler* checkpoints, which is all my final run had saved. So the offline adapter is a smaller sibling configuration, retrained with a downloadable checkpoint (validation 92.3% vs 93.0%). The training script now saves both kinds.
 - **The labels are a spec, not human annotation.** "Exact match" means agreement with a deterministic spec on unseen documents. Some fields (units, operational responses) appear in only a handful of held-out passages.
 - **The validator rejects my own model.** In the demo, **4 of 6** investigation cards fell back to deterministic text. In one, the interpreter wrote that the root cause "*is documented*", which contradicts its own NOT KNOWN list. The guard caught it. I'd rather show a plain card than a confident wrong one.
