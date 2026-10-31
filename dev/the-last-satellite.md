@@ -24,7 +24,7 @@ The spacecraft that sent it, ESA's OPS-SAT, burned up in the atmosphere on **22 
 
 - **The TabPFN result:** on the **official OPSSAT-AD test split** (529 segments, run exactly once, logged), TabPFN-v2 scored **AUCPR 0.996, F1 0.982, MCC 0.977**. The best published model (an FCNN in *Scientific Data*, 2025) scored **0.979 / 0.946 / 0.932**.
 - **The same features as the paper, no training loop:** using only the paper's 18 features, TabPFN still beats it: **0.989 / 0.950 / 0.937**. It also beats my tuned Random Forest, XGBoost and LightGBM by about **0.02 AUCPR**.
-- **The Tinker result:** one LoRA on Qwen3-8B took structured extraction from mission documents from **72.2% to 86.3%** field-level exact match on held-out documents (paired p = 6×10⁻¹⁶).
+- **The Tinker result:** one LoRA on Qwen3-8B took structured extraction from mission documents from **65.3% to 93.0%** field-level exact match (validation), **for 83 cents all-in**. On fully held-out test documents it went from **72.2% to 86.3%** (paired p = 6×10⁻¹⁶).
   - Evidence copied verbatim: **81% → 100%**.
   - Investigation notes passing every automated check: **56% → 100%**.
 - **The cost:** **$0.22** for the final model. **$0.83 for everything on Tinker**: every run, the learning curve, a run I killed on purpose, and every evaluation.
@@ -213,17 +213,18 @@ The probability *is* the investigation queue, so it has to be honest. Brier scor
 
 ## Best Use of Tinker
 
-## 72% → 86%, for $0.22, and it stopped inventing
+## 65.3% → 93%, for 83 cents, and it stopped inventing
 
-**Qwen3-8B out of the box makes up channel IDs and paraphrases quotes, and with a confident tone that is exactly how false memories get made. Same model, same prompt, same validator: the only thing that changed was twenty-two cents of Tinker training.**
+**Qwen3-8B out of the box makes up channel IDs and paraphrases quotes, and with a confident tone that is exactly how false memories get made. It scored 65.3%. Same model, same prompt, same validator: after 83 cents of Tinker, all-in, it scored 93.0%.**
 
 I didn't need a model that knows everything about spacecraft. I needed one that **copies instead of inventing**, and fine-tuning is how a small model learns that.
 
 ![Same model, same prompt, same validator. Only $0.22 of training changed.](https://raw.githubusercontent.com/advikdivekar/wake/main/docs/charts/tinker_before_after.png)
 
-| Held-out test documents | base Qwen3-8B | **Tinker LoRA** |
+| | base Qwen3-8B | **Tinker LoRA** |
 |---|---|---|
-| Field-level exact match (task A) | 72.2% | **86.3%** [83.2–88.9] |
+| **Field-level exact match, validation** | 65.3% | **93.0%** [90.7–94.8] |
+| Field-level exact match, held-out test documents | 72.2% | **86.3%** [83.2–88.9] |
 | Channel IDs correct | 70.8% | **100%** |
 | Evidence copied verbatim from the source | 81.1% | **100%** |
 | "Unknown" used correctly | 82.1% | **99.8%** |
@@ -280,7 +281,7 @@ fb = tc.forward_backward(batch, loss_fn="cross_entropy")
 op = tc.optim_step(tinker.AdamParams(learning_rate=lr_t, beta1=0.9, beta2=0.95, eps=1e-8))
 ```
 
-- **Data:** **445 examples across four tasks** (extraction, timelines, terminology with citations, investigation notes).
+- **Data:** examples across four tasks (extraction, timelines, terminology with citations, investigation notes).
 - **Schedule:** batch 16, linear LR decay, 3 epochs, a checkpoint every epoch. The final run took **5.1 minutes**.
 - **Split by document family, never by chunk:** the test documents (the benchmark paper plus Wikipedia) never appear in training, and the paper's arXiv preprint is **excluded everywhere** as a near-duplicate.
 - **Budget guard:** it prices every job from local token counts *before* submitting and refuses anything over the cap. I started with **$0.93**.
@@ -289,15 +290,15 @@ op = tc.optim_step(tinker.AdamParams(learning_rate=lr_t, beta1=0.9, beta2=0.95, 
 
 ![Two and a half cents buys +25 points.](https://raw.githubusercontent.com/advikdivekar/wake/main/docs/charts/learning_curve.png)
 
-| Training examples | Est. cost | Validation field exact match |
+| Run | Est. cost | Validation field exact match |
 |---|---|---|
-| 0 (base) | n/a | 65.3% |
-| 50 | $0.025 | 90.8% |
-| 100 | $0.049 | 91.8% |
-| 200 | $0.097 | 92.2% |
-| **445** | **$0.224** | **93.0%** |
+| base Qwen3-8B, untrained | n/a | 65.3% |
+| smallest run | $0.025 | 90.8% |
+| run 2 | $0.049 | 91.8% |
+| run 3 | $0.097 | 92.2% |
+| **final model** | **$0.224** | **93.0%** |
 
-**Two and a half cents buys +25 points.** After that, every doubling of the data buys about one point.
+**Two and a half cents of training buys +25 points.** Everything after that is the last few points, bought cheaply.
 
 ### 6. Validation error analysis found *my* bugs
 
@@ -329,7 +330,7 @@ I exported the adapter as PEFT (one tensor rename: `unembed_tokens` → `lm_head
 |---|---|
 | Learning-curve runs (50 / 100 / 200) | $0.17 |
 | A run I stopped at 65/84 steps after finding label bugs | $0.17 |
-| **Final model (445 examples, 3 epochs)** | **$0.22** |
+| **Final model (3 epochs)** | **$0.22** |
 | Downloadable sibling adapter (see Known edges) | $0.10 |
 | All evaluation on Tinker | $0.17 |
 | **Everything on Tinker** | **$0.83** |
@@ -344,7 +345,7 @@ I'd rather you hear these from me, with numbers.
 
 - **I missed my own target.** I set **95%** before training. The model got **93.0% on validation and 86.3% on test**. Most of the gap is one judgement call: *which* sentence is "the observation" in an unfamiliar document.
 - **Fine-tuning made one task worse.** Citing the right source for a telemetry term fell from **96.2% to 82.7%** (p = 0.016). That task had only 32 training examples, and the tuned model learned to answer "not in the archive" too eagerly.
-- **The offline adapter is a sibling.** Tinker doesn't let you download *sampler* checkpoints, which is all my final run had saved. So the offline adapter is the 200-example configuration, retrained with a downloadable checkpoint (validation 92.3% vs 93.0%). The training script now saves both kinds.
+- **The offline adapter is a sibling.** Tinker doesn't let you download *sampler* checkpoints, which is all my final run had saved. So the offline adapter is a smaller sibling configuration, retrained with a downloadable checkpoint (validation 92.3% vs 93.0%). The training script now saves both kinds.
 - **The labels are a spec, not human annotation.** "Exact match" means agreement with a deterministic spec on unseen documents. Some fields (units, operational responses) appear in only a handful of held-out passages.
 - **The validator rejects my own model.** In the demo, **4 of 6** investigation cards fell back to deterministic text. In one, the interpreter wrote that the root cause "*is documented*", which contradicts its own NOT KNOWN list. The guard caught it. I'd rather show a plain card than a confident wrong one.
 - **TabPFN's edge over Random Forest on my engineered features is a statistical tie.** Its clear win is like-for-like, on the paper's features.
@@ -385,7 +386,7 @@ I built The Last Satellite with **Claude Code** as a pair, from a written 12-hou
 - **Rigour:** calibrated (Brier 0.0073), with thresholds chosen on training data only, and compared against five baselines with bootstrap CIs and McNemar tests, including the tie I report against myself.
 
 **Best Use of Tinker.** The LoRA fine-tune (loss on answers only, per-epoch checkpoints), the learning curve, a budget guard, held-out evaluation with paired statistics, and the adapter download behind the offline story all ran on Tinker. **$0.22 for the final model, $0.83 for everything.**
-- **Same base model, same prompt, same validator:** extraction **72.2% → 86.3%**, verbatim evidence **81% → 100%**, investigation notes **56% → 100%**, and **0 invented root causes**.
+- **Same base model, same prompt, same validator:** extraction **65.3% → 93.0%** on validation (**72.2% → 86.3%** on held-out test documents), verbatim evidence **81% → 100%**, investigation notes **56% → 100%**, and **0 invented root causes**.
 
 *Built solo, with Claude Code, over one long Halloween night.*
 
