@@ -51,6 +51,26 @@ Total Tinker spend (estimated from token counts × list price): **{{tk.cost_tota
 
 **Training ran on Tinker's hosted service. Inference runs locally.** Tinker does not allow sampler checkpoints to be downloaded, and the evaluated run only saved those. The offline adapter is therefore the 200-example configuration, retrained with a downloadable checkpoint; its validation score is {{lc.offline}}, against {{lc.final}} for the final model. llama.cpp loads the Q4_K_M base plus this adapter converted to GGUF, with no Tinker key present. On held-out validation passages it scores {{off.em}} field exact match and agrees with the same adapter's full-precision Tinker outputs on {{off.agree}} of fields.
 
+## The console
+
+`web/` contains a cinematic, single-scroll console built with Vite, React, react-three-fiber (a shader-lit Earth and a decaying CubeSat orbit), Lenis and Framer Motion. It has seven sections:
+
+1. Elegy: the verified "last transmission" timeline.
+2. Signal Observatory.
+3. *The signal that should not be there*: a guided demo with a hidden label and a reveal.
+4. Investigation Queue, with Confirm / Reject / Investigate.
+5. Mission Memory: Q&A and extraction.
+6. Model Laboratory: every chart is read from `evaluations/`.
+7. Ofrenda: the export page.
+
+When `make api` is running, the console talks to the live backend. Otherwise it falls back to a labelled **archived snapshot of real API responses** (`make snapshot`).
+
+```bash
+make api            # backend on :8000 (optional; enables live mode, feedback, free-form Q&A, export)
+make llm            # local interpreter on :8081 (llama.cpp + adapter; optional)
+make web            # console on :5173
+```
+
 ## Run it
 
 ```bash

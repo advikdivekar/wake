@@ -22,7 +22,7 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
-html { background: var(--color-void); color-scheme: dark; }
+html { background: var(--color-void); color-scheme: dark; overflow-x: clip; }
 body { margin: 0; background: var(--color-void); color: var(--color-bone); font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 ::selection { background: var(--color-marigold); color: var(--color-void); }
