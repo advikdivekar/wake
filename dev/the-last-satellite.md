@@ -302,7 +302,7 @@ op = tc.optim_step(tinker.AdamParams(learning_rate=lr_t, beta1=0.9, beta2=0.95, 
 
 ### 6. Validation error analysis found *my* bugs
 
-At 200 examples, most remaining "errors" were the model **correctly refusing** to quote code blocks, footnotes and markdown bullet lists that my labelling rules had picked as "observations".
+Midway through, most remaining "errors" were the model **correctly refusing** to quote code blocks, footnotes and markdown bullet lists that my labelling rules had picked as "observations".
 - I tightened the spec to prose-only sentences.
 - I **killed a half-finished run** rather than pay to finish it on bad labels.
 - I retrained once.
