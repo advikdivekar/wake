@@ -34,3 +34,10 @@ Timestamps are IST (UTC+5:30). Deadline: 2026-10-31 23:59 PDT = 2026-11-01 12:29
   - TabPFN-v2: AUPRC 0.996, F1 0.982, MCC 0.977. Published FCNN: 0.979 / 0.946 / 0.932.
   - Confusion matrix: 1 FP, 3 FN.
   - Baselines on our features are close: RF 0.994, XGB 0.993, LGBM 0.990. Against RF the result is a statistical tie.
+- 22:25 **Base Qwen3-8B on VAL (local, before any fine-tuning):** task A field exact match 0.593, valid-schema rate 0.0, task D sections 0.0.
+  - Inspection showed two unfair setup issues: the system prompt never named the 8 fields, and the parsers rejected markdown (`**KNOWN**`).
+  - **Amendments, made before any tuned model existed and with TEST untouched:**
+    1. The system prompt now lists the fields explicitly. Base and tuned get the same prompt.
+    2. The parsers strip markdown bullets, bold and headings for both models.
+    3. Task-D gold citations now use the same prose-only sentence filter as the cards.
+  - Re-running the base on VAL with the amended prompt.

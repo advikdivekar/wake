@@ -192,7 +192,8 @@ def build_D(split_segments: list[int], all_passages: list[dict], n: int) -> list
         ctx = RNG.sample(taxonomy, 1) + RNG.sample(all_passages, 1)
         cites = []
         for p in ctx:
-            s = next((s for s in spec.sentences(p["text"]) if re.search(r"zero|gap|peak", s, re.I)), None)
+            s = next((s for s in spec.sentences(p["text"]) if re.search(r"zero|gap|peak|anomal", s, re.I)
+                      and re.match(r"^[A-Z][a-z]", s) and 50 <= len(s) <= 350 and not re.search(r"[{}=]|def |np\.", s)), None)
             cites.append({"chunk_id": p["chunk_id"], "text": p["text"][:600], "relevant": bool(s), "sentence": s})
         meas = (f"zero_runs={ev['zero_runs']} max_zero_run={ev['max_zero_run']} gap_count={ev['gap_count']} "
                 f"max_gap_s={ev['max_gap_s']:.0f} n_peaks={ev['n_peaks']} noise_std={ev['noise_std']:.3g}")

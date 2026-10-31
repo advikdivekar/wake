@@ -111,10 +111,11 @@ def parse_lines(text: str) -> tuple[dict | None, list[str]]:
     errors, rec = [], {}
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.S).strip()
     for line in text.splitlines():
+        line = re.sub(r"^\s*(?:[-*#>]+\s*)+", "", line).replace("**", "").replace("`", "")
         if ":" not in line:
             continue
         k, v = line.split(":", 1)
-        k = k.strip().lower()
+        k = k.strip().lower().replace(" ", "_")
         if k in FIELDS and k not in rec:
             v = v.strip()
             if k in LIST_FIELDS:
@@ -179,9 +180,11 @@ def field_equal(f: str, pred, gold) -> bool:
     return (norm_ws(pred) if pred else None) == (norm_ws(gold) if gold else None)
 
 
-SYSTEM = ("You extract structured records from OPS-SAT mission documents. Output exactly 8 lines "
-          "'field: value'. Lists are comma-separated. Text fields copy ONE sentence verbatim. Use ? when "
-          "the passage does not state it. Never infer a root cause.")
+SYSTEM = ("You extract structured records from OPS-SAT mission documents. Output exactly these 8 lines, in order: "
+          "channel_id, sensor_type, units, event_date, observation, operational_response, root_cause, evidence "
+          "(format 'field: value'). channel_id uses CADC#### ids; sensor_type is magnetometer or photodiode; "
+          "event_date is YYYY-MM-DD; lists are comma-separated. Text fields copy ONE sentence verbatim from the "
+          "passage. Use ? when the passage does not state it. Never infer a root cause.")
 INSTRUCTIONS = [
     "Extract the mission memory record from this passage.",
     "Read the passage and fill in the record fields.",

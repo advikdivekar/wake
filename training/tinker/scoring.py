@@ -137,7 +137,8 @@ def score_D(examples, outputs) -> dict:
     sec_ok = num_ok = cite_ok = no_cause = 0
     cells = []
     for ex, out in zip(examples, outputs):
-        has = all(re.search(rf"^{s}\s*$", out, re.M) for s in ("KNOWN", "UNKNOWN", "ACTION"))
+        out = re.sub(r"^\s*#+\s*", "", out.replace("**", ""), flags=re.M)
+        has = all(re.search(rf"^{s}:?\s*$", out, re.M) for s in ("KNOWN", "UNKNOWN", "ACTION"))
         ev = ex["evidence"]
         nums_needed = [f"{ex['probability']:.2f}", str(ev["n_peaks"])]
         if ev["max_zero_run"] > 1:
