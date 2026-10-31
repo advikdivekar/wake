@@ -1,0 +1,42 @@
+<template>
+  <style>
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; }
+    #root { position: absolute; inset: 0; background: #050507; overflow: hidden; }
+    .cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+    .shot-video { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; background: #050507; }
+    .cursor { position: absolute; left: 0; top: 0; width: 1px; height: 1px; z-index: 5; }
+    .cursor-in { position: absolute; left: -6px; top: -4px; transform-origin: 6px 4px; }
+    .cursor-in svg { display: block; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55)); }
+    .typecard { position: absolute; inset: 0; background: #050507; display: flex; align-items: center; justify-content: center; }
+    .type-line { font-family: "Fraunces", serif; font-weight: 300; font-size: 168px; letter-spacing: -0.025em; color: #f6e7c1; white-space: nowrap; }
+    .type-line span { display: inline-block; }
+    .type-line em { font-style: italic; color: #e8a33d; }
+    .type-line em.alert { color: #e05252; }
+    .dip { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+  </style>
+  <div id="root" data-composition-id="miss" data-width="1920" data-height="1080">
+    <div id="mis-cam0" class="cam" style="z-index:1" data-layout-allow-overflow>
+      <video id="mis-v0" class="clip shot-video" data-start="1.8" data-duration="2.6" data-media-start="11.9" data-track-index="1" src="assets/clips/seance_1579.mp4" muted playsinline></video>
+      <div id="mis-cur0" class="clip cursor" data-start="1.8" data-duration="2.6" data-track-index="10"><div class="cursor-in"><svg width="56" height="56" viewBox="0 0 28 28"><path d="M3 2 L3 22 L8.6 17.2 L12.4 25.4 L16 23.8 L12.3 15.8 L19.6 15.6 Z" fill="#ede6da" stroke="#050507" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div>
+    </div>
+    <div id="mis-type0" class="clip typecard" style="z-index:7" data-start="0" data-duration="1.8" data-track-index="20"><div class="type-line"><span>The</span> <span>one</span> <span>it</span> <span class="acc"><em class="alert">missed.</em></span></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#mis-cam0", { scale: 1.6, x: -1152.0, y: -484.0 }, 1.8);
+    tl.set("#mis-cur0 .cursor-in", { scale: 0.625 }, 1.8);
+    tl.to("#mis-cam0", { scale: 2.1, x: -1967.4, y: -1188.0, duration: 0.5, ease: "power3.inOut" }, 3.0);
+    tl.to("#mis-cur0 .cursor-in", { scale: 0.4762, duration: 0.5, ease: "power3.inOut" }, 3.0);
+    tl.to("#mis-v0", { filter: "blur(16px)", x: -260, duration: 0.18, ease: "power3.in" }, 4.22);
+    tl.set("#mis-cur0", { x: 1660, y: 1010 }, 1.8);
+    tl.fromTo("#mis-cur0 .cursor-in", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 1.8);
+    tl.to("#mis-cur0", { x: 1394.4, y: 907.8, duration: 0.55, ease: "power2.inOut" }, 1.933);
+    tl.to("#mis-cur0 svg", { scale: 0.8, duration: 0.07, ease: "power2.in", transformOrigin: "6px 4px" }, 2.503);
+    tl.to("#mis-cur0 svg", { scale: 1, duration: 0.16, ease: "power2.out" }, 2.583);
+    tl.fromTo("#mis-type0 .type-line span", { color: "#2c2830" }, { color: "#f6e7c1", duration: 0.18, stagger: 0.085, ease: "none" }, 0.08);
+    tl.fromTo("#mis-type0 .type-line em", { color: "#2c2830" }, { color: "#e05252", duration: 0.18, ease: "none" }, 0.5);
+    tl.to("#mis-type0 .type-line span", { opacity: 0, filter: "blur(8px)", duration: 0.16, stagger: 0.02, ease: "power2.in" }, 1.6);
+    window.__timelines["miss"] = tl;
+  </script>
+</template>

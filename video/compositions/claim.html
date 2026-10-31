@@ -1,0 +1,38 @@
+<template>
+  <style>
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; }
+    #root { position: absolute; inset: 0; background: #050507; overflow: hidden; }
+    #cl-stars { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; opacity: 0.32; }
+    #cl-l1 { position: absolute; left: 0; top: 300px; width: 1920px; text-align: center; font-family: "Fraunces", serif; font-weight: 300;
+      font-size: 150px; letter-spacing: -0.025em; color: #f6e7c1; line-height: 1; }
+    #cl-l1 span { display: inline-block; }
+    #cl-slot { position: absolute; left: 0; top: 480px; width: 1920px; height: 200px; overflow: hidden; }
+    #cl-reel { position: absolute; left: 0; top: 0; width: 1920px; }
+    .cl-w { height: 200px; display: flex; align-items: center; justify-content: center; font-family: "Fraunces", serif; font-style: italic;
+      font-weight: 300; font-size: 168px; letter-spacing: -0.025em; color: #e8a33d; line-height: 1; }
+    .cl-w.last { color: #ede6da; }
+  </style>
+  <div id="root" data-composition-id="claim" data-width="1920" data-height="1080">
+    <img id="cl-stars" src="assets/img/stars.jpg" alt="" data-layout-ignore />
+    <div id="cl-l1"><span>Every</span> <span>line</span> <span>is</span></div>
+    <div id="cl-slot" data-layout-allow-overflow>
+      <div id="cl-reel">
+        <div class="cl-w">measured,</div>
+        <div class="cl-w">cited,</div>
+        <div class="cl-w last">or marked unknown.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cl-stars", { opacity: 0 }, { opacity: 0.32, duration: 0.3 }, 0);
+    tl.fromTo("#cl-l1 span", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, stagger: 0.07, ease: "power2.out" }, 0.08);
+    // the last word rolls like a slot reel: each value holds long enough to read
+    tl.fromTo("#cl-reel", { y: 200, filter: "blur(0px)" }, { y: 0, duration: 0.28, ease: "power3.out" }, 0.3);
+    tl.to("#cl-reel", { y: -200, duration: 0.24, ease: "power3.inOut" }, 1.0);
+    tl.to("#cl-reel", { y: -400, duration: 0.24, ease: "power3.inOut" }, 1.6);
+    tl.to("#cl-l1, #cl-slot", { opacity: 0, filter: "blur(10px)", duration: 0.16, ease: "power2.in" }, 2.84);
+    window.__timelines["claim"] = tl;
+  </script>
+</template>

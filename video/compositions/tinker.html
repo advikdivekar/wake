@@ -1,0 +1,88 @@
+<template>
+  <style>
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; }
+    #root { position: absolute; inset: 0; background: #050507; overflow: hidden; }
+    #tk-world { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; }
+    #tk-win { position: absolute; left: 110px; top: 170px; width: 1080px; border-radius: 18px; overflow: hidden;
+      background: rgba(11,10,13,0.94); border: 1px solid rgba(246,231,193,0.12); box-shadow: 0 40px 120px rgba(0,0,0,0.6); }
+    #tk-bar { height: 64px; display: flex; align-items: center; gap: 12px; padding: 0 24px; border-bottom: 1px solid rgba(246,231,193,0.08); }
+    #tk-bar i { width: 16px; height: 16px; border-radius: 50%; background: #2c2830; display: block; }
+    #tk-bar span { margin-left: 18px; font-family: "JetBrains Mono", monospace; font-size: 28px; color: #9a9288; letter-spacing: 0.02em; }
+    #tk-body { padding: 26px 34px 30px; font-family: "JetBrains Mono", monospace; font-size: 30px; color: #ede6da; }
+    .tk-row { display: grid; grid-template-columns: 52px 430px 130px 54px 130px 1fr; align-items: center; height: 70px; border-radius: 10px; padding: 0 14px; margin: 0 -14px; }
+    .tk-row .k { color: #e8a33d; }
+    .tk-row .b { color: #9a9288; }
+    .tk-row .ar { color: #9a9288; }
+    .tk-row .t { color: #f6e7c1; }
+    .tk-row .m { font-weight: 500; }
+    .tk-head { color: #9a9288; font-size: 28px; letter-spacing: 0.1em; height: 48px; }
+    .ok { color: #6fbf8a; }
+    .ns { color: #9a9288; font-size: 28px; }
+    .bad { color: #e05252; }
+    #tk-c { background: rgba(224,82,82,0); }
+    .tk-foot { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(246,231,193,0.08); display: grid; grid-template-columns: 1fr auto; row-gap: 12px; font-size: 28px; }
+    .tk-foot .v { color: #f6e7c1; text-align: right; }
+    .tk-foot .gold { color: #e8a33d; }
+    #tk-lead { position: absolute; left: 1270px; top: 170px; width: 600px; font-family: "Fraunces", serif; font-weight: 300; font-size: 92px;
+      letter-spacing: -0.03em; color: #f6e7c1; white-space: nowrap; line-height: 1; }
+    #tk-lead span { display: inline-block; }
+    #tk-lead .arr { color: #9a9288; font-size: 64px; }
+    #tk-lead .hi { color: #e8a33d; }
+    #tk-lead2 { position: absolute; left: 1272px; top: 285px; width: 600px; font-family: "JetBrains Mono", monospace; font-size: 28px; letter-spacing: 0.04em; color: #b9b1a4; }
+    #tk-lead2 b { color: #e8a33d; font-weight: 500; }
+    #tk-title { position: absolute; left: 1270px; top: 470px; width: 600px; font-family: "Fraunces", serif; font-weight: 300; font-size: 72px;
+      line-height: 1.04; letter-spacing: -0.025em; color: #f6e7c1; }
+    #tk-title em { font-style: italic; color: #e05252; }
+    #tk-title2 { position: absolute; left: 1270px; top: 660px; width: 560px; font-family: "Fraunces", serif; font-weight: 300; font-size: 56px;
+      line-height: 1.12; letter-spacing: -0.02em; color: #ede6da; }
+    #tk-title span, #tk-title2 span { display: inline-block; }
+  </style>
+  <div id="root" data-composition-id="tinker" data-width="1920" data-height="1080">
+    <img id="tk-world" src="assets/img/retro-satellite.png" alt="" data-layout-ignore />
+    <div id="tk-win">
+      <div id="tk-bar"><i></i><i></i><i></i><span>tinker_eval · held-out test documents</span></div>
+      <div id="tk-body">
+        <div class="tk-row tk-head"><span></span><span>TASK</span><span>BASE</span><span></span><span>TUNED</span><span></span></div>
+        <div class="tk-row" id="tk-a"><span class="k">A</span><span>record extraction</span><span class="b">0.722</span><span class="ar">→</span><span class="t m">0.863</span><span class="ok">✓</span></div>
+        <div class="tk-row" id="tk-d"><span class="k">D</span><span>investigation notes</span><span class="b">0.560</span><span class="ar">→</span><span class="t m">1.000</span><span class="ok">✓</span></div>
+        <div class="tk-row" id="tk-b"><span class="k">B</span><span>timeline dates</span><span class="b">0.375</span><span class="ar">→</span><span class="t">0.542</span><span class="ns">n.s.</span></div>
+        <div class="tk-row" id="tk-c"><span class="k">C</span><span>terminology + citation</span><span class="b">0.962</span><span class="ar">→</span><span class="t" id="tk-cval">0.827</span><span class="bad" id="tk-cx">✗ worse</span></div>
+        <div class="tk-foot" id="tk-foot">
+          <span>unsupported root causes</span><span class="v">0</span>
+          <span>total Tinker spend</span><span class="v gold">$0.83</span>
+        </div>
+      </div>
+    </div>
+    <div id="tk-lead"><span>65.3%</span> <span class="arr">→</span> <span class="hi">93.0%</span></div>
+    <div id="tk-lead2">validation · <b>$0.83</b> all-in on Tinker</div>
+    <div id="tk-title"><span>One task</span> <span>got</span> <span><em>worse.</em></span></div>
+    <div id="tk-title2"><span>It stays</span> <span>in the table.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    // a dip into the satellite's world, the results window arrives on its long tail
+    tl.fromTo("#tk-world", { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 0);
+    tl.fromTo("#tk-win", { y: 120, opacity: 0, filter: "blur(10px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "expo.out" }, 0.12);
+    // rows print one by one (left-to-right wipe), checks land
+    ["#tk-a", "#tk-d", "#tk-b", "#tk-c"].forEach((id, i) => {
+      const t = 0.75 + i * 0.42;
+      tl.fromTo(id, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.3, ease: "power2.out" }, t);
+      tl.fromTo(`${id} > span:last-child`, { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2)" }, t + 0.25);
+    });
+    // the headline: task A field exact match on validation, base → fine-tuned (evaluations/tinker_learning_curve.json)
+    tl.fromTo("#tk-lead span", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, stagger: 0.12, ease: "power2.out" }, 0.55);
+    tl.fromTo("#tk-lead2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2 }, 0.95);
+    // task C regressed: the row flashes red and stays marked
+    tl.fromTo("#tk-c", { backgroundColor: "rgba(224,82,82,0)" }, { backgroundColor: "rgba(224,82,82,0.55)", duration: 0.08, ease: "none" }, 2.3);
+    tl.to("#tk-c", { backgroundColor: "rgba(224,82,82,0.16)", duration: 0.5, ease: "power2.out" }, 2.4);
+    tl.fromTo("#tk-cval", { color: "#f6e7c1" }, { color: "#e05252", duration: 0.1 }, 2.3);
+    tl.fromTo("#tk-foot", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25 }, 2.75);
+    tl.fromTo("#tk-title span", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, stagger: 0.09, ease: "power2.out" }, 3.2);
+    tl.fromTo("#tk-title2 span", { color: "#2c2830", opacity: 0 }, { color: "#ede6da", opacity: 1, duration: 0.2, stagger: 0.12, ease: "none" }, 4.2);
+    // dip out
+    tl.to("#tk-win, #tk-title, #tk-title2, #tk-lead, #tk-lead2", { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power2.in" }, 6.3);
+    tl.to("#tk-world", { opacity: 0, duration: 0.2 }, 6.35);
+    window.__timelines["tinker"] = tl;
+  </script>
+</template>

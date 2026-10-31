@@ -1,0 +1,56 @@
+<template>
+  <style>
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; }
+    #root { position: absolute; inset: 0; background: #050507; overflow: hidden; }
+    .cam { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; }
+    .shot-video { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; object-fit: cover; background: #050507; }
+    .cursor { position: absolute; left: 0; top: 0; width: 1px; height: 1px; z-index: 5; }
+    .cursor-in { position: absolute; left: -6px; top: -4px; transform-origin: 6px 4px; }
+    .cursor-in svg { display: block; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.55)); }
+    .typecard { position: absolute; inset: 0; background: #050507; display: flex; align-items: center; justify-content: center; }
+    .type-line { font-family: "Fraunces", serif; font-weight: 300; font-size: 168px; letter-spacing: -0.025em; color: #f6e7c1; white-space: nowrap; }
+    .type-line span { display: inline-block; }
+    .type-line em { font-style: italic; color: #e8a33d; }
+    .type-line em.alert { color: #e05252; }
+    .dip { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+  </style>
+  <div id="root" data-composition-id="hide" data-width="1920" data-height="1080">
+    <div id="hid-cam0" class="cam" style="z-index:1" data-layout-allow-overflow>
+      <video id="hid-v0" class="clip shot-video" data-start="1.3" data-duration="1.7" data-media-start="0.6" data-track-index="1" src="assets/clips/reveal_204.mp4" muted playsinline></video>
+      <div id="hid-cur0" class="clip cursor" data-start="1.3" data-duration="1.7" data-track-index="10"><div class="cursor-in"><svg width="56" height="56" viewBox="0 0 28 28"><path d="M3 2 L3 22 L8.6 17.2 L12.4 25.4 L16 23.8 L12.3 15.8 L19.6 15.6 Z" fill="#ede6da" stroke="#050507" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div>
+    </div>
+    <div id="hid-cam1" class="cam" style="z-index:2" data-layout-allow-overflow>
+      <video id="hid-v1" class="clip shot-video" data-start="3.0" data-duration="2.8" data-media-start="10.8" data-track-index="2" src="assets/clips/reveal_204.mp4" muted playsinline></video>
+    </div>
+    <div id="hid-cam2" class="cam" style="z-index:3" data-layout-allow-overflow>
+      <video id="hid-v2" class="clip shot-video" data-start="5.8" data-duration="2.4" data-media-start="13.6" data-track-index="3" src="assets/clips/reveal_204.mp4" muted playsinline></video>
+      <div id="hid-cur2" class="clip cursor" data-start="5.8" data-duration="2.4" data-track-index="12"><div class="cursor-in"><svg width="56" height="56" viewBox="0 0 28 28"><path d="M3 2 L3 22 L8.6 17.2 L12.4 25.4 L16 23.8 L12.3 15.8 L19.6 15.6 Z" fill="#ede6da" stroke="#050507" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div>
+    </div>
+    <div id="hid-type0" class="clip typecard" style="z-index:9" data-start="0" data-duration="1.3" data-track-index="20"><div class="type-line"><span>Hide</span> <span>the</span> <span class="acc"><em>label.</em></span></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#hid-cam0", { scale: 1.25, x: 0, y: 0 }, 1.3);
+    tl.set("#hid-cur0 .cursor-in", { scale: 0.8 }, 1.3);
+    tl.set("#hid-cur0", { x: 980, y: 760 }, 1.3);
+    tl.fromTo("#hid-cur0 .cursor-in", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 1.3);
+    tl.to("#hid-cur0", { x: 304.0, y: 198.8, duration: 0.55, ease: "power2.inOut" }, 1.643);
+    tl.to("#hid-cur0 svg", { scale: 0.8, duration: 0.07, ease: "power2.in", transformOrigin: "6px 4px" }, 2.213);
+    tl.to("#hid-cur0 svg", { scale: 1, duration: 0.16, ease: "power2.out" }, 2.293);
+    tl.set("#hid-cam1", { scale: 1.0, x: 0, y: 0 }, 3.0);
+    tl.to("#hid-cam1", { scale: 1.9, x: -1692.4, y: -182.0, duration: 0.55, ease: "power3.inOut" }, 3.45);
+    tl.set("#hid-cam2", { scale: 1.5, x: -960.0, y: -540.0 }, 5.8);
+    tl.set("#hid-cur2 .cursor-in", { scale: 0.6667 }, 5.8);
+    tl.to("#hid-cam2", { scale: 2.1, x: -1967.4, y: -1188.0, duration: 0.5, ease: "power3.inOut" }, 6.55);
+    tl.to("#hid-cur2 .cursor-in", { scale: 0.4762, duration: 0.5, ease: "power3.inOut" }, 6.55);
+    tl.set("#hid-cur2", { x: 1640, y: 1020 }, 5.8);
+    tl.fromTo("#hid-cur2 .cursor-in", { opacity: 0 }, { opacity: 1, duration: 0.12 }, 5.8);
+    tl.to("#hid-cur2", { x: 1394.4, y: 930.2, duration: 0.4390000000000001, ease: "power2.inOut" }, 5.82);
+    tl.to("#hid-cur2 svg", { scale: 0.8, duration: 0.07, ease: "power2.in", transformOrigin: "6px 4px" }, 6.279);
+    tl.to("#hid-cur2 svg", { scale: 1, duration: 0.16, ease: "power2.out" }, 6.359);
+    tl.fromTo("#hid-type0 .type-line span", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.16, stagger: 0.08, ease: "power2.out" }, 0.02);
+    tl.to("#hid-type0 .type-line span", { opacity: 0, filter: "blur(8px)", duration: 0.16, stagger: 0.02, ease: "power2.in" }, 1.1);
+    window.__timelines["hide"] = tl;
+  </script>
+</template>

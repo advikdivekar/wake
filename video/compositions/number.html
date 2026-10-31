@@ -1,0 +1,36 @@
+<template>
+  <style>
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    /* marigold floods out of the investigation card */
+    #num-ground { position: absolute; inset: 0; background: #e8a33d; clip-path: circle(0px at 960px 640px); }
+    #num-big { position: absolute; left: 0; top: 190px; width: 1920px; text-align: center; font-family: "Fraunces", serif; font-weight: 300;
+      font-size: 440px; line-height: 1; letter-spacing: -0.04em; color: #050507; font-variant-numeric: tabular-nums; }
+    #num-what { position: absolute; left: 0; top: 690px; width: 1920px; text-align: center; font-family: "JetBrains Mono", monospace; font-weight: 500;
+      font-size: 30px; letter-spacing: 0.16em; color: #050507; text-transform: uppercase; }
+    #num-vs { position: absolute; left: 0; top: 790px; width: 1920px; text-align: center; font-family: "Fraunces", serif; font-weight: 300;
+      font-size: 64px; letter-spacing: -0.02em; color: rgba(5,5,7,0.62); }
+    #num-vs em { font-style: italic; color: #050507; }
+  </style>
+  <div id="root" data-composition-id="number" data-width="1920" data-height="1080">
+    <div id="num-ground" data-layout-ignore></div>
+    <div id="num-big">0.996</div>
+    <div id="num-what">AUCPR · official OPSSAT-AD test split · 529 segments</div>
+    <div id="num-vs">Best published model: <em>0.979</em></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#num-ground", { clipPath: "circle(0px at 960px 640px)" }, { clipPath: "circle(2300px at 960px 640px)", duration: 0.42, ease: "power3.in" }, 0);
+    // the number lands like a counter settling on its final digit, then holds dead still
+    const v = { n: 0.9 }, el = document.querySelector("#num-big");
+    tl.fromTo("#num-big", { opacity: 0, filter: "blur(12px)", scale: 1.06 }, { opacity: 1, filter: "blur(0px)", scale: 1, duration: 0.3, ease: "expo.out" }, 0.34);
+    tl.fromTo(v, { n: 0.9 }, { n: 0.996, duration: 0.5, ease: "expo.out", onUpdate: () => { el.textContent = v.n.toFixed(3); } }, 0.34);
+    tl.fromTo("#num-what", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2 }, 0.75);
+    tl.fromTo("#num-vs", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2 }, 1.35);
+    // colour flood back to the console's void
+    tl.to("#num-big, #num-what, #num-vs", { opacity: 0, filter: "blur(10px)", duration: 0.16 }, 3.05);
+    tl.to("#num-ground", { backgroundColor: "#050507", duration: 0.25, ease: "power2.inOut" }, 3.1);
+    window.__timelines["number"] = tl;
+  </script>
+</template>

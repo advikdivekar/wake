@@ -14,3 +14,23 @@ Screenshot*
 Pasted text*
 data/processed/sft/outputs/
 dev/assets/
+
+# --- bulky / not part of the submission ---
+# demo video: recorded clips, renders, tool caches (upload the final video to YouTube/Vimeo instead)
+video/assets/clips/
+video/renders/
+video/node_modules/
+video/.hyperframes/
+*.mp4
+*.webm
+# superseded static landing page (replaced by web/) and stray images
+site/
+Retro Satellite Above Ringed Planet.png
+# local caches
+web/dist/
+web/node_modules/
+**/__pycache__/
+.DS_Store
+video/assets/img/
+video/assets/music/
+*.wav

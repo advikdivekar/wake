@@ -1,0 +1,53 @@
+<template>
+  <style>
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; }
+    #root { position: absolute; inset: 0; background: #050507; overflow: hidden; }
+    #ec-stars { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; opacity: 0.22; }
+    /* the console's own mark (web/index.html favicon): an amber body on a tilted orbit */
+    #ec-mark { position: absolute; left: 810px; top: 150px; width: 300px; height: 300px; overflow: visible; }
+    #ec-orbit { fill: none; stroke: #f6e7c1; stroke-width: 9; }
+    #ec-dot { fill: #e8a33d; }
+    #ec-word { position: absolute; left: 0; top: 500px; width: 1920px; text-align: center; font-family: "Fraunces", serif; font-weight: 300;
+      font-size: 150px; letter-spacing: -0.025em; color: #f6e7c1; line-height: 1; white-space: nowrap; }
+    #ec-word em { font-style: italic; color: #e8a33d; }
+    #ec-word .ch { display: inline-block; }
+    #ec-cta { position: absolute; left: 0; top: 720px; width: 1920px; text-align: center; font-family: "JetBrains Mono", monospace; font-weight: 500;
+      font-size: 34px; letter-spacing: 0.06em; color: #ede6da; }
+    #ec-built { position: absolute; left: 0; top: 790px; width: 1920px; text-align: center; font-family: "Inter", sans-serif; font-size: 30px; color: #9a9288; letter-spacing: 0.04em; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1920" data-height="1080">
+    <img id="ec-stars" src="assets/img/stars.jpg" alt="" data-layout-ignore />
+    <svg id="ec-mark" viewBox="0 0 300 300" data-layout-allow-overflow>
+      <ellipse id="ec-orbit" cx="150" cy="150" rx="131" ry="47" transform="rotate(-25 150 150)" />
+      <circle id="ec-dot" cx="150" cy="150" r="47" />
+    </svg>
+    <div id="ec-word">The Last <em>Satellite</em></div>
+    <div id="ec-cta">github.com/advikdivekar/wake</div>
+    <div id="ec-built">TabPFN · Tinker · OPS-SAT</div>
+  </div>
+  <script>
+    // split the wordmark into letters once (static markup, seek-safe)
+    const word = document.querySelector("#ec-word");
+    if (!word.querySelector(".ch")) {
+      const walk = (node) => [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) { const f = document.createDocumentFragment(); [...n.textContent].forEach((c) => { const s = document.createElement("span"); s.className = "ch"; s.textContent = c === " " ? " " : c; f.appendChild(s); }); n.replaceWith(f); }
+        else walk(n);
+      });
+      walk(word);
+    }
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ec-stars", { opacity: 0 }, { opacity: 0.22, duration: 0.4 }, 0);
+    // the orbit is drawn, then the body falls onto it and settles (spring ≈ 0.7 damping)
+    const orbit = document.querySelector("#ec-orbit");
+    const L = 2 * Math.PI * Math.sqrt((131 * 131 + 47 * 47) / 2);
+    tl.fromTo(orbit, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 0.65, ease: "power2.inOut" }, 0.05);
+    tl.fromTo("#ec-dot", { y: -420, scale: 0.6, transformOrigin: "150px 150px" }, { y: 0, scale: 1, duration: 0.5, ease: "power3.in" }, 0.25);
+    tl.fromTo("#ec-mark", { scaleY: 1, scaleX: 1, transformOrigin: "50% 60%" }, { scaleY: 0.9, scaleX: 1.06, duration: 0.07, ease: "power2.out" }, 0.75);
+    tl.to("#ec-mark", { scaleY: 1, scaleX: 1, duration: 0.45, ease: "elastic.out(1, 0.6)" }, 0.82);
+    tl.fromTo("#ec-word .ch", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, stagger: 0.035, ease: "power2.out" }, 0.85);
+    tl.fromTo("#ec-cta", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2 }, 1.35);
+    tl.fromTo("#ec-built", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.55);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>
