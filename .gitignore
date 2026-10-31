@@ -9,3 +9,7 @@ data/processed/*.db
 data/documents/_cache/
 third_party/
 evaluations/.*.lock
+*.mov
+Screenshot*
+Pasted text*
+data/processed/sft/outputs/
