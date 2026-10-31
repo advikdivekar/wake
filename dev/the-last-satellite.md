@@ -1,5 +1,5 @@
 ---
-title: "The satellite is dead. Its ghost is 2,123 signals. TabPFN out-read the paper that published them, and 83¢ of Tinker taught an LLM to stop speaking for the dead"
+title: "ESA's satellite is dead. TabPFN out-read its paper, and 83¢ of Tinker taught an LLM to stop speaking for the dead"
 published: false
 tags: tinker, hf26challenge, devchallenge, hacktoberfest
 ---
