@@ -346,7 +346,7 @@ I exported the adapter as PEFT (one tensor rename: `unembed_tokens` → `lm_head
 
 | Item | Est. cost |
 |---|---|
-| Learning-curve runs (50 / 100 / 200) | $0.17 |
+| Learning-curve runs (runs 1–3) | $0.17 |
 | A run I stopped at 65/84 steps after finding label bugs | $0.17 |
 | **Final model (3 epochs)** | **$0.22** |
 | Downloadable sibling adapter (see Known edges) | $0.10 |
