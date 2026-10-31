@@ -1,24 +1,36 @@
 ---
-title: "The satellite is dead. Its ghost is 2,123 signals. TabPFN read them better than the paper did, and 83 cents of Tinker stopped an LLM from putting words in its mouth"
+title: "The satellite is dead. Its ghost is 2,123 signals. TabPFN out-read the paper that published them, and 83¢ of Tinker taught an LLM to stop speaking for the dead"
 published: false
 tags: tinker, hf26challenge, devchallenge, hacktoberfest
 ---
 
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine](https://dev.to/challenges)*
 
-**Segment 1579. Photodiode I_PD3_THETA. 2 June 2022, 03:15:08 UTC.**
+```plaintext
+2022-06-02 03:17:03 UTC   I_PD3_THETA   0.0540137
+2022-06-02 03:17:08 UTC   I_PD3_THETA   0.0462915
+2022-06-02 03:17:13 UTC   I_PD3_THETA   0.0000000
+2022-06-02 03:17:18 UTC   I_PD3_THETA   0.0000000
+2022-06-02 03:17:23 UTC   I_PD3_THETA   0.0025708
+```
 
-Thirty-one samples. A soft hump of sunlight, then the signal drops to **exactly zero** for two readings.
+**Ten seconds of nothing.** Recorded by a light sensor on a spacecraft that no longer exists.
 
-My model looked at it and said **0.098**. Probably fine. Let it rest in the archive.
+ESA's OPS-SAT burned up in the atmosphere on **22 May 2024**. Its engineers have moved on. Nobody is left to ask what happened at 03:17:13.
 
-**It was an anomaly.**
+Ask a chatbot and it will tell you anyway. A sensor fault. A reboot. An eclipse. It will sound certain, and **it will be making it up**, because nothing in the archive says why.
 
-The spacecraft that sent it, ESA's OPS-SAT, burned up in the atmosphere on **22 May 2024**. There is nobody left to radio. Its engineers have moved on. What remains is a public dataset, twenty documents that don't always agree with each other, and the question every ghost story asks: *what happened here?*
+So I built a séance with one house rule: **nobody speaks for the dead.**
 
-**The Last Satellite** listens to that archive with two open models. It ranks every archived signal by how wrong it looks and reads the mission's documents for context. When you ask *why* a sensor went quiet, it says **"Root cause of this signal behaviour is not documented in the archive."** It says that because it's true. And it keeps segment 1579, the one it missed, **on the front page**.
+**The Last Satellite** hands the archive to two open models:
+- **TabPFN** listens to every signal OPS-SAT left behind and decides which ones look wrong. On the official benchmark, it beats the best model in the paper that published the dataset, without ever running a training loop.
+- **Qwen3-8B, fine-tuned on Tinker for 83 cents**, reads the mission's documents and is only allowed to say what they say.
 
-It's a séance with one house rule: **no one puts words in the ghost's mouth.**
+Ask it why the light went out at 03:17:13, and you get the most honest sentence a medium can give:
+
+> **"Root cause of this signal behaviour is not documented in the archive."**
+
+One confession before we start. My model looked at those ten seconds and called them **0.098: probably fine.** It was wrong. That miss is in the demo, on purpose.
 
 {% embed REPLACE_WITH_VIDEO_URL %}
 
@@ -30,7 +42,7 @@ It's a séance with one house rule: **no one puts words in the ghost's mouth.**
   - Evidence copied verbatim: **81% → 100%**.
   - Investigation notes passing every automated check: **56% → 100%**.
 - **The cost:** **$0.22** for the final model. **$0.83 for everything on Tinker**: every run, the learning curve, a run I killed on purpose, and every evaluation.
-- **The honesty record:** **1 false alarm and 3 missed anomalies** in 529 segments, all shown in the demo, and **0 invented root causes** from either model. I also show where I **missed my own 95% target**, and the one task fine-tuning made **worse**.
+- **The honesty record:** **1 false alarm and 3 missed anomalies** in 529 segments (the false alarm and a miss are in the demo, on purpose), and **0 invented root causes** from either model. I also show where I **missed my own 95% target**, and the one task fine-tuning made **worse**.
 - **You keep it:** the adapter runs **offline** on a laptop through llama.cpp, with no network and no API key. It agrees with the hosted model on **100% of fields**.
 
 ![The Last Satellite: a shader-lit Earth, a decaying orbit, and a console that reads what OPS-SAT left behind](https://raw.githubusercontent.com/advikdivekar/wake/main/docs/screens/01-hero.png)
