@@ -32,7 +32,7 @@ Ask it why the light went out at 03:17:13, and you get the most honest sentence 
 
 One confession before we start. My model looked at those ten seconds and called them **0.098: probably fine.** It was wrong. That miss is in the demo, on purpose.
 
-{% embed REPLACE_WITH_VIDEO_URL %}
+{% embed https://youtu.be/ybpTJi4QFho %}
 
 ## What You're About to Read
 
