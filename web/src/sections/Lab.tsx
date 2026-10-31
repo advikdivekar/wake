@@ -10,7 +10,9 @@ const S1 = "#e8a33d", S2 = "#7fb7be", S3 = "#d2592b", GRAY = "#4a4550";
 type Row = { name: string; auprc: number; f1: number; mcc: number; kind: "ours" | "published"; hero?: boolean };
 
 function parsePublished(md: string): Row[] {
-  return md.split("\n").filter((l) => l.includes("(published")).map((l) => {
+  // the comparison file lists FCNN twice (main table + like-for-like section): keep only the main table's rows
+  const main = md.split("## Like-for-like")[0];
+  return main.split("\n").filter((l) => l.includes("(published")).map((l) => {
     const c = l.split("|").map((x) => x.trim()).filter(Boolean);
     return { name: c[0].replace(/\s*\(published[^)]*\)/, "").trim() + " · paper", auprc: +c[1], f1: +c[3], mcc: +c[6], kind: "published" as const };
   });
