@@ -1,5 +1,5 @@
 ---
-title: "A dead satellite left 2,123 signals. TabPFN beat the published benchmark with no training loop, and 83¢ of Tinker taught an LLM to say 'unknown'"
+title: "The satellite is dead. Its ghost is 2,123 signals. TabPFN read them better than the paper did, and 83 cents of Tinker stopped an LLM from putting words in its mouth"
 published: false
 tags: tinker, hf26challenge, devchallenge, hacktoberfest
 ---
@@ -17,6 +17,8 @@ My model looked at it and said **0.098**. Probably fine. Let it rest in the arch
 The spacecraft that sent it, ESA's OPS-SAT, burned up in the atmosphere on **22 May 2024**. There is nobody left to radio. Its engineers have moved on. What remains is a public dataset, twenty documents that don't always agree with each other, and the question every ghost story asks: *what happened here?*
 
 **The Last Satellite** listens to that archive with two open models. It ranks every archived signal by how wrong it looks and reads the mission's documents for context. When you ask *why* a sensor went quiet, it says **"Root cause of this signal behaviour is not documented in the archive."** It says that because it's true. And it keeps segment 1579, the one it missed, **on the front page**.
+
+It's a séance with one house rule: **no one puts words in the ghost's mouth.**
 
 {% embed REPLACE_WITH_VIDEO_URL %}
 
@@ -68,7 +70,9 @@ That's the trap. Point a modern AI at this archive and ask "what happened to seg
 - **Export:** one click bundles documents, records, cards, feedback and every evaluation file into a portable mission-memory archive.
 - **The console** is one cinematic scroll from orbit to re-entry. Behind it, a shader-lit Earth whose city lights burn like candles, and a tiny CubeSat whose orbit decays as you read. At the end the planet warms to marigold and the satellite streaks in.
 
-**Why it fits Ghost in the Machine:** the ghost isn't a monster. It's a voice from a machine that no longer exists: 303,493 readings from a spacecraft that's gone, and a memory that's easy to fake. This project makes the ghost speak only in its own words. Measured, cited, or **unknown**.
+**Why it fits Ghost in the Machine:** this week runs from Halloween night into Día de los Muertos, when the line between past and present is supposed to be thinnest. OPS-SAT is a ghost in the most literal sense: a machine that no longer exists, still talking through 303,493 archived readings.
+
+Día de los Muertos isn't about being afraid of the dead. It's about **remembering them accurately**: the ofrenda holds their real photos, their real favourite foods, their real stories. So the console is built like one. Marigold and candlelight, not horror. The satellite's own words are the offerings, every one sourced. And there's one rule a séance usually breaks: **nobody gets to put words in the ghost's mouth.** Not me, not the language model. Measured, cited, or **unknown**.
 
 ## Demo
 
@@ -356,7 +360,18 @@ I'd rather you hear these from me, with numbers.
 
 ## Why does open innovation matter?
 
-A closed API gives you an answer. Open weights and open data give you **a way to check it.**
+A closed API gives you an answer. Open weights and open data give you **a way to check it.** For a project whose whole job is refusing to invent memories, that difference is everything.
+
+**Where open beat closed, concretely:**
+
+| What I needed | Closed API | What open let me do |
+|---|---|---|
+| Stop the model inventing channel IDs | Write a longer prompt and hope | Fine-tune the weights: invented IDs went to **zero**, for $0.22 |
+| Trust the anomaly probabilities | Take the vendor's word | Measure calibration myself on the public test split (Brier **0.0073**) |
+| Beat a published benchmark | Not possible to verify | Reproduce the paper's features to the decimal, then beat it **like-for-like** |
+| Keep it running after the hype | Depends on the vendor staying up | Adapter + TabPFN run **offline on a laptop**, no key, no meter |
+
+The reasons behind that table:
 
 - **I could audit the archive.** The dataset authors published the data *and* the feature code, so I reproduced their features to the decimal and found a typo in their split count. A ghost story you can fact-check is a different kind of story.
 - **I could change the model, not just the prompt.** Base Qwen3-8B invented channel IDs. Twenty-two cents of LoRA training stopped it.
@@ -390,8 +405,8 @@ I built The Last Satellite with **Claude Code** as a pair, from a written 12-hou
 **Best Use of Tinker.** The LoRA fine-tune (loss on answers only, per-epoch checkpoints), the learning curve, a budget guard, held-out evaluation with paired statistics, and the adapter download behind the offline story all ran on Tinker. **$0.22 for the final model, $0.83 for everything.**
 - **Same base model, same prompt, same validator:** extraction **65.3% → 93.0%** on validation (**72.2% → 86.3%** on held-out test documents), verbatim evidence **81% → 100%**, investigation notes **56% → 100%**, and **0 invented root causes**.
 
-*Built solo, with Claude Code, over one long Halloween night.*
+*Built solo, with Claude Code, over one long Halloween night, finished as Día de los Muertos began.*
 
 **Two open models. Eighty-three cents. One rule: measure it, cite it, or call it unknown.** If that sounds like the right way to remember a satellite, a ❤️ or 🦄 helps more people find it.
 
-If a machine you depend on went silent tomorrow, what's the one thing you'd want its archive to remember? Leave it in the comments.
+This Día de los Muertos, light a candle for a machine you loved that's gone: an old phone, a first laptop, a server that ran for a decade. What would you want its archive to remember? Leave it in the comments. 🕯️
