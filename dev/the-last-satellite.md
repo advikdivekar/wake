@@ -286,19 +286,21 @@ op = tc.optim_step(tinker.AdamParams(learning_rate=lr_t, beta1=0.9, beta2=0.95, 
 - **Split by document family, never by chunk:** the test documents (the benchmark paper plus Wikipedia) never appear in training, and the paper's arXiv preprint is **excluded everywhere** as a near-duplicate.
 - **Budget guard:** it prices every job from local token counts *before* submitting and refuses anything over the cap. I started with **$0.93**.
 
-### 5. Find the knee of the curve
+### 5. 65.3% → 93.0%: find the knee of the curve
 
-![Two and a half cents buys +25 points.](https://raw.githubusercontent.com/advikdivekar/wake/main/docs/charts/learning_curve.png)
+I didn't train once and hope. I trained in stages, scored every run on the same validation set, and priced each one:
+
+![65.3% → 93.0%. The first 2.5 cents did most of the work.](https://raw.githubusercontent.com/advikdivekar/wake/main/docs/charts/learning_curve.png)
 
 | Run | Est. cost | Validation field exact match |
 |---|---|---|
 | base Qwen3-8B, untrained | n/a | 65.3% |
-| smallest run | $0.025 | 90.8% |
+| run 1 | $0.025 | 90.8% |
 | run 2 | $0.049 | 91.8% |
 | run 3 | $0.097 | 92.2% |
 | **final model** | **$0.224** | **93.0%** |
 
-**Two and a half cents of training buys +25 points.** Everything after that is the last few points, bought cheaply.
+**The first 2.5 cents of training took the model from 65.3% to 90.8%.** Every run after that added another point or so, and the final model landed at **93.0%**, all inside an 83-cent budget.
 
 ### 6. Validation error analysis found *my* bugs
 

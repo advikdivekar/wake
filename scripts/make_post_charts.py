@@ -164,18 +164,27 @@ def main():
     title(ax, "It stopped inventing channel IDs and started quoting sources.", "task A per field · 72 held-out passages · 576 field cells")
     save(fig, "task_a_fields.png")
 
-    # 9 learning curve ------------------------------------------------------------------------------------
+    # 9 learning curve (run-based axis; no example counts) ---------------------------------------------
     lc = J("tinker_learning_curve.json")
     pts = sorted([p for p in lc["points"] if p["run"].startswith("lc-") or p["run"] == "final-v2"], key=lambda p: p["n_examples"])
+    base = lc["base_model_val_exact_match_local"] * 100
+    labels = ["base Qwen3-8B\n(untrained)"] + [f"run {i + 1}" for i in range(len(pts) - 1)] + ["final model"]
+    ys = [base] + [p["val_exact_match"] * 100 for p in pts]
+    costs = [None] + [p["cost_usd"] for p in pts]
+    xs = list(range(len(ys)))
     fig, ax = plt.subplots(figsize=(10, 4.8))
-    ax.axhline(lc["base_model_val_exact_match_local"] * 100, color=MUTED, ls="--", lw=1.2)
-    ax.text(pts[0]["n_examples"], lc["base_model_val_exact_match_local"] * 100 + 1, "base Qwen3-8B, no training", color=MUTED, fontsize=9.5)
-    ax.axhline(95, color=EMBER, ls=":", lw=1.2); ax.text(pts[0]["n_examples"], 95.6, "95% target (set before training)", color=EMBER, fontsize=9.5)
-    ax.plot([p["n_examples"] for p in pts], [p["val_exact_match"] * 100 for p in pts], color=GOLD, lw=2.8, marker="o", ms=10, mec=BG, mew=2)
-    for p in pts:
-        ax.annotate(f"{p['val_exact_match']*100:.1f}%\n${p['cost_usd']:.3f}", (p["n_examples"], p["val_exact_match"] * 100), textcoords="offset points", xytext=(0, -38), ha="center", fontsize=9.5, color=INK)
-    ax.set_ylim(55, 100); ax.set_xlabel("training examples (3 epochs)"); ax.set_ylabel("validation field exact match (%)")
-    title(ax, "Two and a half cents buys +25 points.", "50/100/200 trained on spec-v1 labels and scored on v2 gold · 445 trained on v2")
+    ax.axhline(95, color=EMBER, ls=":", lw=1.2); ax.text(0, 95.6, "95% target (set before training)", color=EMBER, fontsize=9.5)
+    ax.plot(xs[:2], ys[:2], color=GOLD, lw=2.8, ls="--", alpha=0.6)
+    ax.plot(xs[1:], ys[1:], color=GOLD, lw=2.8)
+    ax.scatter(xs[:1], ys[:1], s=120, color=BG, edgecolor=MUTED, lw=2.2, zorder=3)
+    ax.scatter(xs[1:], ys[1:], s=120, color=GOLD, edgecolor=BG, lw=2, zorder=3)
+    for x, y, c in zip(xs, ys, costs):
+        ax.annotate(f"{y:.1f}%" + (f"\n${c:.3f}" if c is not None else "\n$0"), (x, y), textcoords="offset points",
+                    xytext=(0, -40 if x else 14), ha="center", fontsize=10, color=INK if x else MUTED, fontweight="bold" if x == xs[-1] else None)
+    ax.set_xticks(xs); ax.set_xticklabels(labels, fontsize=10); ax.set_xlim(-0.4, xs[-1] + 0.4)
+    ax.set_ylim(55, 100); ax.set_ylabel("validation field exact match (%)"); ax.grid(axis="x", visible=False)
+    title(ax, f"{base:.1f}% → {ys[-1]:.1f}%. The first 2.5 cents did most of the work.",
+          "same model, same prompt, same validator · cost = Tinker training per run · earlier runs trained on spec-v1 labels, scored on v2 gold")
     save(fig, "learning_curve.png")
 
     # 10 cost breakdown ----------------------------------------------------------------------------------
