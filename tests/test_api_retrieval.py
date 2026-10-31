@@ -20,13 +20,22 @@ def test_health_and_segments_hide_labels(client):
     assert seg["segment"]["label"] is None
 
 
+def _count(table):
+    from app.memory.db import connect
+    return connect().execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+
+
 def test_retrieval_returns_citations():
+    if _count("chunks") == 0:
+        pytest.skip("documents not ingested yet (run make docs-ingest)")
     from app.memory.retrieval import search
     hits = search("atmospheric reentry 22 May 2024", k=3)
     assert hits and all(h["doc_id"] and h["excerpt"] and h["license"] for h in hits)
 
 
 def test_card_never_asserts_uncited_cause(client):
+    if _count("predictions") == 0:
+        pytest.skip("no TabPFN predictions yet (run make tabpfn-cv, threshold, tabpfn-test)")
     rows = client.get("/segments?split=test&limit=1").json()
     card = client.post("/investigations", json={"segment_id": rows[0]["segment_id"], "use_lm": False}).json()
     assert any("Root cause" in u for u in card["unknown"])
