@@ -3,7 +3,7 @@ PY := .venv/bin/python
 export PYTHONPATH := $(CURDIR)
 
 .PHONY: setup data features db fixtures api ui ui-fixtures app llm test tabpfn-cv tabpfn-test \
-        docs-ingest tinker-data tinker-base tinker-train tinker-eval adapter offline export post all
+        site site-data docs-ingest tinker-data tinker-base tinker-train tinker-eval adapter offline export post all
 
 setup:            ## create venv + install deps
 	uv venv -p 3.11 .venv && uv pip install --python .venv -r requirements.txt
@@ -51,3 +51,7 @@ post:
 test:
 	$(PY) -m pytest -q tests
 all: data features db docs-ingest tabpfn-cv
+site-data:        ## export real numbers for the landing site (site/data.js)
+	$(PY) -m scripts.build_site_data
+site: site-data   ## landing site at http://localhost:8765
+	cd site && python3 -m http.server 8765
