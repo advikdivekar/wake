@@ -1,0 +1,65 @@
+{
+  "produced_by": "python -m training.tinker.prepare_sft",
+  "git_sha": "dd1242b",
+  "created_at": "2026-10-31T15:38:43+00:00",
+  "train": {
+    "total": 445,
+    "task_A": 336,
+    "task_B": 37,
+    "task_C": 32,
+    "task_D": 40,
+    "provenance": {
+      "real": 242,
+      "templated": 120,
+      "real-rechunked": 83
+    }
+  },
+  "val": {
+    "total": 141,
+    "task_A": 75,
+    "task_B": 11,
+    "task_C": 40,
+    "task_D": 15,
+    "provenance": {
+      "real": 111,
+      "templated": 30
+    }
+  },
+  "test": {
+    "total": 173,
+    "task_A": 72,
+    "task_B": 24,
+    "task_C": 52,
+    "task_D": 25,
+    "provenance": {
+      "real": 173
+    }
+  },
+  "dedup_removed_from_train": 0,
+  "split_by_family": {
+    "opssat-ad-paper": "test",
+    "wikipedia-opssat": "test",
+    "opssat-ad-code": "val",
+    "esa-eol-abstract-2024": "val",
+    "esa-reentry-workshop-2025": "val",
+    "smallsatnews-mission-completed": "val",
+    "arxiv-refined-astrometry": "train",
+    "esa-rocketscience-final-hours": "train",
+    "solardaily-mission-concludes": "train",
+    "esoc-opssat": "train",
+    "usu-smallsat-2022-ml": "train",
+    "tugraz-opssat-mission": "train",
+    "esa-reentry-radio-campaign": "train",
+    "opssat-esa-missions": "train"
+  },
+  "test_A_field_coverage": {
+    "channel_id": 4,
+    "sensor_type": 4,
+    "units": 1,
+    "event_date": 13,
+    "observation": 29,
+    "operational_response": 3,
+    "root_cause": 3,
+    "evidence": 44
+  }
+}

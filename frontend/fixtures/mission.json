@@ -80,5 +80,166 @@
    "anomaly_rate_train": 0.1441
   }
  ],
- "timeline": []
+ "timeline": [
+  {
+   "date": "2019-12-18",
+   "date_kind": "event",
+   "approx": null,
+   "title": "Launch of OPS-SAT",
+   "citation": {
+    "doc_id": "wikipedia-opssat",
+    "chunk_id": "wikipedia-opssat#c003",
+    "title": "OPS-SAT (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/OPS-SAT",
+    "location": "\u00a7 OPS-SAT",
+    "excerpt": "launched at 08:54:20 UTC on 18 December 2019",
+    "license": "CC-BY-SA-4.0"
+   },
+   "measured": null
+  },
+  {
+   "date": "2022-01-04",
+   "date_kind": "event",
+   "approx": null,
+   "title": "First telemetry sample in the OPSSAT-AD archive",
+   "citation": null,
+   "measured": "min(timestamp) of segments.csv (see evaluations/dataset_verification.json)"
+  },
+  {
+   "date": "2022-06-02",
+   "date_kind": "event",
+   "approx": null,
+   "title": "Last telemetry sample in the OPSSAT-AD archive",
+   "citation": null,
+   "measured": "max(timestamp) of segments.csv (see evaluations/dataset_verification.json)"
+  },
+  {
+   "date": "2024-01-01",
+   "date_kind": "event",
+   "approx": "early 2024",
+   "title": "Unexpectedly strong increase in solar activity begins to affect the orbit",
+   "citation": {
+    "doc_id": "smallsatnews-mission-completed",
+    "chunk_id": "smallsatnews-mission-completed#c004",
+    "title": "Mission completed for ESA's OPS-SAT laboratory (SmallSat News)",
+    "url": "https://smallsatnews.com/2024/06/04/mission-completed-for-esas-ops-sat-laboratory/",
+    "location": "intro",
+    "excerpt": "OPS-SAT was impacted by the recent unexpectedly strong increase in solar activity that began in early 2024.",
+    "license": "publisher terms"
+   },
+   "measured": null
+  },
+  {
+   "date": "2024-04-01",
+   "date_kind": "publication",
+   "approx": null,
+   "title": "ESA announces re-entry amateur radio campaign",
+   "citation": {
+    "doc_id": "esa-reentry-radio-campaign",
+    "chunk_id": "esa-reentry-radio-campaign#c000",
+    "title": "OPS-SAT reentry amateur radio campaign (ESA multimedia)",
+    "url": "https://esa.int/ESA_Multimedia/Images/2024/04/OPS-SAT_reentry_amateur_radio_campaign",
+    "location": "intro",
+    "excerpt": "OPS-SAT will undergo atmospheric reentry within May",
+    "license": "ESA website terms"
+   },
+   "measured": null
+  },
+  {
+   "date": "2024-05-22",
+   "date_kind": "event",
+   "approx": null,
+   "title": "Atmospheric re-entry: the last transmission",
+   "citation": {
+    "doc_id": "opssat-ad-paper",
+    "chunk_id": "opssat-ad-paper#c007",
+    "title": "The OPS-SAT benchmark for detecting anomalies in satellite telemetry (Sci Data 2025)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12041257/",
+    "location": "\u00a7 Methods / Data acquisition and annotation",
+    "excerpt": "It finished its mission with the atmospheric reentry on 22 May 2024",
+    "license": "CC-BY-4.0"
+   },
+   "measured": null
+  },
+  {
+   "date": "2024-06-04",
+   "date_kind": "publication",
+   "approx": null,
+   "title": "'Mission completed' coverage published",
+   "citation": {
+    "doc_id": "smallsatnews-mission-completed",
+    "chunk_id": "smallsatnews-mission-completed#c001",
+    "title": "Mission completed for ESA's OPS-SAT laboratory (SmallSat News)",
+    "url": "https://smallsatnews.com/2024/06/04/mission-completed-for-esas-ops-sat-laboratory/",
+    "location": "intro",
+    "excerpt": "OPS-SAT was the first fully ESA-owned and operated CubeSat.",
+    "license": "publisher terms"
+   },
+   "measured": null
+  },
+  {
+   "date": "2024-06-29",
+   "date_kind": "publication",
+   "approx": null,
+   "title": "OPSSAT-AD dataset published on Zenodo",
+   "citation": {
+    "doc_id": "opssat-ad-zenodo",
+    "chunk_id": null,
+    "title": "OPSSAT-AD - anomaly detection dataset for satellite telemetry (Zenodo record)",
+    "url": "https://zenodo.org/records/12588359",
+    "location": "publication metadata",
+    "excerpt": "",
+    "license": "CC-BY-4.0"
+   },
+   "measured": null
+  },
+  {
+   "date": "2024-10-08",
+   "date_kind": "publication",
+   "approx": null,
+   "title": "ESA end-of-life operations abstract: reboots and recoveries",
+   "citation": {
+    "doc_id": "esa-eol-abstract-2024",
+    "chunk_id": "esa-eol-abstract-2024#c002",
+    "title": "OPS-SAT end-of-life operations (ESA conference contribution, Oct 2024)",
+    "url": "https://indico.esa.int/event/516/contributions/9989/",
+    "location": "\u00a7 Description",
+    "excerpt": "Deteriorating components led to undesired reboots and spacecraft recoveries",
+    "license": "ESA (all rights reserved unless stated)"
+   },
+   "measured": null
+  },
+  {
+   "date": "2025-04-29",
+   "date_kind": "publication",
+   "approx": null,
+   "title": "OPSSAT-AD benchmark paper published (Scientific Data)",
+   "citation": {
+    "doc_id": "opssat-ad-paper",
+    "chunk_id": null,
+    "title": "The OPS-SAT benchmark for detecting anomalies in satellite telemetry (Sci Data 2025)",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12041257/",
+    "location": "publication metadata",
+    "excerpt": "",
+    "license": "CC-BY-4.0"
+   },
+   "measured": null
+  },
+  {
+   "date": "2027-01-01",
+   "date_kind": "event",
+   "approx": "2027 (planned)",
+   "title": "Successors OPS-SAT VOLT and ORIOLE scheduled to launch",
+   "citation": {
+    "doc_id": "wikipedia-opssat",
+    "chunk_id": "wikipedia-opssat#c013",
+    "title": "OPS-SAT (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/OPS-SAT",
+    "location": "\u00a7 Follow-up missions",
+    "excerpt": "OPS-SAT VOLT and OPS-SAT ORIOLE are two additional follow-ups; both are scheduled to launch in 2027.",
+    "license": "CC-BY-SA-4.0"
+   },
+   "measured": null
+  }
+ ]
 }

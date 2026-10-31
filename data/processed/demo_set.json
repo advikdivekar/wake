@@ -1,0 +1,59 @@
+{
+ "threshold": 0.6169,
+ "items": [
+  {
+   "segment_id": 204,
+   "case": "TP",
+   "probability": 1.0,
+   "label": 1,
+   "channel": "CADC0872",
+   "blurb": "Archived magnetometer segment from CADC0872"
+  },
+  {
+   "segment_id": 638,
+   "case": "TP",
+   "probability": 0.9995,
+   "label": 1,
+   "channel": "CADC0873",
+   "blurb": "Archived magnetometer segment from CADC0873"
+  },
+  {
+   "segment_id": 1257,
+   "case": "TN",
+   "probability": 0.0001,
+   "label": 0,
+   "channel": "CADC0873",
+   "blurb": "Archived magnetometer segment from CADC0873"
+  },
+  {
+   "segment_id": 1756,
+   "case": "TN",
+   "probability": 0.362,
+   "label": 0,
+   "channel": "CADC0894",
+   "blurb": "Archived photodiode segment from CADC0894"
+  },
+  {
+   "segment_id": 1734,
+   "case": "FP",
+   "probability": 0.6468,
+   "label": 0,
+   "channel": "CADC0894",
+   "blurb": "Archived photodiode segment from CADC0894"
+  },
+  {
+   "segment_id": 1579,
+   "case": "FN",
+   "probability": 0.0975,
+   "label": 1,
+   "channel": "CADC0888",
+   "blurb": "Archived photodiode segment from CADC0888"
+  }
+ ],
+ "counts": {
+  "TP": 110,
+  "TN": 415,
+  "FP": 1,
+  "FN": 3
+ }
+}

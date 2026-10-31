@@ -13,8 +13,9 @@
   "path": "models/tabpfn_final.pkl"
  },
  "thresholds": {
-  "high": null,
-  "low": null
+  "high": 0.8,
+  "low": 0.05,
+  "f1": 0.6169
  },
  "retrieval": {
   "embedding_model": "BAAI/bge-small-en-v1.5",

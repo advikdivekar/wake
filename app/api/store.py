@@ -11,7 +11,8 @@ import yaml
 from app.common.channels import CHANNELS
 from app.common.paths import DOCS_DIR, EVAL_DIR, MODELS_DIR
 from app.memory.db import connect
-from app.telemetry.features import EXTRA_NAMES, PUBLISHED_18, gaps, number_of_peaks_finding, zero_runs
+from app.telemetry.evidence import significant_gaps
+from app.telemetry.features import EXTRA_NAMES, PUBLISHED_18, zero_runs
 
 _con = None
 
@@ -65,7 +66,7 @@ def channels() -> list[dict]:
 def _series(df: pd.DataFrame, segment_id, sampling: int) -> dict:
     ts = pd.to_datetime(df["timestamp"])
     v = df["value"].to_numpy(dtype=float)
-    gp = gaps(ts.reset_index(drop=True), sampling)
+    gp = significant_gaps(ts.reset_index(drop=True), sampling)
     return {
         "segment_id": segment_id,
         "t": df["timestamp"].tolist(),
@@ -150,3 +151,18 @@ def list_segments(split, sort, limit, status) -> list[dict]:
     q += " ORDER BY p.probability DESC" if sort == "probability" else " ORDER BY s.segment_id"
     q += " LIMIT ?"; params.append(limit)
     return [dict(r) | {"label": None} for r in con().execute(q, params).fetchall()]
+
+
+def documents() -> list[dict]:
+    return [dict(r) for r in con().execute(
+        "SELECT doc_id, title, url, license, category, stored_mode, publication_date, retrieved_at, n_chunks "
+        "FROM documents ORDER BY category, doc_id").fetchall()]
+
+
+def document(doc_id: str) -> dict | None:
+    d = con().execute("SELECT * FROM documents WHERE doc_id=?", (doc_id,)).fetchone()
+    if d is None:
+        return None
+    chunks = [dict(r) for r in con().execute("SELECT chunk_id, location, text FROM chunks WHERE doc_id=? ORDER BY ord",
+                                             (doc_id,)).fetchall()]
+    return {"document": dict(d), "chunks": chunks}

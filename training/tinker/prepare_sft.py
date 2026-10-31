@@ -24,14 +24,18 @@ FAMILY = {
     "opssat-ad-paper": "opssat-ad-paper", "opssat-ad-arxiv": "opssat-ad-paper", "opssat-ad-correction": "opssat-ad-paper",
     "opssat-ad-readme": "opssat-ad-code", "opssat-ad-generator": "opssat-ad-code", "opssat-ad-zenodo": "opssat-ad-code",
 }
-SPLIT = {  # family -> split (decided once, before any model was run)
-    "opssat-ad-paper": "train", "arxiv-refined-astrometry": "train",
-    "esa-rocketscience-final-hours": "train", "solardaily-mission-concludes": "train",
-    "esoc-opssat": "train", "usu-smallsat-2022-ml": "train",
-    "opssat-ad-code": "val", "esa-eol-abstract-2024": "val", "opssat-esa-missions": "val",
-    "wikipedia-opssat": "test", "smallsatnews-mission-completed": "test", "esa-reentry-workshop-2025": "test",
-    "tugraz-opssat-mission": "test", "esa-reentry-radio-campaign": "test",
+SPLIT = {  # family -> split. Decided before any model was run; see PROGRESS.md for the rationale.
+    # TEST: the OPSSAT-AD paper (only real source of channel mentions) + Wikipedia (dates) + correction
+    "opssat-ad-paper": "test", "wikipedia-opssat": "test",
+    # VAL (iteration only)
+    "opssat-ad-code": "val", "esa-eol-abstract-2024": "val", "esa-reentry-workshop-2025": "val",
+    "smallsatnews-mission-completed": "val",
+    # TRAIN
+    "arxiv-refined-astrometry": "train", "esa-rocketscience-final-hours": "train",
+    "solardaily-mission-concludes": "train", "esoc-opssat": "train", "usu-smallsat-2022-ml": "train",
+    "tugraz-opssat-mission": "train", "esa-reentry-radio-campaign": "train", "opssat-esa-missions": "train",
 }
+EXCLUDE = {"opssat-ad-arxiv"}   # near-duplicate preprint of a TEST document: excluded everywhere (no leakage)
 MAX_CHARS = 1300
 
 
@@ -216,7 +220,23 @@ def templated_A(n: int) -> list[dict]:
                "It is unclear what triggered the zero values.", None, None]
     units_t = ["", " Values are reported in nT.", " Sampling was set to {s} seconds.", " Angles are given in degrees."]
     out = []
-    for i in range(n):
+    list_t = ["The {kind} channels {a} ({ia}) and {b} ({ib}) were sampled at {s} s.",
+              "Telemetry was acquired from {ia}, {ib} and {ic}.",
+              "Table 1 lists {a}, {b} and {c} as {kind} readings.",
+              "Segments from the {kind} {ia} were annotated by operations engineers."]
+    for i in range(n // 3):
+        kind = RNG.choice(["magnetometer", "photodiode"])
+        pool = [(c, v[0]) for c, v in chans if v[1] == kind]
+        (ia, a), (ib, b), (ic, c) = RNG.sample(pool, 3)
+        text = RNG.choice(list_t).format(kind=kind, a=a, b=b, c=c, ia=ia, ib=ib, ic=ic, s=RNG.choice([1, 5]))
+        if RNG.random() < 0.5:
+            text += " " + RNG.choice(["No anomalies were reported for these channels.",
+                                      "Some segments contain gaps in the signal.",
+                                      "The origin of the zero-value fragments is not described."])
+        p = {"doc_id": "templated", "chunk_id": f"templated#L{i:03d}", "text": text}
+        ex = msg_A(p, RNG.choice(spec.INSTRUCTIONS)); ex["provenance"] = "templated"
+        out.append(ex)
+    for i in range(n - n // 3):
         cid, (name, kind) = RNG.choice(chans)
         k = RNG.randint(2, 60)
         day = f"{RNG.randint(1, 28)} {RNG.choice(spec.MONTHS.split('|'))} {RNG.choice([2020, 2021, 2022, 2023])}"
@@ -235,11 +255,13 @@ def templated_A(n: int) -> list[dict]:
     return out
 
 
-def main(n_templated: int = 80):
+def main(n_templated: int = 120):
     docs = passages_by_doc()
     splits = {"train": [], "val": [], "test": []}
     passages_split = {"train": [], "val": [], "test": []}
     for doc_id, ps in docs.items():
+        if doc_id in EXCLUDE:
+            continue
         fam = FAMILY.get(doc_id, doc_id)
         sp = SPLIT.get(fam)
         if sp is None:
@@ -251,7 +273,7 @@ def main(n_templated: int = 80):
             splits[sp].append(ex)
         if sp == "train" and len(ps) > 3:
             for size in (500, 1100):
-                for p in rechunk(ps, size):
+                for p in RNG.sample(rechunk(ps, size), min(25, len(rechunk(ps, size)))):
                     ex = msg_A(p, RNG.choice(spec.INSTRUCTIONS)); ex["provenance"] = "real-rechunked"
                     splits["train"].append(ex)
     for sp in splits:
@@ -268,7 +290,9 @@ def main(n_templated: int = 80):
     for sp, ids, n in (("train", seg_train, 40), ("val", seg_val, 15), ("test", seg["test"], 25)):
         for ex in build_D(ids, passages_split[sp], n):
             ex["provenance"] = "real"; splits[sp].append(ex)
-    splits["train"] += templated_A(n_templated)
+    tmpl = templated_A(n_templated + 30)
+    splits["train"] += tmpl[:n_templated]
+    splits["val"] += tmpl[n_templated:]      # held-out templated examples for VAL iteration only (never test)
     # dedupe train against held-out passages (exact or containment)
     held = [norm(e.get("passage", "")) for sp in ("val", "test") for e in splits[sp] if e.get("passage")]
     before = len(splits["train"])

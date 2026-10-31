@@ -2,7 +2,7 @@
  "illustrative": true,
  "status": "ok",
  "models": {
-  "tabular": false,
+  "tabular": true,
   "adapter": false
  }
 }

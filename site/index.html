@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Last Satellite</title>
+<meta name="description" content="Mission Memory Engine. An archival investigation of OPS-SAT telemetry, 2019–2024. Its mission ended. Its memories did not.">
+<meta name="theme-color" content="#0b0907">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Special+Elite&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body class="booting">
+
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- ============ BOOT: ground-station terminal ============ -->
+<section id="boot" aria-label="Loading">
+  <div class="crt" id="bootCrt">
+    <div class="crt-bezel">
+      <span class="crt-brand">WAKE · GROUND SEGMENT</span>
+      <span class="crt-model">Archivist&nbsp;IX</span>
+    </div>
+    <div class="crt-screen">
+      <div class="crt-inner">
+        <div class="crt-row"><span id="bootState">▶▶ ACQUIRING ARCHIVED SIGNAL</span><span>CH 09</span></div>
+        <div class="crt-center">
+          <div id="bootTitle" class="crt-title" hidden>CLICK TO ENTER</div>
+          <div class="crt-bar"><i id="bootBar"></i><span id="bootPct">0%</span></div>
+          <div id="bootSound" class="crt-sound" hidden>
+            <span>SOUND</span>
+            <button data-sound="on" class="on" type="button">ON</button>
+            <button data-sound="off" type="button">OFF</button>
+          </div>
+        </div>
+        <div class="crt-row dim"><span>OPS-SAT · NORAD 44878</span><span id="bootClock">--:--:--</span></div>
+      </div>
+      <div class="crt-scan"></div>
+    </div>
+    <div class="crt-deck">
+      <span class="led"></span><span class="knob"></span><span class="knob"></span><span class="knob"></span>
+      <span class="deck-clock" id="deckClock">22·05·24</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHROME: brand + nav ============ -->
+<header class="top">
+  <a href="#orbit" class="brand" data-go="orbit">THE LAST SATELLITE</a>
+  <nav class="nav" aria-label="Stations">
+    <a href="#signal" data-go="signal">SIGNAL</a>
+    <a href="#engine" data-go="engine">ENGINE</a>
+    <a href="#memory" data-go="memory">MEMORY</a>
+    <a href="#lab" data-go="lab">LAB</a>
+    <a href="#transmission" data-go="transmission">LAST&nbsp;WORDS</a>
+  </nav>
+</header>
+
+<!-- ============ HERO (orbit station) ============ -->
+<section id="hero" class="hero">
+  <p class="eyebrow"><span class="dot"></span>ARCHIVED TRANSMISSION · RECORDED 2022 · ESA OPS-SAT</p>
+  <h1 class="title">
+    <span class="line"><span>The Last</span></span>
+    <span class="line"><span><em>Satellite</em></span></span>
+  </h1>
+  <p class="tag"><span>Its mission ended.</span> <span>Its memories did not.</span></p>
+  <div class="hero-meta">
+    <div><b data-k="dataset.segments">—</b><small>labelled segments</small></div>
+    <div><b data-k="dataset.channels">—</b><small>sensor channels</small></div>
+    <div><b data-k="tabpfn.auprc">—</b><small>test AUPRC</small></div>
+    <div><b>22·05·24</b><small>re-entry</small></div>
+  </div>
+  <button class="cta" data-go="signal" type="button"><span>Play the archive</span><kbd>S</kbd></button>
+</section>
+
+<!-- hover chip that follows the cursor, like a museum label -->
+<div id="chip" class="chip" aria-hidden="true"></div>
+
+<!-- ============ PANELS (lifted like a notepad off the desk) ============ -->
+<section class="panel scope" id="panel-signal" aria-label="Signal Observatory" hidden>
+  <header class="panel-head">
+    <span class="kicker">TAPE 01 · SIGNAL OBSERVATORY</span>
+    <span class="kicker dim" id="scopeMeta">recorded on —</span>
+  </header>
+  <div class="scope-screen">
+    <canvas id="scope"></canvas>
+    <div class="scope-hud">
+      <span id="scopeCh">CH —</span>
+      <span id="scopeState">▶ PLAY</span>
+    </div>
+    <div class="scope-verdict" id="scopeVerdict"></div>
+  </div>
+  <div class="scope-controls">
+    <div class="scope-tapes" id="scopeTapes"></div>
+    <button class="btn reveal" id="revealBtn" type="button">Reveal ground truth</button>
+  </div>
+  <p class="fine">Real segments from the OPSSAT-AD test split. TabPFN scores are produced once by <code>training.tabpfn.evaluate</code>; labels stay hidden until you press reveal. <span class="ember-key"></span> exact-zero runs.</p>
+</section>
+
+<section class="panel tapes-panel" id="panel-engine" aria-label="Mission Memory Engine" hidden>
+  <header class="panel-head">
+    <span class="kicker">THE ENGINE · SIX TAPES</span>
+    <span class="kicker dim">pick a tape from the deck</span>
+  </header>
+  <div class="deck">
+    <div class="deck-screen" id="deckScreen">
+      <div class="deck-play">▶ STOP</div>
+      <div class="deck-text" id="deckText">PICK A TAPE FROM THE DESK</div>
+    </div>
+    <ol class="tape-stack" id="tapeStack"></ol>
+  </div>
+</section>
+
+<section class="panel log" id="panel-memory" aria-label="Mission Memory" hidden>
+  <div class="paper">
+    <header class="log-head">
+      <h2>Mission log</h2>
+      <span>reel 02 · loading…</span>
+    </header>
+    <p class="log-lede">Every entry carries its source. Event dates and publication dates are kept apart, because the day something happened is not the day it was written down.</p>
+    <ol class="log-list" id="logList"></ol>
+    <p class="log-foot"><span class="kind event">event</span> <span class="kind publication">publication</span> <span class="kind measured">measured from the data</span></p>
+  </div>
+</section>
+
+<section class="panel lab" id="panel-lab" aria-label="Model Laboratory" hidden>
+  <header class="panel-head">
+    <span class="kicker">MODEL LABORATORY · OFFICIAL TEST SPLIT</span>
+    <span class="kicker dim" id="labMeta">n = —</span>
+  </header>
+  <div class="lab-grid">
+    <div class="lab-bars">
+      <div class="lab-seg" role="tablist">
+        <button class="on" data-metric="auprc" type="button">AUPRC</button>
+        <button data-metric="f1" type="button">F1</button>
+        <button data-metric="mcc" type="button">MCC</button>
+      </div>
+      <ul id="labBars"></ul>
+    </div>
+    <div class="lab-side">
+      <div class="confusion" id="confusion"></div>
+      <p class="lab-note" id="labNote"></p>
+    </div>
+  </div>
+  <p class="fine">Every number above is read from <code>evaluations/*.json</code> by <code>scripts/build_site_data.py</code>. Published rows: Ruszczak et al., <i>Sci Data</i> 2025, Table 3.</p>
+</section>
+
+<!-- ============ LAST TRANSMISSION (footer, Phosphor-style reveal) ============ -->
+<section class="finale" id="finale" aria-label="Last transmission" hidden>
+  <div class="foot-cols">
+    <div class="foot-col brandcol">
+      <div class="foot-brand"><span class="sq"></span>The Last Satellite</div>
+      <p>A mission memory engine for a spacecraft that is no longer there. Telemetry, documents and a small language model, read together and cited.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Stations</h4>
+      <a data-go="signal" href="#signal">Signal observatory</a>
+      <a data-go="engine" href="#engine">The engine</a>
+      <a data-go="memory" href="#memory">Mission log</a>
+      <a data-go="lab" href="#lab">Model laboratory</a>
+    </div>
+    <div class="foot-col">
+      <h4>Archive</h4>
+      <a href="https://doi.org/10.5281/zenodo.12588359" target="_blank" rel="noopener">OPSSAT-AD on Zenodo</a>
+      <a href="https://doi.org/10.1038/s41597-025-05035-3" target="_blank" rel="noopener">Benchmark paper</a>
+      <a href="https://en.wikipedia.org/wiki/OPS-SAT" target="_blank" rel="noopener">OPS-SAT</a>
+      <span class="muted" data-k="archive.line">— documents</span>
+    </div>
+    <div class="foot-col">
+      <h4>Run it</h4>
+      <code>make ui-fixtures</code>
+      <code>make app</code>
+      <code>make tabpfn-test</code>
+    </div>
+  </div>
+
+  <div class="qsl" id="qsl">
+    <div class="qsl-left">
+      <span class="qsl-kicker">QSL · CONFIRMATION OF CONTACT</span>
+      <h3>73 de<br>OPS-SAT</h3>
+      <ul>
+        <li><b>Last heard</b>22 May 2024</li>
+        <li><b>Orbit</b>Low Earth, decayed</li>
+        <li><b>Archived</b><span data-k="dataset.points">—</span> telemetry points</li>
+      </ul>
+    </div>
+    <div class="qsl-right">
+      <div class="stamp">NO<br>REPLY<br>EXPECTED</div>
+      <p class="qsl-msg">Thank you for listening.<br>The memory is kept.</p>
+    </div>
+  </div>
+
+  <div class="monitor" id="monitor" aria-hidden="true">
+    <div class="mon-body">
+      <div class="mon-screen"><span class="mon-clock" id="monClock">22:05</span><span class="mon-msg">SIGNAL&nbsp;LOST</span></div>
+      <div class="mon-grill"></div>
+    </div>
+  </div>
+
+  <p class="legal">Archival analysis of the public OPSSAT-AD dataset (CC-BY-4.0; code MIT). TabPFN weights: see licence notes in the Model Laboratory. Interpreter adapter trained on Tinker (hosted service); inference runs locally.</p>
+</section>
+
+<!-- ============ bottom HUD ============ -->
+<footer class="hud">
+  <p class="keys" id="keys">S signal · E engine · M memory · L lab · 1–9 channels · ESC back to orbit</p>
+  <div class="pills">
+    <button class="pill back" id="backPill" type="button" hidden>BACK TO ORBIT · ESC</button>
+    <button class="pill" id="creditsPill" type="button">ⓘ CREDITS</button>
+    <button class="pill amber" id="soundPill" type="button">◖)) SOUND ON</button>
+    <button class="pill" id="lofiPill" type="button">▤ LO-FI</button>
+  </div>
+</footer>
+
+<dialog id="credits" class="credits">
+  <h3>Credits</h3>
+  <p>Telemetry: OPSSAT-AD, Ruszczak et al., Zenodo 10.5281/zenodo.12588359 (CC-BY-4.0). Mission: ESA OPS-SAT, 2019–2024.</p>
+  <p>Telemetry analyser: TabPFN-v2 (Prior Labs License). Interpreter: Qwen3-8B with a LoRA adapter trained on Tinker, served locally by llama.cpp.</p>
+  <p>Scene rendered live with three.js. Sound is synthesised in your browser.</p>
+  <form method="dialog"><button class="btn" type="submit">Close · ESC</button></form>
+</dialog>
+
+<script src="data.js"></script>
+<script type="module" src="main.js"></script>
+</body>
+</html>
