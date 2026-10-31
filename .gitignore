@@ -8,3 +8,4 @@ data/processed/*.db
 .DS_Store
 data/documents/_cache/
 third_party/
+evaluations/.*.lock

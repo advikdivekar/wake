@@ -50,6 +50,13 @@ def run(model: str, split: str, backend: str, tag: str = "", tinker_path=None, w
             r = json.loads(l); done[r["i"]] = r
     lm = get_model(model, backend, tinker_path)
     todo = [i for i in range(len(exs)) if i not in done]
+    if backend == "tinker" and todo:
+        from training.tinker import budget
+        prompt_tok = budget.count_tokens(["\n".join(m["content"] for m in exs[i]["messages"][:-1]) for i in todo])
+        sample_tok = sum(MAX_TOK[exs[i]["task"]] // 2 for i in todo)      # conservative: half of max_tokens
+        costs = {"prefill": prompt_tok, "sample": sample_tok}
+        est = budget.authorize(f"eval:{model}{tag}:{split}", costs)
+        workers = 8
 
     def one(i):
         ex = exs[i]
@@ -66,6 +73,8 @@ def run(model: str, split: str, backend: str, tag: str = "", tinker_path=None, w
             f.write(json.dumps(r) + "\n"); f.flush(); done[r["i"]] = r
             if k % 20 == 0:
                 print(f"{model}/{split}: {len(done)}/{len(exs)}", flush=True)
+    if backend == "tinker" and todo:
+        budget.record(f"eval:{model}{('-' + tag) if tag else ''}:{split}", costs, est, note=f"{len(todo)} prompts")
     return [done[i] for i in range(len(exs))]
 
 

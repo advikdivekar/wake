@@ -1,0 +1,86 @@
+{
+  "produced_by": "training/tinker/budget.py",
+  "prices_per_1M": {
+    "Qwen/Qwen3-8B": {
+      "prefill": 0.195,
+      "sample": 0.6,
+      "train": 0.44
+    }
+  },
+  "jobs": [
+    {
+      "at": "2026-10-31T16:08:36+00:00",
+      "job": "train:lc-n50",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "train": 56691
+      },
+      "est_usd": 0.0249,
+      "note": "50 ex x 3 ep, rank 16"
+    },
+    {
+      "at": "2026-10-31T16:10:39+00:00",
+      "job": "eval:tuned-lc-n50:val",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "prefill": 32392,
+        "sample": 24200
+      },
+      "est_usd": 0.0208,
+      "note": "141 prompts"
+    },
+    {
+      "at": "2026-10-31T16:11:18+00:00",
+      "job": "train:lc-n100",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "train": 110691
+      },
+      "est_usd": 0.0487,
+      "note": "100 ex x 3 ep, rank 16"
+    },
+    {
+      "at": "2026-10-31T16:12:22+00:00",
+      "job": "eval:tuned-lc-n100:val",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "prefill": 32392,
+        "sample": 24200
+      },
+      "est_usd": 0.0208,
+      "note": "141 prompts"
+    },
+    {
+      "at": "2026-10-31T16:12:30+00:00",
+      "job": "train:lc-n200",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "train": 219954
+      },
+      "est_usd": 0.0968,
+      "note": "200 ex x 3 ep, rank 16"
+    },
+    {
+      "at": "2026-10-31T16:13:35+00:00",
+      "job": "eval:tuned-lc-n200:val",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "prefill": 32392,
+        "sample": 24200
+      },
+      "est_usd": 0.0208,
+      "note": "141 prompts"
+    },
+    {
+      "at": "2026-10-31T16:14:10+00:00",
+      "job": "train:lc-nall (spec v1, STOPPED at step 65/84)",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "train": 392004
+      },
+      "est_usd": 0.1725,
+      "note": "stopped after VAL error analysis showed label defects; partial spend estimated pro rata"
+    }
+  ],
+  "total_est_usd": 0.4053
+}

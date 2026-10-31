@@ -42,8 +42,17 @@ def norm_ws(s: str) -> str:
 
 def sentences(text: str) -> list[str]:
     t = norm_ws(text)
-    parts = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9“\"(\[])", t)
+    parts = re.split(r"(?<=[.!?])\s+(?=[A-Z0-9“\"(\[])|\s+-\s+(?=[A-Z\[])", t)
     return [p.strip() for p in parts if len(p.strip()) > 3]
+
+
+CODEY = re.compile(r"(\bdef\b|\breturn\b|np\.|pd\.|\[\^|\]\(|[{}=<>]|\w+\(\w*\)|https?://|^[-*#|])")
+
+
+def is_prose(s: str) -> bool:
+    """Spec v2: text fields may only hold a prose sentence (no code, footnotes, links, bullets or tables)."""
+    return (30 <= len(s) <= 350 and bool(re.match(r"^[A-Z][A-Za-z,'’ -]", s)) and not CODEY.search(s)
+            and s.count("|") == 0 and len(re.findall(r"[A-Za-z]{3,}", s)) >= 5)
 
 
 def _dates(text: str) -> list[str]:
@@ -82,7 +91,7 @@ def label(passage: str) -> dict:
     kinds = _uniq([CHANNELS[c][1] for c in chans if c in CHANNELS] +
                   [k for k in ("magnetometer", "photodiode") if re.search(rf"\b{k}s?\b", text, re.I)])
     units = _uniq(UNIT_NORM.get(u, u) for u in UNIT_RE.findall(text))
-    sents = sentences(text)
+    sents = [s for s in sentences(text) if is_prose(s)]
     obs = next((s for s in sents if OBS_CUES.search(s)), None)
     resp = next((s for s in sents if RESP_CUES.search(s)), None)
     cause = next((s for s in sents if CAUSE_CUES.search(s) and not HEDGES.search(s)), None)
@@ -180,11 +189,12 @@ def field_equal(f: str, pred, gold) -> bool:
     return (norm_ws(pred) if pred else None) == (norm_ws(gold) if gold else None)
 
 
+SPEC_VERSION = 2   # v2 (after VAL error analysis): text fields restricted to prose sentences
 SYSTEM = ("You extract structured records from OPS-SAT mission documents. Output exactly these 8 lines, in order: "
           "channel_id, sensor_type, units, event_date, observation, operational_response, root_cause, evidence "
           "(format 'field: value'). channel_id uses CADC#### ids; sensor_type is magnetometer or photodiode; "
-          "event_date is YYYY-MM-DD; lists are comma-separated. Text fields copy ONE sentence verbatim from the "
-          "passage. Use ? when the passage does not state it. Never infer a root cause.")
+          "event_date is YYYY-MM-DD; lists are comma-separated. Text fields copy ONE prose sentence verbatim from "
+          "the passage (never code, links, footnotes or bullet lists). Use ? when the passage does not state it. Never infer a root cause.")
 INSTRUCTIONS = [
     "Extract the mission memory record from this passage.",
     "Read the passage and fill in the record fields.",

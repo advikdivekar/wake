@@ -8,6 +8,7 @@ import json
 import os
 from functools import lru_cache
 
+from app.common.config import load_config as _load_env  # noqa: F401  (loads .env)
 from app.common.paths import ROOT, now_iso
 
 PRICES = {"Qwen/Qwen3-8B": {"prefill": 0.195, "sample": 0.60, "train": 0.44}}
@@ -52,6 +53,13 @@ def authorize(job: str, costs: dict[str, int], model="Qwen/Qwen3-8B") -> float:
 
 
 def record(job: str, costs: dict[str, int], est: float, model="Qwen/Qwen3-8B", note: str = "") -> None:
+    import fcntl
+    with open(ROOT / "evaluations" / ".ledger.lock", "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        _record(job, costs, est, model, note)
+
+
+def _record(job, costs, est, model, note):
     L = ledger()
     L["jobs"].append({"at": now_iso(), "job": job, "model": model, "tokens": costs, "est_usd": round(est, 4),
                       "note": note})

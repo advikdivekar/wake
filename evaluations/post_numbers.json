@@ -1,0 +1,314 @@
+{
+ "data.segments": {
+  "value": "2123",
+  "source": "dataset_verification.json"
+ },
+ "data.points": {
+  "value": "303,493",
+  "source": "dataset_verification.json"
+ },
+ "data.train": {
+  "value": "1594",
+  "source": "dataset_verification.json"
+ },
+ "data.test": {
+  "value": "529",
+  "source": "dataset_verification.json"
+ },
+ "data.anomaly_rate": {
+  "value": "20.4%",
+  "source": "dataset_verification.json"
+ },
+ "feat.overall": {
+  "value": "99.97%",
+  "source": "feature_reproduction.json"
+ },
+ "feat.exact_count": {
+  "value": "16",
+  "source": "feature_reproduction.json"
+ },
+ "tab.cv_auprc": {
+  "value": "0.9781",
+  "source": "tabpfn_selection.json"
+ },
+ "tab.config": {
+  "value": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+  "source": "tabpfn_selection.json"
+ },
+ "tab.auprc": {
+  "value": "0.996",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.auroc": {
+  "value": "0.999",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.f1": {
+  "value": "0.982",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.precision": {
+  "value": "0.991",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.recall": {
+  "value": "0.973",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.mcc": {
+  "value": "0.977",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.brier": {
+  "value": "0.007",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.auprc_ci": {
+  "value": "0.989\u20131.000",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.f1_ci": {
+  "value": "0.963\u20130.996",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.fp": {
+  "value": "1",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.fn": {
+  "value": "3",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.tp": {
+  "value": "110",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.tn": {
+  "value": "415",
+  "source": "tabpfn_test_results.json"
+ },
+ "tab.threshold": {
+  "value": "0.617",
+  "source": "tabpfn_test_results.json"
+ },
+ "base.iforest.auprc": {
+  "value": "0.401",
+  "source": "baselines_test_results.json"
+ },
+ "base.iforest.f1": {
+  "value": "0.499",
+  "source": "baselines_test_results.json"
+ },
+ "base.iforest.mcc": {
+  "value": "0.362",
+  "source": "baselines_test_results.json"
+ },
+ "base.lightgbm.auprc": {
+  "value": "0.990",
+  "source": "baselines_test_results.json"
+ },
+ "base.lightgbm.f1": {
+  "value": "0.969",
+  "source": "baselines_test_results.json"
+ },
+ "base.lightgbm.mcc": {
+  "value": "0.960",
+  "source": "baselines_test_results.json"
+ },
+ "base.lr.auprc": {
+  "value": "0.987",
+  "source": "baselines_test_results.json"
+ },
+ "base.lr.f1": {
+  "value": "0.956",
+  "source": "baselines_test_results.json"
+ },
+ "base.lr.mcc": {
+  "value": "0.944",
+  "source": "baselines_test_results.json"
+ },
+ "base.rf.auprc": {
+  "value": "0.994",
+  "source": "baselines_test_results.json"
+ },
+ "base.rf.f1": {
+  "value": "0.973",
+  "source": "baselines_test_results.json"
+ },
+ "base.rf.mcc": {
+  "value": "0.966",
+  "source": "baselines_test_results.json"
+ },
+ "base.rule.auprc": {
+  "value": "0.293",
+  "source": "baselines_test_results.json"
+ },
+ "base.rule.f1": {
+  "value": "0.527",
+  "source": "baselines_test_results.json"
+ },
+ "base.rule.mcc": {
+  "value": "0.414",
+  "source": "baselines_test_results.json"
+ },
+ "base.xgboost.auprc": {
+  "value": "0.993",
+  "source": "baselines_test_results.json"
+ },
+ "base.xgboost.f1": {
+  "value": "0.968",
+  "source": "baselines_test_results.json"
+ },
+ "base.xgboost.mcc": {
+  "value": "0.960",
+  "source": "baselines_test_results.json"
+ },
+ "sig.iforest.p": {
+  "value": "3.7e-57",
+  "source": "significance_tests.json"
+ },
+ "sig.iforest.diff": {
+  "value": "+0.5921",
+  "source": "significance_tests.json"
+ },
+ "sig.lightgbm.p": {
+  "value": "0.25",
+  "source": "significance_tests.json"
+ },
+ "sig.lightgbm.diff": {
+  "value": "+0.0061",
+  "source": "significance_tests.json"
+ },
+ "sig.lr.p": {
+  "value": "0.0312",
+  "source": "significance_tests.json"
+ },
+ "sig.lr.diff": {
+  "value": "+0.0091",
+  "source": "significance_tests.json"
+ },
+ "sig.rf.p": {
+  "value": "0.625",
+  "source": "significance_tests.json"
+ },
+ "sig.rf.diff": {
+  "value": "+0.0021",
+  "source": "significance_tests.json"
+ },
+ "sig.rule.p": {
+  "value": "2.5e-53",
+  "source": "significance_tests.json"
+ },
+ "sig.rule.diff": {
+  "value": "+0.7001",
+  "source": "significance_tests.json"
+ },
+ "sig.xgboost.p": {
+  "value": "0.25",
+  "source": "significance_tests.json"
+ },
+ "sig.xgboost.diff": {
+  "value": "+0.0031",
+  "source": "significance_tests.json"
+ },
+ "abl.tabpfn-v2.auprc": {
+  "value": "0.989",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.tabpfn-v2.f1": {
+  "value": "0.950",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.tabpfn-v2.mcc": {
+  "value": "0.937",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.lr.auprc": {
+  "value": "0.935",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.lr.f1": {
+  "value": "0.883",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.lr.mcc": {
+  "value": "0.851",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.rf.auprc": {
+  "value": "0.970",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.rf.f1": {
+  "value": "0.920",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.rf.mcc": {
+  "value": "0.903",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.xgboost.auprc": {
+  "value": "0.970",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.xgboost.f1": {
+  "value": "0.917",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.xgboost.mcc": {
+  "value": "0.897",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.lightgbm.auprc": {
+  "value": "0.968",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.lightgbm.f1": {
+  "value": "0.907",
+  "source": "ablation_base18_test.json"
+ },
+ "abl.lightgbm.mcc": {
+  "value": "0.885",
+  "source": "ablation_base18_test.json"
+ },
+ "thr.high": {
+  "value": "0.80",
+  "source": "thresholds.json"
+ },
+ "thr.low": {
+  "value": "0.05",
+  "source": "thresholds.json"
+ },
+ "sft.train": {
+  "value": "445",
+  "source": "sft_dataset_stats.json"
+ },
+ "sft.train.A": {
+  "value": "336",
+  "source": "sft_dataset_stats.json"
+ },
+ "sft.val": {
+  "value": "141",
+  "source": "sft_dataset_stats.json"
+ },
+ "sft.val.A": {
+  "value": "75",
+  "source": "sft_dataset_stats.json"
+ },
+ "sft.test": {
+  "value": "173",
+  "source": "sft_dataset_stats.json"
+ },
+ "sft.test.A": {
+  "value": "72",
+  "source": "sft_dataset_stats.json"
+ },
+ "tk.cost_total": {
+  "value": "$0.09",
+  "source": "tinker_cost.json"
+ },
+ "lc.50": {
+  "value": "0.885",
+  "source": "tinker_learning_curve.json"
+ }
+}

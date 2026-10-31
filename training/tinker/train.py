@@ -103,6 +103,8 @@ def main():
         print(f"  saved {path}", flush=True)
     budget.record(f"train:{a.name}", {"train": train_tokens}, est, base_model,
                   note=f"{len(data)} ex x {a.epochs} ep, rank {a.rank}")
+    import fcntl
+    lk = open(EVAL_DIR / ".runs.lock", "w"); fcntl.flock(lk, fcntl.LOCK_EX)
     runs = json.loads(RUNS.read_text()) if RUNS.exists() else {"produced_by": "python -m training.tinker.train", "runs": []}
     runs["runs"] = [r for r in runs["runs"] if r["name"] != a.name] + [{
         "name": a.name, "n_examples": len(data), "base_model": base_model, "rank": a.rank, "lr": lr, "epochs": a.epochs,

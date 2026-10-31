@@ -41,3 +41,14 @@ Timestamps are IST (UTC+5:30). Deadline: 2026-10-31 23:59 PDT = 2026-11-01 12:29
     2. The parsers strip markdown bullets, bold and headings for both models.
     3. Task-D gold citations now use the same prose-only sentence filter as the cards.
   - Re-running the base on VAL with the amended prompt.
+- 23:05 Tinker key verified; Qwen/Qwen3-8B is in the catalogue. Balance $0.93, so the cap is set to $0.75.
+- 23:10 Smoke run lc-n50: NLL fell from 0.76 to 0.05, checkpoints saved, sampling OK.
+- 23:15 Learning curve, VAL (spec v1 labels), task A field exact match. Base is 0.673 (local).
+  - n50: 0.885
+  - n100: 0.892. Task D collapsed to 0.0 because of greedy repetition loops, with only about 9 D training examples.
+  - n200: 0.895. Task D recovered to 0.733.
+- 23:30 **VAL error analysis:** most remaining task-A "errors" were defective gold labels. The v1 cue rules selected code blocks, footnotes and markdown bullet lists as "observation"/"evidence" sentences.
+  - **Spec v2:** text fields only accept prose sentences (`spec.is_prose`). The prompt says so. Bullet lists are split into sentences.
+  - Stopped the v1 full run at step 65/84 to save budget (pro-rata cost added to the ledger).
+  - Retraining once as `final-v2`. TEST is still untouched.
+  - The v1 learning-curve points are kept and labelled as trained on v1 labels.
