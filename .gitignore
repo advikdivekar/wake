@@ -34,3 +34,7 @@ web/node_modules/
 video/assets/img/
 video/assets/music/
 *.wav
+video/assets/sfx/
+video/assets/vo/*.wav
+video/assets/vo/*.mp3
+*.mp3

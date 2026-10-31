@@ -1,0 +1,81 @@
+<template>
+  <style>
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+    @font-face { font-family: "Fraunces"; src: url("assets/fonts/fraunces-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; }
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .cap { position: absolute; left: 0; width: 1920px; height: 150px; display: flex; align-items: baseline; justify-content: center; gap: 18px; white-space: nowrap; }
+    .cw { display: inline-block; font-family: "Inter", sans-serif; font-weight: 500; font-size: 44px; color: #f6e7c1;
+      text-shadow: 0 2px 4px rgba(5,5,7,0.95), 0 0 26px rgba(5,5,7,0.85); }
+    .cw.hero { font-family: "Fraunces", serif; font-style: italic; font-weight: 300; font-size: 92px; letter-spacing: -0.02em; color: #e8a33d; }
+    .onlight .cw, .onlight .cw.hero { color: #050507; text-shadow: none; }
+  </style>
+  <div id="root" data-composition-id="captions" data-width="1920" data-height="1080">
+    <div id="cap0" class="clip cap" style="top:730px" data-start="0.60" data-duration="2.31" data-track-index="0"><span class="cw">On</span> <span class="cw">June</span> <span class="cw">the</span> <span class="cw">second,</span> <span class="cw">2022,</span></div>
+    <div id="cap1" class="clip cap" style="top:730px" data-start="2.91" data-duration="3.02" data-track-index="1"><span class="cw">one</span> <span class="cw">of</span> <span class="cw">its</span> <span class="cw">light</span> <span class="cw">sensors</span> <span class="cw hero">stopped.</span></div>
+    <div id="cap2" class="clip cap" style="top:885px" data-start="5.90" data-duration="2.76" data-track-index="0"><span class="cw">OPS-SAT,</span> <span class="cw">ESA's</span> <span class="cw">flying</span> <span class="cw hero">laboratory,</span></div>
+    <div id="cap3" class="clip cap" style="top:885px" data-start="8.66" data-duration="4.38" data-track-index="1"><span class="cw">re-entered</span> <span class="cw">the</span> <span class="cw">atmosphere</span> <span class="cw">in</span> <span class="cw hero">May</span> <span class="cw hero">2024.</span></div>
+    <div id="cap4" class="clip cap" style="top:885px" data-start="12.90" data-duration="3.13" data-track-index="0"><span class="cw">Two</span> <span class="cw">open</span> <span class="cw">models</span> <span class="cw">read</span> <span class="cw">what</span> <span class="cw">it</span> <span class="cw hero">left</span> <span class="cw hero">behind.</span></div>
+    <div id="cap5" class="clip cap" style="top:885px" data-start="16.03" data-duration="1.43" data-track-index="1"><span class="cw">Neither</span> <span class="cw">may</span> <span class="cw hero">guess.</span></div>
+    <div id="cap6" class="clip cap" style="top:885px" data-start="17.30" data-duration="3.86" data-track-index="0"><span class="cw">TabPFN</span> <span class="cw">reads</span> <span class="cw">segment</span> <span class="cw">204,</span> <span class="cw hero">blind.</span></div>
+    <div id="cap7" class="clip cap" style="top:885px" data-start="21.10" data-duration="3.66" data-track-index="1"><span class="cw">This</span> <span class="cw">is</span> <span class="cw">the</span> <span class="cw hero">real</span> <span class="cw">console,</span> <span class="cw">running</span> <span class="cw">on</span> <span class="cw">the</span> <span class="cw">archive.</span></div>
+    <div id="cap8" class="clip cap" style="top:885px" data-start="26.90" data-duration="2.58" data-track-index="0"><span class="cw">We</span> <span class="cw">hide</span> <span class="cw">the</span> <span class="cw">answer,</span> <span class="cw">let</span> <span class="cw">the</span> <span class="cw">model</span> <span class="cw hero">decide,</span></div>
+    <div id="cap9" class="clip cap" style="top:885px" data-start="29.48" data-duration="1.22" data-track-index="1"><span class="cw">then</span> <span class="cw hero">check</span> <span class="cw">it.</span></div>
+    <div id="cap10" class="clip cap" style="top:885px" data-start="35.20" data-duration="2.77" data-track-index="0"><span class="cw">And</span> <span class="cw">when</span> <span class="cw">it</span> <span class="cw">misses,</span> <span class="cw">we</span> <span class="cw">show</span> <span class="cw">that</span> <span class="cw hero">too.</span></div>
+    <div id="cap11" class="clip cap" style="top:885px" data-start="39.50" data-duration="1.08" data-track-index="1"><span class="cw">Every</span> <span class="cw">segment,</span> <span class="cw hero">ranked.</span></div>
+    <div id="cap12" class="clip cap" style="top:885px" data-start="40.58" data-duration="3.50" data-track-index="0"><span class="cw">Where</span> <span class="cw">the</span> <span class="cw">archive</span> <span class="cw">is</span> <span class="cw">silent,</span> <span class="cw">so</span> <span class="cw">is</span> <span class="cw">the</span> <span class="cw hero">card.</span></div>
+    <div id="cap13" class="clip cap" style="top:885px" data-start="44.60" data-duration="1.43" data-track-index="1"><span class="cw">Ask</span> <span class="cw">the</span> <span class="cw">archive</span> <span class="cw hero">anything,</span></div>
+    <div id="cap14" class="clip cap" style="top:885px" data-start="46.03" data-duration="2.75" data-track-index="0"><span class="cw">it</span> <span class="cw">tells</span> <span class="cw">you</span> <span class="cw">what</span> <span class="cw">it</span> <span class="cw">doesn't</span> <span class="cw hero">know.</span></div>
+    <div id="cap15" class="clip cap onlight" style="top:905px" data-start="49.00" data-duration="2.52" data-track-index="1"><span class="cw">On</span> <span class="cw">the</span> <span class="cw">official</span> <span class="cw">test</span> <span class="cw">split,</span> <span class="cw">it</span> <span class="cw">beats</span></div>
+    <div id="cap16" class="clip cap onlight" style="top:905px" data-start="51.52" data-duration="1.44" data-track-index="0"><span class="cw">the</span> <span class="cw">best</span> <span class="cw hero">published</span> <span class="cw">model,</span></div>
+    <div id="cap17" class="clip cap" style="top:905px" data-start="52.96" data-duration="2.41" data-track-index="1"><span class="cw">even</span> <span class="cw">on</span> <span class="cw">the</span> <span class="cw">paper's</span> <span class="cw">own</span> <span class="cw hero">features.</span></div>
+    <div id="cap18" class="clip cap" style="top:885px" data-start="55.90" data-duration="1.72" data-track-index="0"><span class="cw">Eighty-three</span> <span class="cw">cents</span> <span class="cw">of</span> <span class="cw hero">Tinker:</span></div>
+    <div id="cap19" class="clip cap" style="top:885px" data-start="57.62" data-duration="1.72" data-track-index="1"><span class="cw">sixty-five</span> <span class="cw">to</span> <span class="cw hero">ninety-three</span> <span class="cw">percent.</span></div>
+    <div id="cap20" class="clip cap" style="top:885px" data-start="59.34" data-duration="3.26" data-track-index="0"><span class="cw">One</span> <span class="cw">task</span> <span class="cw">got</span> <span class="cw hero">worse.</span> <span class="cw">We</span> <span class="cw">kept</span> <span class="cw">it.</span></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cap0 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 0.62);
+    tl.to("#cap0 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 2.79);
+    tl.fromTo("#cap1 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 2.93);
+    tl.to("#cap1 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 5.81);
+    tl.fromTo("#cap2 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 5.92);
+    tl.to("#cap2 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 8.54);
+    tl.fromTo("#cap3 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 8.68);
+    tl.to("#cap3 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 12.92);
+    tl.fromTo("#cap4 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 12.92);
+    tl.to("#cap4 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 15.91);
+    tl.fromTo("#cap5 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 16.05);
+    tl.to("#cap5 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 17.34);
+    tl.fromTo("#cap6 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 17.32);
+    tl.to("#cap6 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 21.04);
+    tl.fromTo("#cap7 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 21.12);
+    tl.to("#cap7 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 24.64);
+    tl.fromTo("#cap8 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 26.92);
+    tl.to("#cap8 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 29.36);
+    tl.fromTo("#cap9 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 29.50);
+    tl.to("#cap9 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 30.57);
+    tl.fromTo("#cap10 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 35.22);
+    tl.to("#cap10 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 37.85);
+    tl.fromTo("#cap11 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 39.52);
+    tl.to("#cap11 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 40.46);
+    tl.fromTo("#cap12 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 40.60);
+    tl.to("#cap12 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 43.96);
+    tl.fromTo("#cap13 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 44.62);
+    tl.to("#cap13 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 45.91);
+    tl.fromTo("#cap14 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 46.05);
+    tl.to("#cap14 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 48.66);
+    tl.fromTo("#cap15 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 49.02);
+    tl.to("#cap15 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 51.40);
+    tl.fromTo("#cap16 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 51.54);
+    tl.to("#cap16 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 52.84);
+    tl.fromTo("#cap17 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 52.98);
+    tl.to("#cap17 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 55.25);
+    tl.fromTo("#cap18 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 55.92);
+    tl.to("#cap18 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 57.50);
+    tl.fromTo("#cap19 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 57.64);
+    tl.to("#cap19 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 59.22);
+    tl.fromTo("#cap20 .cw", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.12, stagger: 0.085, ease: "power2.out" }, 59.36);
+    tl.to("#cap20 .cw", { opacity: 0, filter: "blur(8px)", duration: 0.1, ease: "power2.in" }, 62.47);
+    window.__timelines["captions"] = tl;
+  </script>
+</template>

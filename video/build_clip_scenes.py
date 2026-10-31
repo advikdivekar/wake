@@ -36,9 +36,9 @@ CURSOR_SVG = (
 S204, S1579, Q, MEM, LAB = "reveal_204", "seance_1579", "queue", "memory", "lab"
 SCENES = {
     "hero": {
-        "dur": 5.6,
-        "shots": [{"clip": "hero", "start": 0, "dur": 5.6, "mstart": 0.7, "cam": [(0, 1.0, 960, 540, 0)]}],
-        "dip": 5.45,
+        "dur": 4.4,
+        "shots": [{"clip": "hero", "start": 0, "dur": 4.4, "mstart": 0.7, "cam": [(0, 1.0, 960, 540, 0), (2.2, 1.25, 700, 420, 0.5)]}],
+        "dip": 4.27,
     },
     "hide": {
         "dur": 8.2,
@@ -78,6 +78,11 @@ SCENES = {
             {"clip": MEM, "start": 1.2, "dur": 1.5, "mstart": 2.4, "cam": [(1.2, 1.7, 700, 170, 0)]},
             {"clip": MEM, "start": 2.7, "dur": 1.9, "mstart": 7.6, "cam": [(2.7, 1.3, 960, 420, 0), (3.35, 1.9, 1350, 260, 0.55)]},
         ],
+    },
+    "obs": {
+        "dur": 2.6,
+        "shots": [{"clip": "observatory", "start": 0, "dur": 2.6, "mstart": 1.4, "cam": [(0, 1.15, 960, 640, 0)],
+                   "cursor": {"from": (1200, 820), "clicks": [at("observatory", "I_PD3_THETA", 1.4, 0)]}}],
     },
     "finale": {
         "dur": 2.4,

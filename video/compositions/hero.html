@@ -17,14 +17,15 @@
   </style>
   <div id="root" data-composition-id="hero" data-width="1920" data-height="1080">
     <div id="her-cam0" class="cam" style="z-index:1" data-layout-allow-overflow>
-      <video id="her-v0" class="clip shot-video" data-start="0" data-duration="5.6" data-media-start="0.7" data-track-index="1" src="assets/clips/hero.mp4" muted playsinline></video>
+      <video id="her-v0" class="clip shot-video" data-start="0" data-duration="4.4" data-media-start="0.7" data-track-index="1" src="assets/clips/hero.mp4" muted playsinline></video>
     </div>
     <div id="her-dip" class="dip" style="z-index:11" data-layout-ignore></div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
     tl.set("#her-cam0", { scale: 1.0, x: 0, y: 0 }, 0);
-    tl.fromTo("#her-dip", { opacity: 0 }, { opacity: 0.45, duration: 0.1, ease: "none" }, 5.45);
+    tl.to("#her-cam0", { scale: 1.25, x: 0, y: 0, duration: 0.5, ease: "power3.inOut" }, 2.2);
+    tl.fromTo("#her-dip", { opacity: 0 }, { opacity: 0.45, duration: 0.1, ease: "none" }, 4.27);
     window.__timelines["hero"] = tl;
   </script>
 </template>

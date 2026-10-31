@@ -29,7 +29,6 @@
         <path id="conv-br4" class="conv-br" d="M823.3,480.3 C893.3,480.3 900,885 1010,885" />
     </svg>
     <div id="conv-meta">segment <b>#204</b> · CADC0872 · magnetometer · 2022-06-02 · label hidden</div>
-    <div id="conv-q">Is this one <em>wrong?</em></div>
     <div id="conv-n0" class="conv-node" style="left:1010px; top:215px;" data-layout-allow-overflow><i class="conv-dot"></i><span class="conv-txt">16 exact zeros</span><span class="conv-tag" style="color:#7fb7be; border-color:#7fb7be">measured</span></div>
     <div id="conv-n1" class="conv-node" style="left:1090px; top:380px;" data-layout-allow-overflow><i class="conv-dot"></i><span class="conv-txt">2 prominent peaks</span><span class="conv-tag" style="color:#7fb7be; border-color:#7fb7be">measured</span></div>
     <div id="conv-n2" class="conv-node" style="left:1130px; top:550px;" data-layout-allow-overflow><i class="conv-dot"></i><span class="conv-txt">largest jump: z +3.67</span><span class="conv-tag" style="color:#7fb7be; border-color:#7fb7be">measured</span></div>
@@ -43,7 +42,6 @@
     const L = wave.getTotalLength();
     tl.fromTo(wave, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" }, 0);
     tl.fromTo("#conv-meta", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 0.15);
-    tl.fromTo("#conv-q", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power2.out" }, 0.9);
     // a pulse runs the real waveform and stops on the zero run
     const proxy = { p: 0 };
     const zeroFrac = 713.3 / 750;
@@ -51,7 +49,6 @@
     tl.fromTo("#conv-pulse", { opacity: 0 }, { opacity: 1, duration: 0.1 }, 0.2);
     tl.fromTo(proxy, { p: 0 }, { p: zeroFrac, duration: 1.45, ease: "power2.inOut", onUpdate: place }, 0.2);
     tl.fromTo("#conv-zero", { opacity: 0, strokeWidth: 3 }, { opacity: 1, strokeWidth: 9, duration: 0.25, ease: "expo.out" }, 1.6);
-    tl.to("#conv-q", { opacity: 0, filter: "blur(8px)", duration: 0.18 }, 3.95);
     // five branches: what the engine measured and what the archive says
     document.querySelectorAll(".conv-br").forEach((b, i) => {
       const l = b.getTotalLength();

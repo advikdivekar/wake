@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; background: #050507; overflow: hidden; }
+    .co-row { position: absolute; left: 300px; font-family: "JetBrains Mono", monospace; font-size: 40px; color: #b9b1a4; white-space: pre; letter-spacing: 0.02em; }
+    .co-row b { font-weight: 500; color: #f6e7c1; }
+    .co-row .z { color: #d2592b; }
+    #co-r1 { top: 330px; } #co-r2 { top: 410px; } #co-r3 { top: 490px; }
+    #co-src { position: absolute; left: 300px; top: 250px; font-family: "JetBrains Mono", monospace; font-size: 28px; letter-spacing: 0.14em; color: #7d766d; text-transform: uppercase; }
+    #co-wave { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+    #co-line { fill: none; stroke: #7fb7be; stroke-width: 3; stroke-linejoin: round; }
+    #co-zero { fill: none; stroke: #d2592b; stroke-width: 8; stroke-linecap: round; }
+    #co-wave circle { fill: #d2592b; }
+    #co-cur { position: absolute; left: 0; top: 0; width: 22px; height: 44px; background: #e8a33d; }
+  </style>
+  <div id="root" data-composition-id="coldopen" data-width="1920" data-height="1080">
+    <div id="co-src">ops-sat · segment 1579 · archived telemetry</div>
+    <div class="co-row" id="co-r1">2022-06-02 03:17:08 UTC  I_PD3_THETA  <b>0.0462915</b></div>
+    <div class="co-row" id="co-r2">2022-06-02 03:17:13 UTC  I_PD3_THETA  <b class="z">0.0000000</b></div>
+    <div class="co-row" id="co-r3">2022-06-02 03:17:18 UTC  I_PD3_THETA  <b class="z">0.0000000</b></div>
+    <svg id="co-wave" viewBox="0 0 1920 1080" data-layout-ignore>
+      <path id="co-line" pathLength="1" d="M300.0,673.3 L344.0,671.8 L388.0,671.8 L432.0,671.8 L476.0,671.8 L520.0,673.3 L564.0,676.3 L608.0,679.3 L652.0,685.4 L696.0,689.9 L740.0,689.9 L784.0,656.7 L828.0,643.0 L872.0,624.8 L916.0,606.5 L960.0,592.7 L1004.0,585.0 L1048.0,585.0 L1092.0,591.2 L1136.0,600.4 L1180.0,617.2 L1224.0,635.4 L1268.0,658.2 L1312.0,673.3 L1356.0,677.8 L1400.0,705.0 L1444.0,705.0 L1488.0,703.5 L1532.0,702.0 L1576.0,695.9 L1620.0,692.9" />
+      <path id="co-zero" d="M1400.0,705.0 L1444.0,705.0" />
+      <circle id="co-z1" cx="1400.0" cy="705.0" r="7" /><circle id="co-z2" cx="1444.0" cy="705.0" r="7" />
+    </svg>
+    <div id="co-cur" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#co-src", { opacity: 1 }, { opacity: 1, duration: 0.01 }, 0);
+    // each reading types out left to right (a terminal printing), the cursor rides the line end
+    [["#co-r1", 0.3], ["#co-r2", 1.15], ["#co-r3", 2.0]].forEach(([id, t], i) => {
+      tl.fromTo(id, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: "steps(44)" }, t);
+      tl.fromTo("#co-cur", { x: 300, y: 336 + i * 80 }, { x: 1440, y: 336 + i * 80, duration: 0.7, ease: "steps(44)" }, t);
+    });
+    // the sensor's real trace: it draws as the readings print, and lands on the zeros
+    tl.fromTo("#co-line", { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.5, ease: "power1.inOut" }, 0.2);
+    tl.fromTo("#co-zero", { opacity: 0 }, { opacity: 1, duration: 0.15 }, 2.45);
+    tl.fromTo("#co-z1, #co-z2", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, stagger: 0.12, ease: "back.out(2)" }, 2.45);
+    tl.to("#co-cur", { opacity: 0, duration: 0.01, repeat: 5, yoyo: true, repeatDelay: 0.25 }, 2.8);
+    tl.to("#co-src, .co-row, #co-cur, #co-wave", { opacity: 0, filter: "blur(8px)", duration: 0.2 }, 5.75);
+    window.__timelines["coldopen"] = tl;
+  </script>
+</template>
