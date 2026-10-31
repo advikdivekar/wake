@@ -19,3 +19,16 @@ Our numbers: produced by `python -m training.tabpfn.evaluate` (one guarded test 
 | IForest (published) | 0.347 | 0.635 | 0.295 | 0.297 | 0.292 | 0.105 |
 
 Brackets: 95% bootstrap CI over test segments. Published results have no CIs; differences within our CI should be read as ties.
+
+## Like-for-like: only the 18 published features (post-hoc ablation, not used for selection)
+
+| Model | AUCPR | AUCROC | F1 | Precision | Recall | MCC |
+|---|---|---|---|---|---|---|
+| tabpfn-v2:n8:base18 (ours) | 0.989 [0.978-0.996] | 0.997 | 0.950 | 0.972 | 0.929 | 0.937 |
+| lr:base18 (ours) | 0.935 [0.898-0.964] | 0.979 | 0.883 | 0.864 | 0.903 | 0.851 |
+| rf:base18 (ours) | 0.970 [0.950-0.985] | 0.989 | 0.920 | 0.980 | 0.867 | 0.903 |
+| xgboost:base18 (ours) | 0.970 [0.947-0.985] | 0.989 | 0.917 | 0.961 | 0.876 | 0.897 |
+| lightgbm:base18 (ours) | 0.968 [0.945-0.985] | 0.989 | 0.907 | 0.960 | 0.858 | 0.885 |
+| FCNN (published best, same 18 features) | 0.979 | 0.989 | 0.946 | 0.963 | 0.929 | 0.932 |
+
+TabPFN threshold here is 0.5 (this exact config had no OOF run); tree/LR thresholds are max-F1 on their base18 training OOF predictions.
