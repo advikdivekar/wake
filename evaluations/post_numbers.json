@@ -303,12 +303,164 @@
   "value": "72",
   "source": "sft_dataset_stats.json"
  },
+ "tk.A.base": {
+  "value": "0.722",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned": {
+  "value": "0.863",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.p": {
+  "value": "5.77e-16",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned_ci": {
+  "value": "0.832\u20130.888",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.base.valid_schema_rate": {
+  "value": "1.000",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned.valid_schema_rate": {
+  "value": "1.000",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.base.evidence_fidelity": {
+  "value": "0.811",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned.evidence_fidelity": {
+  "value": "1.000",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.base.unsupported_root_causes": {
+  "value": "0",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned.unsupported_root_causes": {
+  "value": "0",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.base.record_exact_match": {
+  "value": "0.000",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned.record_exact_match": {
+  "value": "0.444",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.base.null_correctness": {
+  "value": "0.821",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned.null_correctness": {
+  "value": "0.998",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.base.validator_caught_errors": {
+  "value": "40",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned.validator_caught_errors": {
+  "value": "0",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.base.field_exact_match_after_validator": {
+  "value": "0.785",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.A.tuned.field_exact_match_after_validator": {
+  "value": "0.863",
+  "source": "tinker_eval_A.json"
+ },
+ "tk.B.base": {
+  "value": "0.375",
+  "source": "tinker_eval_B.json"
+ },
+ "tk.B.tuned": {
+  "value": "0.542",
+  "source": "tinker_eval_B.json"
+ },
+ "tk.B.p": {
+  "value": "0.125",
+  "source": "tinker_eval_B.json"
+ },
+ "tk.B.tuned_ci": {
+  "value": "0.351\u20130.721",
+  "source": "tinker_eval_B.json"
+ },
+ "tk.C.base": {
+  "value": "0.962",
+  "source": "tinker_eval_C.json"
+ },
+ "tk.C.tuned": {
+  "value": "0.827",
+  "source": "tinker_eval_C.json"
+ },
+ "tk.C.p": {
+  "value": "0.0156",
+  "source": "tinker_eval_C.json"
+ },
+ "tk.C.tuned_ci": {
+  "value": "0.703\u20130.906",
+  "source": "tinker_eval_C.json"
+ },
+ "tk.D.base": {
+  "value": "0.560",
+  "source": "tinker_eval_D.json"
+ },
+ "tk.D.tuned": {
+  "value": "1.000",
+  "source": "tinker_eval_D.json"
+ },
+ "tk.D.p": {
+  "value": "0.000977",
+  "source": "tinker_eval_D.json"
+ },
+ "tk.D.tuned_ci": {
+  "value": "0.867\u20131.000",
+  "source": "tinker_eval_D.json"
+ },
  "tk.cost_total": {
-  "value": "$0.09",
+  "value": "$0.83",
   "source": "tinker_cost.json"
  },
+ "off.em": {
+  "value": "0.925",
+  "source": "offline_inference.json"
+ },
+ "off.agree": {
+  "value": "1.000",
+  "source": "offline_inference.json"
+ },
+ "off.sec": {
+  "value": "4.7",
+  "source": "offline_inference.json"
+ },
  "lc.50": {
-  "value": "0.885",
+  "value": "0.908",
+  "source": "tinker_learning_curve.json"
+ },
+ "lc.100": {
+  "value": "0.918",
+  "source": "tinker_learning_curve.json"
+ },
+ "lc.200": {
+  "value": "0.923",
+  "source": "tinker_learning_curve.json"
+ },
+ "lc.offline": {
+  "value": "0.923",
+  "source": "tinker_learning_curve.json"
+ },
+ "lc.445": {
+  "value": "0.930",
+  "source": "tinker_learning_curve.json"
+ },
+ "lc.final": {
+  "value": "0.930",
   "source": "tinker_learning_curve.json"
  }
 }

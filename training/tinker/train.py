@@ -99,7 +99,10 @@ def main():
                 print(f"  step {step}/{total} epoch {ep} nll {nll:.4f}", flush=True)
             step += 1
         path = tc.save_weights_for_sampler(name=f"{a.name}-ep{ep + 1}").result().path
-        ckpts.append({"epoch": ep + 1, "sampler_path": path})
+        ck = {"epoch": ep + 1, "sampler_path": path}
+        if ep + 1 == a.epochs:   # sampler checkpoints are NOT downloadable: also save a downloadable training checkpoint
+            ck["weights_path"] = tc.save_state(name=f"{a.name}-ep{ep + 1}-state").result().path
+        ckpts.append(ck)
         print(f"  saved {path}", flush=True)
     budget.record(f"train:{a.name}", {"train": train_tokens}, est, base_model,
                   note=f"{len(data)} ex x {a.epochs} ep, rank {a.rank}")

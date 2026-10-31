@@ -52,3 +52,15 @@ Timestamps are IST (UTC+5:30). Deadline: 2026-10-31 23:59 PDT = 2026-11-01 12:29
   - Stopped the v1 full run at step 65/84 to save budget (pro-rata cost added to the ledger).
   - Retraining once as `final-v2`. TEST is still untouched.
   - The v1 learning-curve points are kept and labelled as trained on v1 labels.
+- 23:55 final-v2 (445 examples, spec v2), task A field exact match on VAL: 0.930. Task D: 1.0.
+- 00:05 **ONE TEST run** (Tinker backend, base vs tuned, guarded and logged), base → tuned:
+  - Task A: 0.722 → 0.863 (p = 6e-16). The 95% target was NOT reached.
+  - Task B: 0.375 → 0.542 (p = 0.125).
+  - Task C: 0.962 → 0.827, a regression (p = 0.016).
+  - Task D: 0.56 → 1.0 (p = 0.001).
+  - Unsupported root causes: 0 for both models.
+- 00:10 **Sampler checkpoints cannot be downloaded** (CLI, cookbook and load_state all refuse).
+  - The author chose option 2: retrain the n200 config with `save_state` (`offline-n200-v2`, VAL 0.923).
+  - Conversion path: PEFT export (`unembed_tokens` renamed to `lm_head`), llama.cpp `convert_lora_to_gguf` (b11669), `models/adapter.gguf`.
+  - Offline run (llama.cpp, no Tinker key, HF offline): VAL 0.925, with 100% field agreement with the same checkpoint's Tinker outputs.
+- 00:15 The app interpreter backend is now `llamacpp` (local adapter). Runtime extraction falls back to the regex reading for flagged channel and date fields. Estimated Tinker total: $0.83.

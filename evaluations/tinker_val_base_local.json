@@ -1,94 +1,94 @@
 {
   "produced_by": "python -m training.tinker.evaluate --model base --split val --backend local",
-  "git_sha": "ac392e8",
-  "created_at": "2026-10-31T15:57:42+00:00",
+  "git_sha": "9833247",
+  "created_at": "2026-10-31T16:20:46+00:00",
   "A": {
     "n_passages": 75,
     "n_cells": 600,
-    "field_exact_match": 0.6733,
+    "field_exact_match": 0.6533,
     "wilson95": [
-      0.6348,
-      0.7097
+      0.6144,
+      0.6903
     ],
-    "field_exact_match_after_validator": 0.7067,
-    "record_exact_match": 0.0533,
-    "valid_schema_rate": 0.9867,
-    "evidence_fidelity": 0.8657,
-    "unsupported_root_causes": 0,
-    "null_correctness": 0.8604,
-    "validator_flags": 37,
-    "validator_caught_errors": 37,
+    "field_exact_match_after_validator": 0.7217,
+    "record_exact_match": 0.0267,
+    "valid_schema_rate": 1.0,
+    "evidence_fidelity": 0.7972,
+    "unsupported_root_causes": 1,
+    "null_correctness": 0.7847,
+    "validator_flags": 58,
+    "validator_caught_errors": 58,
     "per_field": {
       "channel_id": {
         "tp": 25,
-        "fp": 19,
+        "fp": 26,
         "fn": 5,
-        "correct": 55,
+        "correct": 49,
         "n": 75,
-        "exact_match": 0.7333,
-        "precision": 0.5682,
+        "exact_match": 0.6533,
+        "precision": 0.4902,
         "recall": 0.8333,
-        "f1": 0.6757
+        "f1": 0.6173
       },
       "sensor_type": {
         "tp": 25,
-        "fp": 9,
+        "fp": 11,
         "fn": 5,
-        "correct": 66,
-        "n": 75,
-        "exact_match": 0.88,
-        "precision": 0.7353,
-        "recall": 0.8333,
-        "f1": 0.7812
-      },
-      "units": {
-        "tp": 17,
-        "fp": 3,
-        "fn": 8,
         "correct": 64,
         "n": 75,
         "exact_match": 0.8533,
-        "precision": 0.85,
-        "recall": 0.68,
-        "f1": 0.7556
+        "precision": 0.6944,
+        "recall": 0.8333,
+        "f1": 0.7576
+      },
+      "units": {
+        "tp": 16,
+        "fp": 5,
+        "fn": 9,
+        "correct": 61,
+        "n": 75,
+        "exact_match": 0.8133,
+        "precision": 0.7619,
+        "recall": 0.64,
+        "f1": 0.6957
       },
       "event_date": {
         "tp": 30,
-        "fp": 0,
+        "fp": 2,
         "fn": 3,
-        "correct": 72,
+        "correct": 70,
         "n": 75,
-        "exact_match": 0.96,
-        "precision": 1.0,
+        "exact_match": 0.9333,
+        "precision": 0.9375,
         "recall": 0.9091,
-        "f1": 0.9524
+        "f1": 0.9231
       },
       "observation": {
         "tp": 2,
-        "fp": 49,
-        "fn": 45,
-        "correct": 19,
+        "fp": 46,
+        "fn": 39,
+        "correct": 24,
         "n": 75,
-        "exact_match": 0.2533,
-        "precision": 0.0392,
-        "recall": 0.0426,
-        "f1": 0.0408
+        "exact_match": 0.32,
+        "precision": 0.0417,
+        "recall": 0.0488,
+        "f1": 0.0449
       },
       "operational_response": {
-        "tp": 0,
-        "fp": 27,
-        "fn": 25,
-        "correct": 47,
+        "tp": 5,
+        "fp": 24,
+        "fn": 20,
+        "correct": 50,
         "n": 75,
-        "exact_match": 0.6267,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1": 0.0
+        "exact_match": 0.6667,
+        "precision": 0.1724,
+        "recall": 0.2,
+        "f1": 0.1852
       },
       "root_cause": {
         "tp": 0,
-        "fp": 3,
-        "fn": 8,
+        "fp": 5,
+        "fn": 7,
         "correct": 67,
         "n": 75,
         "exact_match": 0.8933,
@@ -97,15 +97,15 @@
         "f1": 0.0
       },
       "evidence": {
-        "tp": 3,
-        "fp": 50,
-        "fn": 48,
-        "correct": 14,
+        "tp": 1,
+        "fp": 60,
+        "fn": 41,
+        "correct": 7,
         "n": 75,
-        "exact_match": 0.1867,
-        "precision": 0.0566,
-        "recall": 0.0588,
-        "f1": 0.0577
+        "exact_match": 0.0933,
+        "precision": 0.0164,
+        "recall": 0.0238,
+        "f1": 0.0194
       }
     }
   },

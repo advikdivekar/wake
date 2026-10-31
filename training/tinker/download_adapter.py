@@ -29,7 +29,7 @@ def main():
     peft = MODELS_DIR / "adapter_peft"
     for p in (raw, peft):
         shutil.rmtree(p, ignore_errors=True)
-    weights.download(tinker_path=ck["sampler_path"], output_dir=str(raw))
+    weights.download(tinker_path=ck.get("weights_path") or ck["sampler_path"], output_dir=str(raw))
     weights.build_lora_adapter(base_model=base, adapter_path=str(raw), output_path=str(peft))
     print("PEFT adapter:", sorted(p.name for p in peft.iterdir()))
     conv = ROOT / "third_party" / "llama_cpp" / "convert_lora_to_gguf.py"

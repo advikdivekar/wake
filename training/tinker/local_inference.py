@@ -27,6 +27,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--offline", action="store_true")
     ap.add_argument("--n", type=int, default=20)
+    ap.add_argument("--split", default="val")
+    ap.add_argument("--compare", default="tuned-offline-n200-v2_tinker_val.jsonl",
+                    help="Tinker-sampled outputs of the SAME checkpoint, for quantisation parity")
     a = ap.parse_args()
     env = {**os.environ}
     if a.offline:
@@ -43,8 +46,9 @@ def main():
             except Exception:
                 pass
             time.sleep(1)
-        exs = [json.loads(l) for l in open(DATA_PROCESSED / "sft" / "test.jsonl")]
-        exs = [e for e in exs if e["task"] == "A"][: a.n]
+        allx = [json.loads(l) for l in open(DATA_PROCESSED / "sft" / f"{a.split}.jsonl")]
+        idx = [i for i, e in enumerate(allx) if e["task"] == "A" and e.get("provenance") == "real"][: a.n]
+        exs = [allx[i] for i in idx]
         lm = LlamaCppLM(f"http://localhost:{PORT}", name="local llama.cpp + adapter.gguf")
         outs, secs = [], []
         for e in exs:
@@ -52,11 +56,9 @@ def main():
             outs.append(lm.chat(e["messages"][:-1], max_tokens=400)); secs.append(time.time() - t)
         res = {k: v for k, v in score_A(exs, outs).items() if not k.startswith("_")}
         agree = None
-        tk = DATA_PROCESSED / "sft" / "outputs" / "tuned_tinker_test.jsonl"
+        tk = DATA_PROCESSED / "sft" / "outputs" / a.compare
         if tk.exists():
             tko = {json.loads(l)["i"]: json.loads(l)["output"] for l in open(tk)}
-            allx = [json.loads(l) for l in open(DATA_PROCESSED / "sft" / "test.jsonl")]
-            idx = [i for i, e in enumerate(allx) if e["task"] == "A"][: a.n]
             same = []
             for j, i in enumerate(idx):
                 p1, _ = spec.parse_lines(outs[j]); p2, _ = spec.parse_lines(tko.get(i, ""))
@@ -68,6 +70,8 @@ def main():
                       "quantisation": "Q4_K_M base + f16 LoRA", "offline_env": a.offline,
                       "tinker_api_key_present": "TINKER_API_KEY" in env, "machine": platform.machine(),
                       "note": "Training ran on Tinker's hosted service; this inference made no Tinker calls."},
+            "split": f"{a.split} (real passages from held-out documents; never trained on)",
+            "adapter_run": json.loads((MODELS_DIR / "adapter_source.json").read_text()) if (MODELS_DIR / "adapter_source.json").exists() else None,
             "n_passages": len(exs), "seconds_per_passage": round(sum(secs) / max(len(secs), 1), 2),
             "task_A": res, "field_agreement_with_tinker_bf16_outputs": agree,
             "sample": [{"passage": e["passage"][:300], "output": o} for e, o in zip(exs[:3], outs[:3])]},

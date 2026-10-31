@@ -80,7 +80,71 @@
       },
       "est_usd": 0.1725,
       "note": "stopped after VAL error analysis showed label defects; partial spend estimated pro rata"
+    },
+    {
+      "at": "2026-10-31T16:20:09+00:00",
+      "job": "train:final-v2",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "train": 508785
+      },
+      "est_usd": 0.2239,
+      "note": "445 ex x 3 ep, rank 16"
+    },
+    {
+      "at": "2026-10-31T16:21:38+00:00",
+      "job": "eval:tuned-final-v2:val",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "prefill": 33292,
+        "sample": 24200
+      },
+      "est_usd": 0.021,
+      "note": "141 prompts"
+    },
+    {
+      "at": "2026-10-31T16:22:54+00:00",
+      "job": "eval:base:test",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "prefill": 65294,
+        "sample": 29400
+      },
+      "est_usd": 0.0304,
+      "note": "173 prompts"
+    },
+    {
+      "at": "2026-10-31T16:23:50+00:00",
+      "job": "eval:tuned-final-v2:test",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "prefill": 65294,
+        "sample": 29400
+      },
+      "est_usd": 0.0304,
+      "note": "173 prompts"
+    },
+    {
+      "at": "2026-10-31T16:35:09+00:00",
+      "job": "train:offline-n200-v2",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "train": 224640
+      },
+      "est_usd": 0.0988,
+      "note": "200 ex x 3 ep, rank 16"
+    },
+    {
+      "at": "2026-10-31T16:47:30+00:00",
+      "job": "eval:tuned-offline-n200-v2:val",
+      "model": "Qwen/Qwen3-8B",
+      "tokens": {
+        "prefill": 33292,
+        "sample": 24200
+      },
+      "est_usd": 0.021,
+      "note": "141 prompts"
     }
   ],
-  "total_est_usd": 0.4053
+  "total_est_usd": 0.8308
 }

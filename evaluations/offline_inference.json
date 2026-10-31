@@ -1,0 +1,148 @@
+{
+  "produced_by": "python -m training.tinker.local_inference --offline",
+  "git_sha": "9833247",
+  "created_at": "2026-10-31T16:49:17+00:00",
+  "setup": {
+    "runtime": "llama.cpp llama-server (local)",
+    "base": "Qwen3-8B-Q4_K_M.gguf",
+    "adapter": "adapter.gguf",
+    "quantisation": "Q4_K_M base + f16 LoRA",
+    "offline_env": true,
+    "tinker_api_key_present": false,
+    "machine": "arm64",
+    "note": "Training ran on Tinker's hosted service; this inference made no Tinker calls."
+  },
+  "split": "val (real passages from held-out documents; never trained on)",
+  "adapter_run": {
+    "run": "offline-n200-v2",
+    "epoch": 3,
+    "weights_path": "tinker://a20fba7f-0553-5f84-bbdf-b04f8200091d:train:0/weights/offline-n200-v2-ep3-state",
+    "sampler_path": "tinker://a20fba7f-0553-5f84-bbdf-b04f8200091d:train:0/sampler_weights/offline-n200-v2-ep3",
+    "base_model": "Qwen/Qwen3-8B",
+    "conversion": "PEFT (unembed_tokens->lm_head rename) -> llama.cpp convert_lora_to_gguf.py b11669, f16"
+  },
+  "n_passages": 20,
+  "seconds_per_passage": 4.71,
+  "task_A": {
+    "n_passages": 20,
+    "n_cells": 160,
+    "field_exact_match": 0.925,
+    "wilson95": [
+      0.8735,
+      0.9566
+    ],
+    "field_exact_match_after_validator": 0.925,
+    "record_exact_match": 0.65,
+    "valid_schema_rate": 0.9,
+    "evidence_fidelity": null,
+    "unsupported_root_causes": 0,
+    "null_correctness": 1.0,
+    "validator_flags": 0,
+    "validator_caught_errors": 0,
+    "per_field": {
+      "channel_id": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "correct": 20,
+        "n": 20,
+        "exact_match": 1.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "sensor_type": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "correct": 20,
+        "n": 20,
+        "exact_match": 1.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "units": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "correct": 18,
+        "n": 20,
+        "exact_match": 0.9,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "event_date": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "correct": 20,
+        "n": 20,
+        "exact_match": 1.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "observation": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 5,
+        "correct": 15,
+        "n": 20,
+        "exact_match": 0.75,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "operational_response": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "correct": 20,
+        "n": 20,
+        "exact_match": 1.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "root_cause": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "correct": 20,
+        "n": 20,
+        "exact_match": 1.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "evidence": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 5,
+        "correct": 15,
+        "n": 20,
+        "exact_match": 0.75,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    }
+  },
+  "field_agreement_with_tinker_bf16_outputs": 1.0,
+  "sample": [
+    {
+      "passage": "Code of the OPS-SAT benchmark for detecting anomalies in satellite telemetry.\n\nThis package provides a novel collection of satellite telemetry for anomaly detection. It has been prepared and evaluated with the help of satellite operators and includes data from the ESA OPS-SAT aircraft, the first fly",
+      "output": "\nchannel_id: ?\nsensor_type: ?\nunits: ?\nevent_date: ?\nobservation: ?\noperational_response: ?\nroot_cause: ?\nevidence: ?\n</think>\n\nchannel_id: ?\nsensor_type: ?\nunits: ?\nevent_date: ?\nobservation: ?\noperational_response: ?\nroot_cause: ?\nevidence: ?"
+    },
+    {
+      "passage": "* python 3.9 (the Python configuration we used is detailed in the included `requirements.txt` file).",
+      "output": "channel_id: ?\nsensor_type: ?\nunits: ?\nevent_date: ?\nobservation: ?\noperational_response: ?\nroot_cause: ?\nevidence: ?\n</think>\n\nchannel_id: ?\nsensor_type: ?\nunits: ?\nevent_date: ?\nobservation: ?\noperational_response: ?\nroot_cause: ?\nevidence: ?"
+    },
+    {
+      "passage": "- The two data files required for this code can be found in this repository [^1].\n- The paper [^2] provides benchmark results of 30 supervised and unsupervised anomaly detection models on this dataset.\n- In the other conference paper we presented some preliminary results on this dataset [^3].",
+      "output": "\nchannel_id: ?\nsensor_type: ?\nunits: ?\nevent_date: ?\nobservation: ?\noperational_response: ?\nroot_cause: ?\nevidence: ?"
+    }
+  ]
+}

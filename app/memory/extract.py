@@ -24,6 +24,13 @@ def extract(text: str, source: dict | None = None) -> dict:
             if parsed is not None:
                 v = spec.validate(parsed, text)
                 rec, flags, model = v["record"], v["flags"] + errs, lm.name
+                # reader-independent repair: structured fields fall back to the deterministic regex reading
+                rule = spec.label(text)
+                for f in ("channel_id", "event_date", "sensor_type"):
+                    if any(fl.startswith(f) for fl in flags) or (not rec[f] and rule[f]):
+                        if rec[f] != rule[f]:
+                            flags.append(f"{f}:repaired_by_regex")
+                        rec[f] = rule[f]
     except Exception as e:
         flags.append(f"lm_unavailable:{type(e).__name__}")
     out = spec.to_record_json(rec, source)

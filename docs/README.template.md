@@ -47,7 +47,9 @@ Task A details for the fine-tuned model:
 
 Total Tinker spend (estimated from token counts × list price): **{{tk.cost_total}}**. The learning curve is in [`evaluations/tinker_learning_curve.json`](evaluations/tinker_learning_curve.json).
 
-**Training ran on Tinker's hosted service.** Inference runs **locally**: llama.cpp loads the Q4_K_M base plus the downloaded adapter converted to GGUF, and makes no Tinker calls. On held-out passages the local model scores {{off.em}} field exact match and agrees with Tinker's full-precision outputs on {{off.agree}} of fields.
+**The 95% target was not reached on test.** The fine-tuned model scores {{tk.A.tuned}} on held-out test documents, against {{lc.final}} on validation. Task C (terminology citations) **regressed** after fine-tuning.
+
+**Training ran on Tinker's hosted service. Inference runs locally.** Tinker does not allow sampler checkpoints to be downloaded, and the evaluated run only saved those. The offline adapter is therefore the 200-example configuration, retrained with a downloadable checkpoint; its validation score is {{lc.offline}}, against {{lc.final}} for the final model. llama.cpp loads the Q4_K_M base plus this adapter converted to GGUF, with no Tinker key present. On held-out validation passages it scores {{off.em}} field exact match and agrees with the same adapter's full-precision Tinker outputs on {{off.agree}} of fields.
 
 ## Run it
 

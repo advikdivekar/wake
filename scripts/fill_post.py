@@ -110,6 +110,10 @@ def numbers() -> dict[str, tuple[str, str]]:
     if lc:
         for row in lc["points"]:
             put(f"lc.{row['n_examples']}", row["val_exact_match"], "tinker_learning_curve.json")
+            if row["run"] == "final-v2":
+                put("lc.final", row["val_exact_match"], "tinker_learning_curve.json")
+            if row["run"] == "offline-n200-v2":
+                put("lc.offline", row["val_exact_match"], "tinker_learning_curve.json")
     return N
 
 

@@ -71,13 +71,23 @@ The final model made **{{tab.fp}} false alert(s) and {{tab.fn}} missed anomalies
 
 The fine-tuned model reaches a valid schema on {{tk.A.tuned.valid_schema_rate}} of outputs, keeps evidence verbatim {{tk.A.tuned.evidence_fidelity}} of the time, and produces **{{tk.A.tuned.unsupported_root_causes}} unsupported root causes**. **Total Tinker spend: {{tk.cost_total}}** (token counts × list price, logged before every job by a budget guard).
 
-**Offline.** Training happened on Tinker's hosted service. I then downloaded the adapter, converted it to GGUF and run it **locally** with llama.cpp on a laptop (Q4_K_M base + LoRA), with no Tinker calls and no API key in the environment. Locally it scores {{off.em}} field exact match on held-out passages and agrees with Tinker's full-precision outputs on {{off.agree}} of fields, at {{off.sec}} s per passage.
+**Did I hit 95%? No.** The fine-tuned model scores {{tk.A.tuned}} on held-out test documents ({{lc.final}} on validation). The gains are real, though:
+- Channel IDs: 100% correct.
+- Evidence: copied verbatim every time.
+- Whole records exactly right: 0% → {{tk.A.tuned.record_exact_match}}.
+
+What's left is the hard part: choosing *which* sentence is "the observation" in an unfamiliar document.
+
+**Offline.** Training happened on Tinker's hosted service. Tinker doesn't let you download *sampler* checkpoints, which is all my final run had saved. So I retrained the 200-example configuration with a downloadable checkpoint (validation {{lc.offline}} vs {{lc.final}} for the final model). I converted it to GGUF and now run it **locally** with llama.cpp on a laptop (Q4_K_M base + LoRA), with no Tinker key in the environment. On held-out passages it scores {{off.em}} and agrees with the same adapter's full-precision Tinker outputs on {{off.agree}} of fields, at {{off.sec}} s per passage.
 
 ### What went wrong (honestly)
 
 - **My first base-model comparison was unfair.** My prompt never named the eight fields and my parser rejected markdown, so the base model looked worse than it is. I fixed both *before* training anything, using validation outputs only.
 - **Validation error analysis found bugs in my labels, not in the model.** The first labelling rules picked code blocks and footnotes as "observations", and the model was right to refuse them. I tightened the spec to prose-only sentences, stopped a half-finished training run to save budget, and retrained once.
 - **A 100-example model collapsed on investigation notes.** With greedy decoding it repeated the same bullet until it ran out of tokens. More task-D examples fixed it at 200.
+- **Fine-tuning made one task worse.** Terminology answers with the correct citation dropped from {{tk.C.base}} to {{tk.C.tuned}} (paired p = {{tk.C.p}}). That task had only 32 training examples, and the tuned model learned to answer "not in archive" too eagerly.
+- **The headline target was missed.** {{tk.A.tuned}} on test vs the 95% I set before training. I'm reporting it as measured.
+- **I saved the wrong kind of checkpoint.** Sampler weights can't be downloaded, so the adapter in the offline demo is the 200-example sibling of the evaluated model.
 - **TabPFN and XGBoost segfault on macOS when loaded in the same process** (two OpenMP runtimes), so the pipeline runs them as separate stages.
 - **On my engineered features, Random Forest is a statistical tie with TabPFN** (McNemar p = {{sig.rf.p}}). TabPFN's clearer win is on the paper's own 18 features, where it needs no feature engineering at all.
 
@@ -114,7 +124,8 @@ A memorial should be honest. The console uses marigold and candlelight rather th
   - LoRA SFT of Qwen3-8B on a frozen, programmatically verified extraction spec.
   - Split by document, with a learning curve and per-run cost.
   - Base vs tuned with paired statistics.
-  - Adapter downloaded and run fully offline.
+  - A sibling adapter downloaded and run fully offline.
+  - Honest misses: 95% target not reached ({{tk.A.tuned}}), and task C regressed.
   - Total spend {{tk.cost_total}}.
 - **Best Use of TabPFN.**
   - TabPFN-v2 beats the best published OPSSAT-AD result on the official test split: AUCPR {{tab.auprc}} vs 0.979, F1 {{tab.f1}} vs 0.946.
