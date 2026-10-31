@@ -1,0 +1,174 @@
+{
+  "produced_by": "python -m training.tabpfn.train",
+  "git_sha": "cd57b5a",
+  "created_at": "2026-10-31T15:34:28+00:00",
+  "method": "permutation importance (AUPRC drop), 3 repeats, held-out fold 0 of training CV, TabPFN-v2 n=4 on base18+zeros_gaps+autocorr+robust",
+  "baseline_auprc": 0.9946571751644737,
+  "features": [
+    {
+      "feature": "max_abs_diff_norm",
+      "importance": 0.09307421034400505,
+      "std": 0.00673415034115174
+    },
+    {
+      "feature": "std",
+      "importance": 0.004177907525215334,
+      "std": 0.0006045828666478107
+    },
+    {
+      "feature": "iqr",
+      "importance": 0.0041051961720406,
+      "std": 0.0003782154851611981
+    },
+    {
+      "feature": "skew",
+      "importance": 0.003967617953347176,
+      "std": 0.0002372743614573507
+    },
+    {
+      "feature": "var_div_len",
+      "importance": 0.0038216443595794347,
+      "std": 0.0001808841098211221
+    },
+    {
+      "feature": "n_peaks",
+      "importance": 0.0035987848263538216,
+      "std": 0.0015723142370632443
+    },
+    {
+      "feature": "range",
+      "importance": 0.0033972322216872333,
+      "std": 0.0003814514723439117
+    },
+    {
+      "feature": "var_div_duration",
+      "importance": 0.0033952890352877776,
+      "std": 0.0013407265959168703
+    },
+    {
+      "feature": "mad",
+      "importance": 0.0032519857724399026,
+      "std": 0.00015132894450770482
+    },
+    {
+      "feature": "max_gap_s",
+      "importance": 0.003140152324658733,
+      "std": 0.00040569146583298125
+    },
+    {
+      "feature": "autocorr_lag10",
+      "importance": 0.003121638417102409,
+      "std": 0.0006107759388222514
+    },
+    {
+      "feature": "gaps_squared",
+      "importance": 0.0026717381618370415,
+      "std": 0.00040723457993385254
+    },
+    {
+      "feature": "zero_fraction",
+      "importance": 0.002582074954377419,
+      "std": 0.0006438344366133608
+    },
+    {
+      "feature": "diff_var",
+      "importance": 0.002256900460301655,
+      "std": 0.00020357316212737177
+    },
+    {
+      "feature": "dt_cv",
+      "importance": 0.0022335850743405348,
+      "std": 0.0016937575440695558
+    },
+    {
+      "feature": "mean",
+      "importance": 0.0020551734579169847,
+      "std": 0.0012256005464736817
+    },
+    {
+      "feature": "len",
+      "importance": 0.0020095982850668235,
+      "std": 0.0019151398980645402
+    },
+    {
+      "feature": "smooth10_n_peaks",
+      "importance": 0.0019663475143036533,
+      "std": 4.318743610415076e-05
+    },
+    {
+      "feature": "diff2_peaks",
+      "importance": 0.0017791404167356213,
+      "std": 0.0005645122502859434
+    },
+    {
+      "feature": "duration",
+      "importance": 0.0013504732802978407,
+      "std": 0.0001179690992970654
+    },
+    {
+      "feature": "max_zero_run",
+      "importance": 0.0012554048813122238,
+      "std": 0.0006013681458797404
+    },
+    {
+      "feature": "diff2_var",
+      "importance": 0.0011970806487615986,
+      "std": 0.0006277636689001817
+    },
+    {
+      "feature": "smooth20_n_peaks",
+      "importance": 0.0011231191525634676,
+      "std": 0.00021596322191267856
+    },
+    {
+      "feature": "q05",
+      "importance": 0.001048379578864241,
+      "std": 0.0003655916090190895
+    },
+    {
+      "feature": "var",
+      "importance": 0.0010287849608805466,
+      "std": 0.0007637579192615765
+    },
+    {
+      "feature": "n_zero_runs",
+      "importance": 0.000958186184829161,
+      "std": 0.0018661581639433768
+    },
+    {
+      "feature": "q95",
+      "importance": 0.0007870142646335676,
+      "std": 0.0005565031234129397
+    },
+    {
+      "feature": "autocorr_lag1",
+      "importance": 0.0007504054253280786,
+      "std": 0.00019541035981753587
+    },
+    {
+      "feature": "kurtosis",
+      "importance": 0.0005598440738763625,
+      "std": 0.00043286159001930564
+    },
+    {
+      "feature": "gap_count",
+      "importance": 0.0005174163155765946,
+      "std": 0.0002592375070130442
+    },
+    {
+      "feature": "duration_total_s",
+      "importance": 0.0005009185179236653,
+      "std": 0.0004982327219559807
+    },
+    {
+      "feature": "len_weighted",
+      "importance": 0.00022068400681740652,
+      "std": 0.0006147243493279273
+    },
+    {
+      "feature": "diff_peaks",
+      "importance": -0.0007083206436048576,
+      "std": 0.0015224125386949106
+    }
+  ]
+}

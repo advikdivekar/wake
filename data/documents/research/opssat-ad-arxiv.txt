@@ -1,0 +1,530 @@
+SOURCE: https://arxiv.org/abs/2407.04730
+TITLE: The OPS-SAT benchmark for detecting anomalies in satellite telemetry (arXiv preprint)
+LICENSE: CC-BY-4.0
+
+The OPS-SAT benchmark for detecting anomalies in
+satellite telemetry
+Bogdan Ruszczak1,3,*, Krzysztof Kotowski 3, David Evans 4, and Jakub Nalepa 2,3
+1Faculty of Electrical Engineering, Automatic Control and Informatics, Department of Informatics, Opole University
+of T echnology , Pr´oszkowska Str. 76, 45-758 Opole, Poland
+2Faculty of Automatic Control, Electronics and Computer Science, Department of Algorithmics and Software,
+Silesian University of T echnology , Akademicka Str. 16, 44-100 Gliwice, Poland
+3KP Labs, Bojkowska Str. 37J, 44-100 Gliwice, Poland
+4European Space Agency/ESOC, Robert-Bosch-Str.
+
+5, 64293 Darmstadt, Germany
+*corresponding author(s): Bogdan Ruszczak (b.ruszczak@po.edu.pl)
+ABSTRACT
+Detecting anomalous events in satellite telemetry is a critical task in space operations. This task, however, is extremely
+time-consuming, error-prone and human dependent, thus automated data-driven anomaly detection algorithms have been
+emerging at a steady pace. However, there are no publicly available datasets of real satellite telemetry accompanied with
+the ground-truth annotations that could be used to train and verify anomaly detection supervised models.
+
+In this article, we
+address this research gap and introduce the AI-ready benchmark dataset (OPSSA T -AD) containing the telemetry data acquired
+on board OPS-SA T —a CubeSat mission which has been operated by the European Space Agency which has come to an
+end during the night of 22–23 May 2024 (CEST). The dataset is accompanied with the baseline results obtained using 30
+supervised and unsupervised classic and deep machine learning algorithms for anomaly detection. They were trained and
+validated using the training-test dataset split introduced in this work, and we present a suggested set of quality metrics which
+should be always calculated to confront the new algorithms for anomaly detection while exploiting OPSSA T -AD.
+
+We believe that
+this work may become an important step toward building a fair, reproducible and objective validation procedure that can be
+used to quantify the capabilities of the emerging anomaly detection techniques in an unbiased and fully transparent way .
+Background & Summary
+The anomaly detection (AD) domain encompasses a diverse array of methodologies for the identification of anomalous patterns
+in data of various modalities. These approaches can be applied to a multitude of data types, including images, text, and
+time series data, among others. However, the development and evaluation of real-world anomaly detection applications are
+dependent on the availability of real-world data.
+
+Currently, there is a considerable number of datasets available for a wide range
+of scenarios1, but the satellite telemetry data for AD is an extremely underrepresented category in this catalogue. This kind
+of data is difficult and costly to obtain, often confidential, and requires expert knowledge to annotate properly. The only two
+widely accessible and used collections of this type include the NASA Soil Moisture Active Passive (SMAP) and Mars Science
+Laboratory (MSL) datasets2. They offer short fragments of signals and related commands from 55 and 27 telemetry parameters,
+respectively, with a total of 105 annotated anomalies.
+
+However, the recent consensus in the community is that they should not
+be used for time series AD benchmarking due to their unrealistic anomaly density, many trivial anomalies, mislabelled ground
+truth, distributional shifts, and a lack of meaningful correlation between commands and channels3–5. Other well-known satellite
+telemetry datasets, such as Mars Express6 or NASA WebTCAD7, do not contain annotations of anomalous events.
+
+There is an
+ongoing activity to publish a large-scale AD dataset by European Space Agency (ESA) solving all the mentioned issues8, 9, but
+it will primarily address the needs of large-scale, complex and relatively stable missions.
+The dataset introduced in this article, dubbed OPSSAT-AD, is fundamentally different from those available in the literature,
+as it tackles a very specific ESA OPS-SAT mission—a CubeSat flying laboratory, for which we might expect a noticeable
+number of abnormal events 10. The raw telemetry from OPS-SAT is characterized by many data gaps, artifacts, sampling
+frequency changes, and signal amplitude variations.
+
+The dataset was collectively curated by space operations engineers and
+machine learning experts to make it useful for building and validating data-driven anomaly detection techniques. It includes a
+selection and the corresponding ground-truth annotation of 2123 short single-channel satellite telemetry fragments (univariate
+time series) captured within 9 telemetry channels. Due to the underlying nature of the OPS-SAT mission, anomalous fragments
+account for 20% of the dataset. Such fragments contain raw data with many aforementioned real-life challenges, and they differ
+arXiv:2407.04730v1 [eess.SP] 29 Jun 2024
+
+in their length and sampling frequency. For each telemetry fragment, the dataset also contains a set of 18 handcrafted features
+used in the actual machine learning AD algorithm validated on board OPS-SAT11. These features are exploited in this article
+to benchmark 30 other supervised and unsupervised machine learning algorithms for anomaly detection.
+
+All of them were
+trained on 1494 and tested on 529 telemetry segments, and assessed using 7 metrics suggested for quantifying the operational
+capabilities of anomaly detection algorithms—this training-test dataset split is included in our benchmark as well.
+Overall, the benchmark (including the dataset, training-test dataset split, suggested quality metrics, and our baseline results)
+introduced in this paper shall help the community to create and compare their approaches to detecting anomalies in real-life
+satellite telemetry in a fair and unbiased way. Therefore, we also address the reproducibility crisis currently observed in the
+(not only) machine learning community12.
+
+While the OPS-SAT spacecraft completed its atmospheric reentry at the end of May
+2024, its successor—OPS-SAT VOLT—is going to be launched in late 2025 and will make a great opportunity to validate the
+algorithms developed based on our benchmark in the wild after deploying them on-board an operational satellite.
+Methods
+Data acquisition and annotation
+The telemetry data delivered13 in this paper was acquired from the ESA OPS-SAT satellite (Figure 1). It is a small 3-unit (3U,
+where 1U=10 cm3) CubeSat launched in December 2019 with the primary objective of being a technological demonstrator for
+in-orbit data processing.
+
+It finished its mission with the atmospheric reentry on 22 May 2024, but it generated lots of useful
+data during more than 4 years of its operations, including satellite imagery14 and telemetry11.
+Figure 1. The ESA OPS-SAT frontal view. Image credits: European Space Agency.
+OPS-SAT offered a unique opportunity for researchers to run their experiments and algorithms in orbit. While these experiments
+were carried out, all telemetry data was simultaneously collected and recorded in the ESA archive. The archive was monitored
+for potential anomalies to ensure the mission’s stable and uninterrupted operation. Our dataset consists of telemetry fragments
+recommended by the OPS-SAT operation engineers as the most “interesting” (according to their subjective assessment) for
+anomaly detection.
+
+The actual data collection process was carried out using the data exchange platform WebMUST15 used in
+the European Space Operations Centre (ESOC). This platform is restricted to the authorized ESA partners only, but the data
+included in our dataset package does not have to be requested through it, and thus is made publicly available.
+The online OXI tool for visualization and annotation of satellite telemetry (https://oxi.kplabs.pl/)16 was used to
+enable a collaborative labeling process of the dataset. Using this application, domain experts were able to manually extract and
+annotate telemetry segments representing periods of nominal and anomalous operation.
+
+The initial selection of anomalies was
+provided by 3 ESA spacecraft operations engineers and further curated by 2 machine learning experts (with more than 10 years
+of experience each). The curated annotations were finally reviewed by the three spacecraft operations engineers. The detailed
+satellite telemetry annotation process, together with the visual artefacts generated throughout it, are discussed in11, 17, 18.
+Feature extraction
+Due to the characteristics of satellite telemetry, the segments of raw data selected by the domain experts have varying lengths and
+sampling frequency. As such, they could not be handled by most machine learning algorithms without performing an additional
+preprocessing or feature extraction. Thus, 18 handcrafted features were designed for the task of anomaly detection11—they
+2/13
+
+Figure 2. The features extracted for each segment, with the corresponding data type. The meaning of the colors: dark blue for
+popular statistics, violet for peak counters for various converted segments, and green for the length or duration-related features.
+were calculated separately for each segment, and they are included in our benchmark. An algorithm operating on such features
+was already validated in our previous work focusing on the application of data-driven anomaly detection on board OPS-SAT11.
+The features extracted for each telemetry segment are presented in Figure 2.
+
+They are divided into three groups:
+• 12 features extracted from raw segments, including basic statistics, such as the arithmetic average of the signal values,
+their standard deviation, skewness, kurtosis and variance ( ⟨mean⟩, ⟨std⟩, ⟨skew⟩, ⟨kurtosis⟩, and ⟨var⟩), but also the
+number of peaks (of the minimum of 10% prominence, with a peak prominence measuring how much a peak “stands out”
+in relation to the signal, while considering its height and location: ⟨n_peaks⟩), duration (in seconds: ⟨duration ⟩) and
+the length (in the number of telemetry points: ⟨len⟩), the weighted length (weighted by sampling: ⟨len_weighted⟩), the
+gaps’ length (the squared number of missing data points: ⟨gaps_squared⟩), and the weighted variance (weighted by the
+duration and by the length: ⟨var_div_duration ⟩, ⟨
+
+var_div_len⟩).
+• 2 features extracted from the smoothed segments (using the uniform interpolation19), including the number of peaks
+(extracted using the 10 and 20 points smoothing steps: ⟨smooth10_n_peaks⟩, ⟨smooth20_n_peak⟩).
+• 4 features extracted from the first and the second derivatives of the segment, including the number of peaks and
+variance (⟨di f f _peaks⟩, ⟨di f f 2_peaks⟩, ⟨di f f _var⟩, ⟨di f f 2_var⟩).
+Employing the duration, the length and the gaps’ length features should allow the algorithms to easily capture some “obvious”
+abnormalities in the telemetry data. This intuitively could lead to promote some less computationally demanding AD methods
+suitable for on-board applications.
+
+The proposed set of features serves as an example and may be easily expanded (or
+replaced) by the community by (i) designing new feature extractors (potentially followed by feature selectors), (ii) using other
+well-established feature sets20 or (iii) benefiting from the automated feature learning21.
+Benchmarking procedure
+We provide a procedure that should be followed to confront the AD algorithms over our dataset. The entire dataset of 2123
+telemetry segments is split into the training ( TTT ) and test ( Ψ) sets (Table 1), forming an AI-ready dataset. To extract these
+subsets, we performed the stratified random sampling to maintain the original percentage of anomalies in both TTT and Ψ.
+Table 1. The number of telemetry segments included in the training (TTT ) and test (Ψ) sets.
+Class Training set (TTT ) Test set ( Ψ) Total
+Nominal 1273 416 1689
+Anomalous 321 113 434
+Sum 1494 529 2123
+The benchmarking procedure can be summarized by the following steps:
+1. Load the dataset from the dataset.csv file.
+3/13
+
+2. Split the dataset into TTT and Ψ according to the ⟨train⟩ attribute included in this file.
+3. [Optionally] Preprocess the datasets using e.g., data normalization, additional feature extraction, feature selection and
+other steps directly related to the AD algorithm which undergoes the benchmarking process.
+4. [Optionally] Train a machine learning model over TTT .
+5.
+
+Quantify the algorithm’s performance over Ψ using the metrics discussed in the next section.
+Quality metrics
+The following metrics should always be calculated over the test set Ψ while confronting the AD algorithms (both supervised
+and unsupervised) over the dataset OPSSAT-AD introduced in this work:
+• Accuracy: (T P+ T N)/(T P+ T N + FP + FN ),
+• Precision: T P/(T P+ FP),
+• Recall: T P/(T P+ FN ),
+• F1 score: (2 · precision · recall)/(precision + recall),
+• Matthews’ Correlation Coefficient (MCC)22: (T P·T N−FP ·FN )/p(T P+ FP) · (T P+ FN ) · (T N + FP) · (T N + FN ),
+• Area under the receiver operating characteristic curve (AUCROC),
+• Area under the precision-recall curve (AUCPR),
+where T P, T N, FP, and FN are the number of true positives (anomalous telemetry segments correctly identifi
+
+ed as anomalies),
+true negatives (nominal telemetry segments correctly identified as nominal), false positives (nominal telemetry segments
+incorrectly identified as anomalies), and false negatives (anomalous telemetry segments incorrectly identified as nominal). All
+metrics should be maximized (↑), with one indicating the best score (MCC ranges from −1 to 1, other metrics from 0 to 1).
+The baseline: anomaly detection algorithms
+Although there are ground-truth AD datasets that may be used to train supervised models for this task, they are extremely
+limited and, by definition, they cannot capture a representative set of anomalies (otherwise such “anomalies” would not be
+“anomalies” any longer).
+
+In practice, while building data-driven AD algorithms for satellite telemetry, practitioners may not be
+able to access real-life ground-truth data, hence unsupervised methods have been gaining research attention. Here, we establish
+a set of baseline results obtained using 30 AD methods, including both supervised and unsupervised algorithms (Table 2).
+For all those algorithms, implemented in the PyOD framework51 (https://pyod.readthedocs.io/en/latest/),
+the default parameters (suggested by the authors of these techniques) are used, with the anomaly contamination factor set to 0.2,
+according to the anomaly distribution observed in TTT .
+
+To ensure reproducibility, we provide a Jupyter Notebook showing how to
+execute an example AD algorithm, in a both supervised and unsupervised training regime (modeling_examples.ipynb).
+Dataset Layout
+The dataset13 is built of 9 source telemetry channels that were selected by the space operations engineers. They include 3 mag-
+netometer telemetry channels: I_B_FB_MM_0 (CADC0872), I_B_FB_MM_1 (CADC0873), I_B_FB_MM_2 (CADC0874),
+and 6 photo diode (PD) channels: I_PD1_THETA (CADC0884), I_PD2_THETA (CADC0886), I_PD3_THETA (CADC0888),
+I_PD4_THETA (CADC0890), I_PD5_THETA (CADC0892), I_PD6_THETA (CADC0894). Here, the names correspond to
+the source names from the WebMUST repository and the OPS-SAT telemetry channel names (in brackets). The layout of the
+dataset is summarized in Figure 3—it includes both the raw files, as well as the extracted features in a tabular form.
+Figure 3. The layout of the OPS-SAT benchmark for anomaly detection.
+4/13
+
+Abbreviation Year Algorithm
+Supervised algorithms
+Linear+L223 2006 Linear classifier with L2 regularization
+LR24 2008 Logistic regression
+AdaBoost25 2009 Adaptive Boosting
+LSVC26 2013 Support Vector Classifier with the squared hinge linear loss
+XGBOD27 2018 Extreme Gradient Boosting Outlier Detection
+FCNN28 2019 Fully Connected Neural Network with dropout and batch normalization
+RF+ICCS11 2023 Random Forest based model with segment augmentation
+Unsupervised algorithms
+PCA29, 30 1996 Principal Component Analysis
+LMDD31 1996 Linear Method for Deviation Detection
+COF32 2002 Connectivity-based Outlier Factor
+KNN33 2002 K-Nearest Neighbors
+CBLOF34 2003 Cluster-Based Local Outlier Factor
+ABOD35 2008 Angle-based Outlier Detector
+IForest36 2008 Isolation Forest
+SOD37 2009 Outlier Detection in Axis
+
+-Parallel Subspaces of High Dimensional Data
+SOS38 2012 Stochastic Outlier Selection
+V AE39 2013 Variational Autoencoder
+OCSVM40 2016 One-Class Support Vector Machine with a polynomial kernel
+LODA41 2016 Lightweight On-line Detector of Anomalies
+GMM30 2017 Gaussian Mixture Model
+AnoGAN42 2017 Generative Adversarial Networks for AD
+DeepSVDD43 2018 Deep one-class classification
+ALAD44 2018 Generative Adversarial Networks for AD
+INNE45 2018 Isolation-based Anomaly Detection Using Nearest-Neighbor Ensembles
+SO-GAAL46 2020 Single-objective Generative Adversarial Active Learning
+MO-GAAL46 2020 Multi-objective Generative Adversarial Active Learning
+COPOD47 2020 Copula-based outlier detection
+ECOD48 2022 Empirical Cumulative Distribution Functions
+LUNAR49 2022 Unified Local Outlier Detection with
+
+Graph Neural Networks
+DIF50 2023 Deep Isolation Forest
+Table 2. Anomaly detection methods investigated in this study.
+Raw telemetry data
+In Figure 4, we visualize selected characteristics of the acquired telemetry signals, effectively showing real-world challenges
+concerned with telemetry data acquired in the wild (e.g., missing readouts, different sampling frequencies). Such segments for
+all the aforementioned telemetry channels and their selected parts are included in the data/segments.csv file. It contains
+the attributes that identify the registration time: ⟨timestamp ⟩ (ISO date format), ⟨channel⟩ (the channel name), ⟨value⟩ (the
+acquired signal value), and ⟨label ⟩ (the ground-truth annotation).
+
+Additionally, we provide the consecutive segment numbers
+(⟨segment⟩), their sampling rate (⟨sampling ⟩), and the indication if they are included in TTT (⟨train⟩).
+Extracted features
+In the tabular version of the dataset ( data/dataset.csv), we include the extracted features. In the Supplementary
+Materials, we present the distributions of all of the provided features, rendered for both TTT and Ψ sets of our dataset (Figure 7).
+Experimental Validation
+In Table 3, we aggregate the results obtained using all the investigated AD algorithms. Here, we highlighted the globally best
+results (in bold for each quality metric), and we underlined the best results elaborated by the unsupervised algorithms, as we
+consider them a different category of the AD solutions. We are aware that some algorithms from PyOD should be rather trained
+using nominal data only (i.e., OCSVM or autoencoders) to achieve better results. As an example, the OCSVM model achieves
+A UCPR of 0.659 and A UCROC of 0.787 in our setting, but when using only the nominal data (without abnormal segments) for
+5/13
+
+Figure 4. Selected segments from out OPS-SAT dataset. Several types of signal distortions are depicted, including peaks,
+deformations, noise (CADC0873), irregular periodicity (CADC0886), short (CADC0892, CADC0894) and long data gaps
+(CADC0874). Anomalous segments are plotted in red. For brevity, we omit the axis values, but provide data ranges and the
+sampling information for each channel.
+6/13
+
+training, the corresponding values are 0.762 and 0.815. However, we wanted our baseline to be consistent and to reflect a
+typical usage of the PyOD framework by a non-expert user. Also, the fine-tuning of those algorithms is out of the scope of this
+study. In Figure 5, we render the selected metrics for each model. We can indeed observe the better performance of supervised
+methods, as those could actively benefit from the labeled anomaly examples while building a machine learning model. In
+Figure 6, we also display the precision and recall quality metrics.
+
+For the fully-connected neural network, we can observe only
+four false positives and eight false negatives of all Ψ samples, reaching the precision of 0.963, and the recall of 0.929.
+Model A UCPR (↑) A UCROC (↑) Accuracy (↑) F1 (↑) Precision (↑) Recall (↑) MCC (↑)
+Supervised algorithms
+FCNN 0.979 0.989 0.977 0.946 0.963 0.929 0.932
+XGBOD 0.975 0.992 0.966 0.918 0.944 0.894 0.897
+RF+ICCS 0.963 0.985 0.955 0.883 0.978 0.805 0.862
+LSVC 0.934 0.968 0.926 0.808 0.911 0.726 0.771
+LR 0.931 0.969 0.924 0.800 0.920 0.708 0.764
+AdaBoost 0.923 0.962 0.934 0.836 0.890 0.788 0.797
+Linear+L2 0.901 0.958 0.905 0.722 0.970 0.575 0.703
+Unsupervised algorithms
+MO-GAAL 0.779 0.865 0.907 0.726 0.985 0.575 0.710
+AnoGAN 0.668 0.756 0.868 0.588 0.877 0.442 0.563
+SO-GAAL 0.660 0.749 0.885 0.655 0.906 0.513 0.627
+
+OCSVM 0.659 0.787 0.845 0.647 0.630 0.664 0.548
+KNN 0.658 0.852 0.824 0.575 0.594 0.558 0.465
+ABOD 0.644 0.843 0.832 0.582 0.620 0.549 0.479
+INNE 0.643 0.806 0.847 0.646 0.638 0.655 0.549
+ALAD 0.629 0.744 0.870 0.596 0.879 0.451 0.570
+LMDD 0.623 0.767 0.854 0.628 0.691 0.575 0.542
+SOD 0.621 0.797 0.737 0.505 0.423 0.628 0.348
+COF 0.603 0.774 0.794 0.576 0.514 0.655 0.448
+LODA 0.597 0.748 0.822 0.588 0.583 0.593 0.475
+LUNAR 0.540 0.792 0.813 0.407 0.630 0.301 0.342
+CBLOF 0.493 0.642 0.756 0.427 0.429 0.425 0.272
+DIF 0.465 0.797 0.790 0.035 1.000 0.018 0.118
+V AE 0.450 0.680 0.796 0.349 0.547 0.257 0.272
+GMM 0.426 0.713 0.737 0.393 0.388 0.398 0.225
+DeepSVDD 0.375 0.610 0.775 0.279 0.442 0.204 0.184
+PCA 0.373 0.612 0.728 0.357 0.360 0.354 0.185
+IForest 0.347 0.635 0.701 0.295 0.297 0.292 0.1
+
+05
+ECOD 0.340 0.637 0.720 0.345 0.345 0.345 0.167
+COPOD 0.328 0.627 0.703 0.270 0.284 0.257 0.084
+SOS 0.308 0.524 0.705 0.264 0.283 0.248 0.081
+Table 3. The experimental results, sorted by A UCPR. The globally best results for each metric are boldfaced, and the best
+among the unsupervised algorithms are underlined.
+The investigation of the unsupervised algorithms reveals that some of them reach a point where they return a small set of
+mistakenly assessed telemetry samples. Especially the detectors built upon MO-GAAL, SO-GAAL and AnoGAN offered high
+precision. In terms of the number of misclassified examples, MO-GAAL obtained a better result than the supervised methods,
+and made one less false detection when compared to FCNN.
+
+A number of other unsupervised algorithms, however, tend to
+either return a large number of false negatives, or to raise many false alarms with a low number of false negatives. In the first
+group of such methods, we can observe DIF, ALAD, DeepSVDD, and AnoGAN, whereas e.g., COF belongs to the second
+group here. The usability of such algorithms would be rather limited to situations when avoiding one type of the classification
+error could be more practically important (e.g., to minimize the overhead induced on the space operations teams that would
+have to review many incorrectly raised false alarms).
+7/13
+
+Figure 5. The results (over Ψ) obtained using the investigated machine learning models (first grouped according to their
+training strategy, either supervised or unsupervised, than sorted by F1).
+Figure 6. Precision and recall metrics (over Ψ) obtained using the investigated algorithms. Models are sorted according to the
+number of misclassified telemetry segments, with the best-performing one rendered on top of the graph.
+8/13
+
+Usage Notes
+The dataset13 contains the data in two different forms: a set of the original telemetry segments and a corresponding set of
+handcrafted features, both with anomaly labels. Both collections are also encoded in the popular, easy-to-handle CSV format
+and are ready to to use with various machine learning models (thus, they can be considered AI-ready). All the algorithms were
+implemented in Python using PyOD52 1.1.2, TensorFlow53 2.15, and PyTorch54 2.1.2. Additionally, we used NumPy55
+1.26.2 and Pandas56 2.1.14 for data preparation, Seaborn57 0.13.0 for the visualizations, as well as OXI16 for the initial data
+analysis and labeling processes.
+
+Finally, our benchmark is accompanied with a Jupyter Notebook, containing an example
+experiment (modeling_examples.ipynb), in order to ensure the experimental reproducibility.
+Code Availability
+The code for working with the OPS-SAT benchmark, including the functionalities used to prepare the numerical results, figures,
+and tables for this article, is available through the following GitHub repository: https://github.com/kplabs-pl/
+OPS-SAT-AD under the MIT license.
+References
+1. Pang, G., Shen, C., Cao, L. & Hengel, A. V . D. Deep learning for anomaly detection: A review. ACM Comput. Surv.
+(CSUR) 54, 1–38 (2021).
+2. Hundman, K., Constantinou, V ., Laporte, C., Colwell, I. & Soderstrom, T. Detecting Spacecraft Anomalies Using LSTMs
+and Nonparametric Dynamic Thresholding.
+
+In Proceedings of the 24th ACM SIGKDD International Conference on
+Knowledge Discovery & Data Mining , KDD ’18, 387–395, https://doi.org/10.1145/3219819.3219845 (Association for
+Computing Machinery, New York, NY , USA, 2018).
+3. Wu, R. & Keogh, E. Current Time Series Anomaly Detection Benchmarks are Flawed and are Creating the Illusion of
+Progress. IEEE Transactions on Knowl. Data Eng. 35, 2421–2429, https://doi.org/10.1109/TKDE.2021.3112126 (2023).
+4. Wagner, D. et al. TimeSeAD: Benchmarking Deep Multivariate Time-Series Anomaly Detection. Transactions on Mach.
+Learn. Res. (2023).
+5. Amin Maleki Sadr, M., Zhu, Y . & Hu, P. An Anomaly Detection Method for Satellites Using Monte Carlo Dropout.IEEE
+Transactions on Aerosp. Electron. Syst.
+
+59, 2044–2052, https://doi.org/10.1109/TAES.2022.3206257 (2023). Conference
+Name: IEEE Transactions on Aerospace and Electronic Systems.
+6. Petkovi´c, M. et al. Machine-learning ready data on the thermal power consumption of the mars express spacecraft. Sci.
+Data 9, 229, https://doi.org/10.1038/s41597-022-01336-z (2022).
+7. Sanchez, F. et al. WebTCAD: A Tool for Ad-hoc Visualization and Analysis of Telemetry Data for Multiple Missions. In
+2018 SpaceOps Conference, https://doi.org/10.2514/6.2018-2616 (American Institute of Aeronautics and Astronautics,
+Marseille, France, 2018).
+8. Kotowski, K., Haskamp, C., Ruszczak, B., Andrzejewski, J. & Nalepa, J. Annotating large satellite telemetry dataset for
+ESA international AI anomaly detection benchmark. In Soille, P., Lumnitz, S. & Albani, S.
+
+(eds.) Proceedings of the 2023
+conference on Big Data from Space (BiDS’23) – From foresight to impact – 6-9 November 2023, Austrian Center , Vienna,
+2023, 341–344, https://doi.org/10.2760/46796 (Publications Office of the European Union, Luxembourg, 2023).
+9. Kotowski, K. et al. European Space Agency Benchmark for Anomaly Detection in Satellite Telemetry (2024).
+ArXiv:2406.17826 [cs].
+10. Evans, D. J. OPS-SAT: FDIR Design on a Mission that Expects Bugs - and Lots of Them. In SpaceOps 2016 Conference,
+SpaceOps Conferences, https://doi.org/10.2514/6.2016-2481 (American Institute of Aeronautics and Astronautics, 2016).
+11. Ruszczak, B. et al. Machine learning detects anomalies in OPS-SAT telemetry. In Mikyška, J. et al.
+
+(eds.) Computational
+Science – ICCS 2023 , 295–306, https://doi.org/10.1007/978-3-031-35995-8_21 (Springer Nature Switzerland, Cham,
+2023).
+12. Kapoor, S. & Narayanan, A. Leakage and the reproducibility crisis in machine-learning-based science. Patterns 4, 100804,
+https://doi.org/10.1016/j.patter.2023.100804 (2023).
+13. Ruszczak, B., Kotowski, K., Nalepa, J. & Evans, D. OPSSAT-AD - anomaly detection dataset for satellite telemetry,
+https://doi.org/10.5281/zenodo.12588359 (2024).
+14. Shendy, R. & Nalepa, J. Few-shot satellite image classification for bringing deep learning on board OPS-SAT. Expert. Syst.
+with Appl. 251, 123984, https://doi.org/10.1016/j.eswa.2024.123984 (2024).
+9/13
+
+15. ESA. WebMUST - web client for OPS-SAT directory. https://opssat1.esoc.esa.int/webclient-must (2021).
+16. Ruszczak, B., Kotowski, K., Andrzejewski, J., Haskamp, C. & Nalepa, J. Oxi: An online tool for visualization and
+annotation of satellite time series data. SoftwareX 23, 101476, https://doi.org/10.1016/j.softx.2023.101476 (2023).
+17. Nalepa, J. et al. Toward on-board detection of anomalous events from OPS-SAT telemetry using deep learning. In 8th
+International Workshop On On-Board Payload Data Compression , https://doi.org/10.5281/zenodo.7244991 (Zenodo,
+2022).
+18. Nalepa, J. et al. Look ma, no ground truth! on building supervised anomaly detection from OPS-SAT telemetry.
+
+In
+Proceedings of the International Astronautical Congress, 2023, International Astronautical Federation , 1–8 (2023).
+19. Zhang, J. et al. Feature interpolation convolution for point cloud analysis. Comput. & Graph. 99, 182–191, https:
+//doi.org/10.1016/j.cag.2021.06.015 (2021).
+20. Lubba, C. H. et al. catch22: CAnonical Time-series CHaracteristics. Data Min. Knowl. Discov. 33, 1821–1852,
+10.1007/s10618-019-00647-x (2019).
+21. Tafazoli, S. et al. C22mp: the marriage of catch22 and the matrix profile creates a fast, efficient and interpretable anomaly
+detector. Knowl. Inf. Syst. https://doi.org/10.1007/s10115-024-02107-5 (2024).
+22. Baldi, P., Brunak, S., Chauvin, Y ., Andersen, C. A. F. & Nielsen, H. Assessing the accuracy of prediction algorithms
+for classification: an overview .
+
+Bioinformatics 16, 412–424, https://doi.org/10.1093/bioinformatics/16.5.412 (2000).
+https://academic.oup.com/bioinformatics/article-pdf/16/5/412/48836094/bioinformatics_16_5_412.pdf.
+23. Grüning, M. & Kropf, S. A ridge classification method for high-dimensional observations. In Spiliopoulou, M., Kruse, R.,
+Borgelt, C., Nürnberger, A. & Gaul, W. (eds.)From Data and Information Analysis to Knowledge Engineering , 684–691,
+https://doi.org/10.1007/3-540-31314-1_84 (Springer Berlin Heidelberg, Berlin, Heidelberg, 2006).
+24. Fan, R.-E., Chang, K.-W., Hsieh, C.-J., Wang, X.-R. & Lin, C.-J. Liblinear: A library for large linear classification. J.
+Mach. Learn. Res. 9, 1871–1874 (2008).
+25. Hastie, T. J., Rosset, S., Zhu, J. & Zou, H. Multi-class adaboost. Stat.
+
+Its Interface 2, 349–360, https://doi.org/10.4310/SII.
+2009.v2.n3.a8 (2009).
+26. Lee, C.-P. & Lin, C.-J. A study on l2-loss (squared hinge-loss) multiclass SVM. Neural Comput. 25, 1302–1323,
+https://doi.org/10.1162/NECO_a_00434 (2013).
+27. Zhao, Y . & Hryniewicki, M. K. Xgbod: Improving supervised outlier detection with unsupervised representation learning.
+In 2018 International Joint Conference on Neural Networks (IJCNN) , 1–8, https://doi.org/10.1109/IJCNN.2018.8489605
+(2018).
+28. Kwon, D. et al. A survey of deep learning-based network anomaly detection. Clust. Comput. 22, 949–961, https:
+//doi.org/10.1007/s10586-017-1117-8 (2019).
+29. Mastrangelo, C. M., Runger, G. C. & Montgomery, D. C. Statistical process monitoring with principal components. Qual.
+Reliab. Eng. Int.
+
+12, 203–210, https://doi.org/10.1002/(SICI)1099-1638(199605)12:3<203::AID-QRE12>3.0.CO;2-B
+(1996).
+30. Aggarwal, C. C. Linear Models for Outlier Detection , 65–110 (Springer International Publishing, Cham, 2017).
+31. Arning, A., Agrawal, R. & Raghavan, P. A linear method for deviation detection in large databases. In Knowledge
+Discovery and Data Mining , vol. 1141, 972–981 (1996).
+32. Tang, J., Chen, Z., Fu, A. W.-c. & Cheung, D. W. Enhancing effectiveness of outlier detections for low density patterns. In
+Chen, M.-S., Yu, P. S. & Liu, B. (eds.)Advances in Knowledge Discovery and Data Mining , 535–548 (Springer Berlin
+Heidelberg, Berlin, Heidelberg, 2002).
+33. Angiulli, F. & Pizzuti, C. Fast outlier detection in high dimensional spaces. In Elomaa, T., Mannila, H.
+
+& Toivonen, H.
+(eds.) Principles of Data Mining and Knowledge Discovery , 15–27, https://doi.org/10.1007/3-540-45681-3_2 (Springer
+Berlin Heidelberg, Berlin, Heidelberg, 2002).
+34. He, Z., Xu, X. & Deng, S. Discovering cluster-based local outliers. Pattern Recognit. Lett. 24, 1641–1650, https:
+//doi.org/10.1016/S0167-8655(03)00003-5 (2003).
+35. Kriegel, H.-P., Schubert, M. & Zimek, A. Angle-based outlier detection in high-dimensional data. In Proceedings
+of the 14th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining , KDD ’08, 444–452,
+https://doi.org/10.1145/1401890.1401946 (Association for Computing Machinery, New York, NY , USA, 2008).
+10/13
+
+36. Liu, F. T., Ting, K. M. & Zhou, Z.-H. Isolation forest. In 2008 Eighth IEEE International Conference on Data Mining ,
+413–422, https://doi.org/10.1109/ICDM.2008.17 (2008).
+37. Kriegel, H.-P., Kröger, P., Schubert, E. & Zimek, A. Outlier detection in axis-parallel subspaces of high dimensional data.
+In Theeramunkong, T., Kijsirikul, B., Cercone, N. & Ho, T.-B. (eds.) Advances in Knowledge Discovery and Data Mining ,
+831–838 (Springer Berlin Heidelberg, Berlin, Heidelberg, 2009).
+38. Janssens, J. H. M., Huszár, F., Postma, E. O. & van den Herik, H. J. Stochastic outlier selection. Tech. Rep. TiCC TR
+2012-001, Tilburg University, Center for Cognition and Communication, Tilburg, The Netherlands (2012).
+39. Kingma, D. P. & Welling, M. Auto-encoding variational bayes.
+
+CoRR abs/1312.6114 (2013).
+40. Erfani, S. M., Rajasegarar, S., Karunasekera, S. & Leckie, C. High-dimensional and large-scale anomaly detection using a
+linear one-class SVM with deep learning. Pattern Recognit. 58, 121–134, https://doi.org/10.1016/j.patcog.2016.03.028
+(2016).
+41. Pevný, T. Loda: Lightweight on-line detector of anomalies. Mach. Learn. 102, 275–304, https://doi.org/10.1007/
+s10994-015-5521-0 (2016).
+42. Schlegl, T., Seeböck, P., Waldstein, S. M., Schmidt-Erfurth, U. & Langs, G. Unsupervised anomaly detection with
+generative adversarial networks to guide marker discovery. In Niethammer, M. et al. (eds.) Information Processing in
+Medical Imaging, 146–157 (Springer International Publishing, Cham, 2017).
+43. Ruff, L. et al. Deep one-class classification. In Dy, J. & Krause, A.
+
+(eds.) Proceedings of the 35th International Conference
+on Machine Learning, vol. 80 of Proceedings of Machine Learning Research, 4393–4402 (PMLR, 2018).
+44. Zenati, H., Romain, M., Foo, C.-S., Lecouat, B. & Chandrasekhar, V . Adversarially learned anomaly detection. In2018
+IEEE International Conference on Data Mining (ICDM) , 727–736, https://doi.org/10.1109/ICDM.2018.00088 (2018).
+45. Bandaragoda, T. R. et al. Isolation-based anomaly detection using nearest-neighbor ensembles. Comput. Intell. 34,
+968–998, https://doi.org/10.1111/coin.12156 (2018).
+46. Liu, Y .et al. Generative adversarial active learning for unsupervised outlier detection. IEEE Transactions on Knowl. Data
+Eng. 32, 1517–1528, https://doi.org/10.1109/TKDE.2019.2905606 (2020).
+47. Li, Z., Zhao, Y ., Botta, N., Ionescu, C.
+
+& Hu, X. Copod: Copula-based outlier detection.2020 IEEE Int. Conf. on Data
+Min. (ICDM) 1118–1123 (2020).
+48. Li, Z. et al. ECOD: Unsupervised outlier detection using empirical cumulative distribution functions. IEEE Trans. on
+Knowl. Data Eng. 35, 12181–12193, https://doi.org/10.1109/TKDE.2022.3159580 (2022).
+49. Goodge, A., Hooi, B., Ng, S.-K. & Ng, W. S. Lunar: Unifying local outlier detection methods via graph neural networks.
+Proc. AAAI Conf. on Artif. Intell. 36, 6737–6745, https://doi.org/10.1609/aaai.v36i6.20629 (2022).
+50. Xu, H., Pang, G., Wang, Y . & Wang, Y . Deep isolation forest for anomaly detection.IEEE Transactions on Knowl. Data
+Eng. 35, 12591–12604, https://doi.org/10.1109/TKDE.2023.3270293 (2023).
+51. Zhao, Y ., Nasrullah, Z. & Li, Z.
+
+PyOD: A Python Toolbox for Scalable Outlier Detection.J. Mach. Learn. Res. 20, 1–7
+(2019).
+52. Zhao, Y ., Nasrullah, Z. & Li, Z. PyOD: A python toolbox for scalable outlier detection. J. Mach. Learn. Res. 20, 1–7
+(2019).
+53. Abadi, M. et al. TensorFlow: Large-scale machine learning on heterogeneous systems (2015). Software available from
+tensorflow.org.
+54. Paszke, A. et al. Automatic differentiation in pytorch (2017).
+55. Harris, C. R. et al. Array programming with NumPy. Nature 585, 357–362, https://doi.org/10.1038/s41586-020-2649-2
+(2020).
+56. The Pandas development team. pandas-dev/pandas: Pandas, https://doi.org/10.5281/zenodo.3509134 (2020).
+57. Waskom, M. L. Seaborn: statistical data visualization. J. Open Source Softw.
+
+6, 3021, https://doi.org/10.21105/joss.03021
+(2021).
+Acknowledgements
+This work was partially supported through the following projects: “On-board Anomaly detection from the OPS-SAT telemetry
+using deep learning” (40001373339/22/NL/GLC/ov) and "Few-shot anomaly detection in satellite telemetry" (4000141301)
+funded by the European Space Agency. JN was supported by the Silesian University of Technology grant for maintaining and
+developing research potential.
+11/13
+
+Author contributions statement
+B.R., K.K. and J.N. conceived and designed the study. B.R. and D.E. acquired the data and performed the experiments. B.R.
+implemented the computational pipeline and performed the analyses. B.R. drafted the manuscript. K.K. and J.N. edited and
+improved the manuscript. D.E. revised the manuscript. All authors have read and approved the final manuscript.
+Corresponding author
+Correspondence to Bogdan Ruszczak.
+Competing interests
+The authors declare no competing interests.
+Supplementary Materials
+The distribution of the extracted features elaborated for each telemetry segment included in our dataset is depicted in Figure 7.
+We compare the distribution for the training (TTT ) and test (Ψ) sets, to visualize the effect of the training-test dataset split on the
+feature distributions. Figure 8 provides a detailed view of the relations between the extracted features for the TTT and Ψ sets. We
+rendered this plot to confirm that both subsets represent similar data distributions.
+Figure 7. Dataset features for the training and validation subsets with the indication of anomalies (marked in red).
+12/13
+
+Figure 8. The coefficient of correlation computed between each feature, for the training (below the blue dashed diagonal line)
+and test set (above the same diagonal line). We employed: (a) Pearson’s correlation coefficient and (b) Spearman’s Rank
+correlation coefficient.
+13/13

@@ -1,0 +1,37 @@
+SOURCE: https://zenodo.org/records/12588359
+TITLE: OPSSAT-AD - anomaly detection dataset for satellite telemetry (Zenodo record)
+LICENSE: CC-BY-4.0
+
+This is the AI-ready benchmark dataset (OPSSAT-AD) containing the telemetry data acquired on board OPS-SAT---a CubeSat mission that has been operated by the European Space Agency.
+
+It is accompanied by the paper with baseline results obtained using 30 supervised and unsupervised classic and deep machine learning algorithms for anomaly detection. They were trained and validated using the training-test dataset split introduced in this work, and we present a suggested set of quality metrics that should always be calculated to confront the new algorithms for anomaly detection while exploiting OPSSAT-AD. We believe that this work may become an important step toward building a fair, reproducible, and objective validation procedure that can be used to quantify the capabilities of the emerging anomaly detection techniques in an unbiased and fully transparent way.
+
+The two included files are:
+
+- `segments.csv` with the acquired telemetry signals from ESA OPS-SAT aircraft,
+- `dataset.csv` with the extracted, synthetic features are computed for each manually split and labeled telemetry segment.
+
+Please have a look at our two papers commenting on this dataset:
+
+- The benchmark paper with results of 30 supervised and unsupervised anomaly detection models for this collection:
+Ruszczak, B., Kotowski. K., Nalepa, J., Evans, D.: **The OPS-SAT benchmark for detecting anomalies in satellite telemetry, 2024**, preprint arxiv: 2407.04730,
+- the conference paper in which we presented some preliminary results for this dataset:
+Ruszczak, B., Kotowski. K., Andrzejewski, J., et al.: (2023). Machine Learning Detects Anomalies in OPS-SAT Telemetry. Computational Science – ICCS 2023. LNCS, vol 14073. Springer, Cham, DOI:10.1007/978-3-031-35995-8\_21.
+
+- Documents
+- Journal: arXiv:2407.04730 (arXiv)
+- References
+- Conference paper: 10.1007/978-3-031-35995-8\_21 (DOI)
+
+- European Space Agency
+- On-board Anomaly detection from the OPS-SAT telemetry using deep learning 4000137339/22/NL/GLC/ov
+
+- Repository URL
+- https://github.com/kplabs-pl/OPS-SAT-AD
+- Programming language
+- Jupyter Notebook , Python
+- Development Status
+- Active
+
+- Ruszczak, B., Kotowski. K., Evans, D., Nalepa, J.: The OPS-SAT benchmark for detecting anomalies in satellite telemetry, 2024, arXiv: https://arxiv.org/abs/2407.04730
+- Ruszczak, B., Kotowski. K., Andrzejewski, J., et al.: (2023). Machine Learning Detects Anomalies in OPS-SAT Telemetry. Computational Science – ICCS 2023. LNCS, vol 14073. Springer, Cham, https://doi.org/10.1007/978-3-031-35995-8\_21

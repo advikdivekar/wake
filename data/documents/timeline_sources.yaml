@@ -1,0 +1,22 @@
+# Each entry's quote must appear VERBATIM in the cited chunk; app/memory/timeline.py verifies it
+# and drops anything that fails. date_kind: event (when it happened) vs publication (when it was written).
+- {date: 2019-12-18, date_kind: event, title: "Launch of OPS-SAT", doc_id: wikipedia-opssat,
+   quote: "launched at 08:54:20 UTC on 18 December 2019"}
+- {date: 2022-01-04, date_kind: event, title: "First telemetry sample in the OPSSAT-AD archive", doc_id: null,
+   measured: "min(timestamp) of segments.csv (see evaluations/dataset_verification.json)"}
+- {date: 2022-06-02, date_kind: event, title: "Last telemetry sample in the OPSSAT-AD archive", doc_id: null,
+   measured: "max(timestamp) of segments.csv (see evaluations/dataset_verification.json)"}
+- {date: 2024-01-01, date_kind: event, approx: "early 2024", title: "Unexpectedly strong increase in solar activity begins to affect the orbit",
+   doc_id: smallsatnews-mission-completed, quote: "OPS-SAT was impacted by the recent unexpectedly strong increase in solar activity that began in early 2024."}
+- {date: 2024-04-01, date_kind: publication, title: "ESA announces re-entry amateur radio campaign", doc_id: esa-reentry-radio-campaign,
+   quote: "OPS-SAT will undergo atmospheric reentry within May"}
+- {date: 2024-05-22, date_kind: event, title: "Atmospheric re-entry: the last transmission", doc_id: opssat-ad-paper,
+   quote: "It finished its mission with the atmospheric reentry on 22 May 2024"}
+- {date: 2024-06-04, date_kind: publication, title: "'Mission completed' coverage published", doc_id: smallsatnews-mission-completed,
+   quote: "OPS-SAT was the first fully ESA-owned and operated CubeSat."}
+- {date: 2024-06-29, date_kind: publication, title: "OPSSAT-AD dataset published on Zenodo", doc_id: opssat-ad-zenodo, quote: null}
+- {date: 2024-10-08, date_kind: publication, title: "ESA end-of-life operations abstract: reboots and recoveries", doc_id: esa-eol-abstract-2024,
+   quote: "Deteriorating components led to undesired reboots and spacecraft recoveries"}
+- {date: 2025-04-29, date_kind: publication, title: "OPSSAT-AD benchmark paper published (Scientific Data)", doc_id: opssat-ad-paper, quote: null}
+- {date: 2027-01-01, date_kind: event, approx: "2027 (planned)", title: "Successors OPS-SAT VOLT and ORIOLE scheduled to launch", doc_id: wikipedia-opssat,
+   quote: "OPS-SAT VOLT and OPS-SAT ORIOLE are two additional follow-ups; both are scheduled to launch in 2027."}

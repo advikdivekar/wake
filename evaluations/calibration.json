@@ -1,0 +1,50 @@
+{
+  "produced_by": "python -m training.tabpfn.evaluate",
+  "git_sha": "cd57b5a",
+  "created_at": "2026-10-31T15:37:11+00:00",
+  "model": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+  "source": "official test split",
+  "bins": [
+    {
+      "p_mean": 8.33632016981132e-05,
+      "frac_pos": 0.0
+    },
+    {
+      "p_mean": 0.0001507727454716981,
+      "frac_pos": 0.0
+    },
+    {
+      "p_mean": 0.0003375690615094339,
+      "frac_pos": 0.0
+    },
+    {
+      "p_mean": 0.0005634055511320754,
+      "frac_pos": 0.0
+    },
+    {
+      "p_mean": 0.0008374586522641509,
+      "frac_pos": 0.0
+    },
+    {
+      "p_mean": 0.0016634897096153847,
+      "frac_pos": 0.0
+    },
+    {
+      "p_mean": 0.006060188379245285,
+      "frac_pos": 0.0
+    },
+    {
+      "p_mean": 0.13349498566037735,
+      "frac_pos": 0.1320754716981132
+    },
+    {
+      "p_mean": 0.9810156628301889,
+      "frac_pos": 1.0
+    },
+    {
+      "p_mean": 0.9998631718867925,
+      "frac_pos": 1.0
+    }
+  ],
+  "brier": 0.0073118005719119
+}

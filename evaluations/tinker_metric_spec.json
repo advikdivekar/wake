@@ -1,0 +1,33 @@
+{
+  "produced_by": "frozen manually before evaluation (see PROGRESS.md)",
+  "git_sha": "cd57b5a",
+  "created_at": "2026-10-31T15:34:04+00:00",
+  "frozen": true,
+  "frozen_before": "any base or fine-tuned model was evaluated on any split",
+  "headline": {
+    "name": "field-level exact match (task A)",
+    "definition": "Over all (passage, field) pairs in the held-out TEST passages (8 fields: channel_id, sensor_type, units, event_date, observation, operational_response, root_cause, evidence), the fraction where the parsed model output equals the gold label from training/tinker/spec.py::label. Lists must match exactly (order included). Text fields are compared after whitespace normalisation. '?' equals an empty/null gold value. Unparseable outputs count as wrong on all 8 fields.",
+    "target": 0.95,
+    "scored_on": "raw model output, BEFORE the deterministic validator repairs anything (validator gains reported separately)"
+  },
+  "companions": {
+    "valid_schema_rate": "fraction of outputs that parse into all 8 fields and validate as a MemoryRecord (target >= 0.99)",
+    "per_field_prf": "precision/recall/F1 per field, with a prediction counted as positive when non-null",
+    "evidence_fidelity": "fraction of non-null text-field values that occur verbatim in the passage (target >= 0.99)",
+    "unsupported_root_causes": "count of non-null root_cause predictions where gold is null or the text is not verbatim (target 0)",
+    "null_correctness": "accuracy on fields whose gold value is null (correct use of '?')",
+    "record_exact_match": "fraction of passages with ALL 8 fields correct",
+    "validator_catches": "number of model errors flagged by the regex/substring validator"
+  },
+  "statistics": {
+    "ci": "Wilson 95% interval on field-level exact match",
+    "paired_test": "exact McNemar test on per-(passage, field) correctness, base vs tuned"
+  },
+  "comparison": "base Qwen3-8B vs Qwen3-8B+LoRA: same system prompt, same user prompt, same parser and validator, temperature 0, thinking disabled",
+  "tasks_B_C_D": {
+    "B": "date-set exact match per passage; event vs publication date correctly separated; verbatim sentence rate",
+    "C": "citation correct (cited source index == gold), 'not in archive' correct on absent terms, verbatim definition rate",
+    "D": "KNOWN/UNKNOWN/ACTION sections present; numbers match the measurements; cited [n] exist; no root-cause claim"
+  },
+  "test_set_policy": "the TEST split is evaluated once per final configuration; iteration uses VAL only"
+}

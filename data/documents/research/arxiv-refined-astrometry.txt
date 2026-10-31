@@ -1,0 +1,1747 @@
+SOURCE: https://arxiv.org/abs/2203.07254
+TITLE: Refined Astrometry on Board a CubeSat (OPS-SAT experiment)
+LICENSE: CC-BY-SA-4.0
+
+Reﬁned Astrometry on Board a CubeSat
+Boris Segret
+CENSUS (1), LESIA Paris Observatory (2)
+PSL Universit´e Paris (3)
+Boris.Segret@observatoiredeparis.psl.eu
+Youssoupha Diaw
+CENSUS (1), LESIA Paris Observatory (2)
+PSL Universit´e Paris (3)
+Youssoupha.Diaw@observatoiredeparis.psl.eu
+Val´ery Lainey
+IMCCE Paris Observatory (4)
+PSL Universit´e Paris (3), CNRS (5)
+lainey@imcce.fr
+Abstract— Optical navigation on a CubeSat must rely on the
+best extraction of the directions of some beacons from on-board
+images. We present an experiment on OPS-SAT, a CubeSat of
+the European Space Agency (ESA), that will characterize an on-
+board algorithm to this aim, named Angle-based Correlation
+(AbC).
+
+OPS-SAT is a 3-unit CubeSat with an Attitude Deter-
+mination and Control System (ADCS) and an imager that have
+proved their reliability with typical performance at CubeSat
+scale. We selected a few star-ﬁelds that all present enough
+visible stars within a 10 ◦ ﬁeld of view. When our experiment
+is run, OPS-SAT is pointed to the most convenient star-ﬁeld at
+that time. There, the star-ﬁeld is imaged and subwindows are
+extracted from the image around the expected location of each
+star, based on the attitude-quaternion reported by the ADCS.
+The AbC reconstructs the absolute direction of the central
+body, in principle unknown, which is the pointed known star
+in the experiment. The method intensively uses the quaternion
+algebra.
+
+The beacon location is ﬁrst consolidated in the ﬁeld of
+view with the AbC. Then, the ﬁeld of view is ﬁnely positioned
+against the sky, again with the AbC. A covariance is associated
+with the found beacon direction. Our experiment with OPS-SAT
+manages the pointing and the imager, and processes the taken
+images. Then, it downloads the on-board computed absolute
+directions and their covariances, to be compared with the actual
+directions. After a campaign of intensive use of the experiment,
+the statistical performance of the algorithm will be established
+and compared to the on-board computed covariances. As a
+bonus, an assessment of OPS-SAT’s inertial pointing stability
+will be available.
+
+The AbC can theoretically get rid of the
+Attitude Control Error (ACE) of the platform and of the At-
+titude Knowledge Error (AKE) estimated by the ADCS, and
+potentially converge to sub-arcsec measurements, whereas 15 to
+90 arcsec for AKE are expected on CubeSats and imager pixel
+size ranges in 10 to 15 arcsec. Results will be available from
+2022, thus, instead, we illustrate here possible applications for
+commissioning and autonomous operations.
+TABLE OF CONTENTS
+1. I NTRODUCTION . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .1
+2. A NGLE -BASED ASTROMETRIC REDUCTION . . . . . . 2
+3. OPS-SAT E XPERIMENT ID.156 . . . . . . . . . . . . . . . . . 6
+4. P OTENTIAL APPLICATIONS . . . . . . . . . . . . . . . . . . . . . .10
+5. S UMMARY . . . . . . . . . . . . . . . . . . . .
+
+. . . . . . . . . . . . . . . . . . . .11
+APPENDICES . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .11
+A. M ATHEMATICAL DEVELOPMENTS . . . . . . . . . . . . . . .11
+B. Q UATERNION ALGEBRA . . . . . . . . . . . . . . . . . . . . . . . . . .12
+C. S TAR CATALOG . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .13
+ACKNOWLEDGMENTS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .13
+REFERENCES . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .13
+BIOGRAPHY . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .15
+(2022 IEEE preprint)
+Afﬁliations — (1) CENSUS: CEnter for Nano-Satellites
+in Universe Sciences, l’Observatoire de Paris, 5 pl. Jules
+Janssen, 92195 Meudon Cedex, France.
+
+(2) LESIA: Lab-
+oratoire d’Etudes Spatiales et d’Instrumentation en Astro-
+physique, Observatoire de Paris, 5 pl. Jules Janssen, 92195
+Meudon Cedex, France. (3) PSL Universit ´e Paris: Paris
+Sciences Lettres Universit ´e Paris, 60 rue Mazarine, 75006
+Paris, France. (4) IMCCE: Institut de M ´ecanique C ´eleste
+et de Calcul des Eph ´em´erides, Observatoire de Paris, 61 av.
+Denfert Rochereau, 75014 Paris, France. (5) CNRS: Centre
+National de la Recherche Scientiﬁque, France.
+1. I NTRODUCTION
+The navigation of deep space missions has always relied on
+images of beacons taken on board that, most of the time, are
+processed on ground. The derived optical data are aggregated
+with data of other kinds (e.g.
+
+ranging from radio-tracking
+techniques) to feed a process of orbit determination of the
+observer (the spacecraft itself), of the imaged beacon (e.g. a
+celestial body’s ephemerides), or both. Eventually, the result
+is the basis to design the on-board operations for trajectory
+correction maneuver or some target tracking, or to expand
+the scientiﬁc data-set about the celestial body that served as
+a beacon. On ground, the techniques that extract the optical
+data from a space image, represent a broad ﬁeld of astrometry
+as an input to derive scientiﬁc knowledge from the dynamics
+of celestial bodies (see [1] and references therein).
+Whereas on-ground techniques are complex and can be se-
+cured by a human analysis, very few missions have derived
+optical data on board.
+
+The techniques used on board NASA’s
+DEEP SPACE 1 were presented in 1997 as an experiment
+[2] and are summarized below. They were inherited from
+on-ground techniques, initially with manual measurements
+on the received pictures, for V OYAGER 2 to Uranus (1986,
+[3]) and Neptune (1989, [4]), then for G ALILEO to asteroids
+Gaspra (1991, [5]) and Ida (1993, [6]). The centerﬁnding
+techniques were very efﬁcient to produce directions at sub-
+pixel accuracy at a time when CCD was still a novel tech-
+nology in space, with long exposure times and poor platform
+stability.
+
+The Single-Frame Mosaic technique consists in ex-
+posing the same celestial scene on multiple areas of the sensor
+within a single downloadable image: at each exposure, the
+platform slews, which applies the same pattern on the images
+of all celestial objects of the ﬁeld of view (beacon of interest
+and neighbouring stars). The multiple exposure technique
+is intended to limit the volume of downloaded data and is
+not detailed here. Then, the image produces by each long
+exposure serves as a ﬁltering technique called “box ﬁltering”:
+the smeared image of each object produces a pattern within
+an area of pixels, or box, whose maximum size can be antici-
+pated; the pattern in each box is the same and is also searched
+1
+arXiv:2203.07254v1 [astro-ph.IM] 14 Mar 2022
+
+in the box where the celestial beacon of interest is expected;
+a convolution product of one box with all other boxes yields
+the shifts of the patterns from one another in different boxes.
+Then, a “multiple cross-correlation” is performed by taking
+each known star as the convolution kernel successively, which
+produces a set of measurements, weighted by the Signal-to-
+Noise Ratio (SNR) of each box. Eventually, a least-squares
+method ﬁts the measurements with the location of the beacon
+of interest at an expected accuracy better than 0.1 pixel.
+Although the centerﬁnding techniques proved to be efﬁcient
+even with faint objects, the overall autonomous navigation
+experienced in DEEP SPACE 1 was not adopted operationally
+[8].
+
+The astrometric reduction has mainly remained a task
+assigned to the ground segment of the space missions. It
+allows extensive algorithms and checks that are obviously
+worth being performed on ground, although it requires an
+important telecommunication budget.
+The next section will present our AbC method in details.
+Section 3 reminds ESA’s OPS-SAT mission and our exper-
+iment “Id.156” in OPS-SAT. Section 4 presents our possible
+application and calls for further use with various contexts and
+hardware.
+2. A NGLE -BASED ASTROMETRIC REDUCTION
+The AbC method is a full process combining linear estimate
+optimization and quaternion algebra.
+
+After some context,
+we review the possible errors in the chain of measurements.
+Then, we compute an estimate of the beacon location and its
+covariance in the focal plane. Then, we transform this image
+location into an absolute direction of the sky by reversing the
+gnomonic projection, which ﬁrst requires a ﬁne re-centering
+and rotation of the image against the sky.
+Context of use, notations
+The typical use of the presented AbC is the processing of an
+image that contains an unresolved foreground celestial body,
+the “beacon”, and several stars compatible with the imager’s
+sensitivity. Whether such stars are available is discussed
+below in the numerical applications of this section.
+
+Then,
+the beacon is assumed to be present within a maximum
+parallaxσπ from a pre-computed direction, based on mission
+preparation work, that is not discussed here. The imager is
+pointed to the pre-computed direction of the beacon and puts
+it in a central region of the image, whose half-size is lower
+than σπ +σACE, where σACE is the attitude control error of
+the platform (including the imager, assumed to be ﬁxed). In
+this region of the image, the platform’s ADCS informs about
+the estimated pointing with an accuracyσAKE. Typically, with
+nowadays CubeSat hardware, one can expect an imager with
+a ﬁeld of view FoV∼ 10◦ and an ADCS with σACE∼ 0.1◦
+andσAKE in 15′′ to 90′′.
+
+Obviously, the beacon needs to be
+in the central region, which limits the maximum acceptable
+parallax toσπ +σACE≪ FoV.
+A pre-processing step is to extract the location of the stars
+and the beacon from square subwindows of the image where
+they are expected, i.e. subwindows whose edge is 6σAKE for
+the stars and σπ + 6σAKE for the beacon, centered at their
+expected locations. This extraction is made by a centerﬁnding
+algorithm, for instance but not necessarily a “box ﬁltering” as
+mentioned in the introduction, or a least-squares ﬁt of a point
+spread function, or even a simple photometric barycenter.
+As a result of the image pre-processing, the centerﬁnding
+yields raw locations on the image (Fig. 1): B(x,y ) for the
+Figure 1.
+
+Notations: “B” is the foreground beacon, “X” are
+images of known background stars.
+beacon and{Si(xi,yi), i= 1...n ⋆} for then⋆ known stars.
+The actual direction of the beacon corresponds to a location
+(x0,y 0) on the image. The actual directions of the stars in the
+image are noted{(x0i,y 0i), i= 1...n ⋆} and correspond to
+known directions of the sky, as given by a catalog prepared
+on ground and stored on board.
+Review of the measurement errors
+The expected locations (x0i,y 0i) are the gnomonic pro-
+jections of the stars on the reference axes of the imager,
+perpendicular to its line of sight ⃗ zADCS, as expected on the
+basis of the ADCS information.
+
+In the absence of error, a
+bijection exists between the directions in right ascension and
+declination inside the cone toward the line of sight, with semi-
+angleπ/2 and the coordinate axes{⃗ x,⃗ y}ADCS of the imager:
+pg : cone(⃗ zADCS,π/ 2)→ R2
+(RAi, deci)↦→ (x0i,y 0i)ADCS
+The expression of pg or its reverse function are not trivial.
+They are discussed after the presentation of the AbC, in this
+section. Nevertheless, (x0i,y 0i) differ from the centerﬁnding
+results Si(xi,yi) due to the following possible errors, sum-
+marized in Table 1:
+Attitude knowledge — The attitude knowledge quaternion
+provided by the ADCS will be updated just before and just
+after the exposure, then interpolated at the timestamp of the
+image.
+
+The information about jitter and axis rotation errors
+are not available, hence the interpolated attitude is associated
+with the uncertainty AKE, which typically ranges within 15-
+90 arcsec. The attitude control error, ACE, is not at stake here
+as the subwindows are selected on the basis of the attitude
+knowledge.
+Non-uniformity of the pixels and pixel matrix — Photometric
+dispersion is expected. Different centerﬁnding techniques,
+that are differently affected, are considered in the presented
+experiment, which is dedicated to the improvement of the
+centerﬁnding results, rather than the centerﬁnding itself.
+Hence, these errors exist but are not individually quantiﬁed
+here. The possible dispersion covers shot noise, read noise,
+dark current and its bias, pixel-to-pixel sensitivity, stray-light,
+discretization. Nevertheless, hot pixels should be neutralized
+2
+
+in the centerﬁnding techniques (i.e. skipped in the computa-
+tions) whenever they are known. As well, cosmic rays hitting
+a subwindow can introduce a temporary strong distortion
+in the centerﬁnding, unless multiple images are taken and
+compared to neutralize hitten pixels, meaning additional pre-
+processing. Irregularities may still exist in the shape of the
+pixel lines of a detector, and of the pixels in a line. They are
+expected lower than a fraction of an averaged pixel and would
+introduce a photometric bias in each pixel and, consequently,
+in the centerﬁnding process as well.
+
+The photometric quality
+of the centerﬁnding will serve to weight the relative trust in
+each Si(xi,yi), if positioning errors were equal for each i,
+based on the SNR, notedσSNR,i, used in the AbC.
+Whereas σSNR,i is a weighting factor for the quality of the
+images in the subwindows, the following errors affect the
+location of the imaged centers themselves.
+Star catalog accuracy and parallax — Considering that the
+catalog used for the reference stars is up-to-date (or can be
+updated), the proper motion of a star is not considered here.
+The parallax of a star is also given in the catalogs. In the
+scope of the presented experiment, in Low Earth Orbit, the
+greatest parallax for visible stars is for Proxima Centauri at
+0.77 arcsec.
+
+Depending on the date of the year, the parallax
+can be included in the catalog for all stars with an accuracy
+better than 4.2 milli-arcsec per day since the catalog’s update.
+Sayσcatalog the maximum error since the last update.
+Stellar aberration — It affects the apparent direction of
+all objects in the ﬁeld of view due to the velocity of the
+observer. The largest effect is in the direction perpendicular to
+the velocity, adding an apparent angle of dα = arctan(v/c)
+in the forward direction, e.g. dα = 20.6 arcsec with v =
+30 km/s. Within an FoV = 10◦, this angle decreases down
+to dα′ = cos( FoV)dα, e.g. 20.3 arcsec at the considered
+velocity. This is the maximum bias difference from one edge
+to the opposite edge of an image. Say σSt.Ab.
+
+the maximum
+error for the considered FoV.
+Optical aberrations — Optical aberrations move and distort
+an off-axis image. Through a lens, they also depend on the
+wavelength. Typically, in imagers at CubeSat scale (pixels of
+∼ 15 arcsec), it is likely to be expected that the projection of
+a star can shift by up to one or two pixels wrt to its gnomonic
+projection, depending on its color and its distance to the line
+of sight. Say σOPT ,ithis error, with the index i to remind the
+non-uniformity of the error.
+Misalignments of the imager — The surface of the detector
+may be not perfectly perpendicular to, nor centered with the
+optical axis of the imager.
+
+A mathematical transformation
+can be introduced in the gnomonic projection onto the pixel
+matrix of the imager to correct for misalignments, usually
+performed during the imager commissioning, and based on
+calibration images taken in ﬂight. However, such correction
+introduces third-order terms related to the distance to the
+optical axis, that expresses correlations between dimensions
+x andy of the pixel matrix. Although expected to be much
+lower than a fraction of a pixel, the experiment will be an
+opportunity to check for such aberrations with images of
+known star-ﬁelds.
+
+Say σAIT ,i this error, with the index i to
+remind the non-uniformity of the error.
+Mathematical development
+The AbC is ﬁrst used, here, to estimate the shift vector
+ˆE = (εx,εy)T from (x0,y 0) to (x,y ), along with a variance-
+Table 1. Expected errors for the experiment on
+OPS-SAT
+Type of error Variable Values
+Attitude knowledge error σAKE 15..90 arcsec
+Photometric dispersion σSNR,i ≥ 3
+Star catalog, 1 month old σcatalog 0.13 arcsec
+Stellar aberr. diff. within 10◦ σSt.Ab. 0.3 arcsec
+Optical aberrations σOPT ,i 1..2 pixels
+Detector misalignments σAIT ,i 0.1 pixel
+covariance matrix (“covariance” in short).
+The AbC takes advantage of the fact that the angular distances
+from the beacon to the neighbouring stars are constrained by
+one another.
+
+The square of the true angular distance between
+the beacon and a given star is:
+a20i = (x0−x0i)2 + (y0−y0i)2. (1)
+An estimate of Eq.1 is given by the measurements:
+a2i = (x−xi)2 + (y−yi)2. (2)
+For alla2i of the same image, (εx,εy) are parameters that can
+be ﬁt to minimize the residualsνi =a2i−a20i, obtained from
+the measurementsSi(xi,yi) andB(x,y ). Then, replacingx0
+andy0 by (x−εx) and (y−εy) in Eq. 1, and developingνi
+at the ﬁrst order, a linear system of equations is built:
+
+
+...
+a2i− (x−x0i)2− (y−y0i)2
+...
+
+ =
+
+
+... ...
+−2(x−x0i) −2(y−y0i)
+... ...
+
+
+(
+εx
+εy
+)
++
+
+
+...
+νi
+...
+
+
+or
+A =CE +N, whereN∼N (0,V ), (3)
+where the notation∼N (0,V ) deﬁnes the left-hand part as a
+zero-mean Gaussian random variable with covarianceV . The
+system can be inverted by a weighted least-squares method,
+with a weight matrix W =V−1. Then, an estimate for E =
+(εx,εy)T and its covariance are given as follows:
+ˆE = (CTWC )−1CTWA
+Cov(E) = (CTWC )−1. (4)
+The matrix (CTWC ) has rank 2 and its elements are easy
+to compute provided W is known. Their expression is
+developed in appendix. In a simpliﬁed approach to assess
+3
+
+the diagonal matrixV = Diag{Var(νi)}, that is discussed in
+the conclusions of this section, we ﬁrst consider that the SNR
+is the same in all subwindows and that the geometric cen-
+terﬁnding errors for the stars and the beacon are dominated
+by a picture-wide uniform, zero-mean, Gaussian error, with
+standard deviationσin expressed in arcsec:
+σ2in >σ2catalog +σ2St.Ab. + max{σ2OPT ,i} + max{σ2AIT ,i}
+(xi−x0i)∼N (0,σ 2in)
+(yi−y0i)∼N (0,σ 2in)
+Considering that x0i and y0i are ﬁxed for a given picture
+(derived from a catalog), as well asx0,y0 and the parameters
+(εx,εy), Var(νi) can be derived, as detailed in appendix,
+from Eq.1 and 2:
+∀i∈{ 1..n⋆}, Var(νi) = 4σ4in (5)
+Hence, the expression of the rank n⋆ diagonal matrix W =
+(4σ4in)−1In⋆.
+
+Although easy to compute in the general case,
+Cov(E) = (CTWC )−1 is not analytically simple. However,
+in an ideal case where the image of the beacon were at
+the barycenter of a homogeneous cloud of star images, the
+expression becomes simple. Noting d the standard deviation
+for the coordinates x0i andy0i of the stars, and expecting a
+diagonal 2× 2 matrix Cov(E) in the form of (σ2out)I2, wecan show after some development (given in appendix) that:
+σout = σin√n⋆(σind ). (6)
+Numerical applications
+As an indication for our experiment based on Table 1, with
+15 arcsec pixels,σin = 30 arcsec (2 pixels) should be an upper
+bound, due to a risk of strong optical aberrations.
+Eq. 6, although in an ideal case, is promising withd expected
+in hundreds of pixels and only a few stars: e.g.
+
+σin = 2 px,
+d = 100 px andn⋆ = 5 yieldsσout = 0.017 px or 0.27 arcsec.
+Fig. 2 shows an average number of stars per surface of the sky.
+It is built from a total number of 6 000 stars brighter than the
+6th magnitude and considering that their number increases by
+a factor of 2.5 per magnitude. An average of 5 stars can be
+found in a conic ﬁeld of view of half-angle 5◦ if the sensor’s
+sensitivity is better thanmv∼ 5.5 whereas the sensitivity of
+CubeSat imagers is expected between mv 6 (i.e. 12 stars in
+average) and 7 (i.e. 28 stars in average).
+
+These considerations
+have justiﬁed the experiment of the AbC on board OPS-
+SAT, to study its sensitivity in real ﬂight conditions, with real
+CubeSat hardware, non-uniform star-ﬁelds, strong pointing
+deviations (ACE up to 0.1◦) and optical aberrations.
+Gnomonic projection pg and its reverse projection
+The AbC method is used a second time to ﬁt the ﬁeld of
+view with its projection on the sky. Indeed, the measurement
+B(x,y ) is performed in the pixel matrix, not on the sky.
+Hence, a direct use of the quaternion provided by the ADCS
+to come back from (x0,y 0) = (x−εx,y−εy) to an absolute
+direction of the sky, using the reverse gnomonic projection of
+(x,y ), would re-introduce the error AKE in the results.
+Figure 2.
+
+Average number of stars n⋆ by visual magnitude
+mv in a conic ﬁeld of view of half-angle R.
+After deﬁning some notations, a ﬁrst quaternion q1 is com-
+puted with the AbC, that transforms from the ADCS-reported
+attitude to the best estimate of the line of sight. Then, a
+second quaternion q2 to rotate the ﬁeld of view is computed
+by minimizing the cost function of a least-squares method.
+Additional notations — Let’s consider the quaternion qIMG
+to rotate from the satellite body-frame to the imager ﬁeld of
+view, and qICRF to rotate from the ICRF to the target.
+
+In
+mission preparation, the quaternion to orient the imager to the
+desired target is computed, sayq and the resulting quaternion
+that is requested to the ADCS is qICRF = q⊗ qIMG, with
+“⊗” the product in the quaternion algebra (it is reminded
+in appendix to avoid some ambiguity). However, the ADCS
+reports a different quaternionqADCS⁄=qICRF that corresponds
+to a quaternionq⁄=q for the imager:
+q =qADCS⊗q⋆IMG, (7)
+where q⋆IMG is the conjugate of qIMG (assuming only unitquaternions).
+One can note that neither qADCS nor qICRF is the quaternion
+that brings to the ﬁeld of view, noted q0 that is to be de-
+termined. Considering a unit vector ⃗ s(sx,sy,sz) in ICRF
+coordinates, we note R(⃗ s) = ( s′x,s′y,s′z) its coordinates in
+the frame of the imager.
+
+Its associated quaternion is given by:
+(0 +R(⃗ s)) =q⊗ (0 +⃗ s)⊗q⋆.
+In the frame (⃗iIMG,⃗jIMG) of the imager (⃗kIMG being the line of
+sight), whose focal length is fIMG, the coordinates (x,y ) =
+pg(⃗ s) of the projection of⃗ sare:
+x =fIMGs′x/s′z
+y =fIMGs′y/s′z
+Re-centering the ﬁeld of view —The measurementsSi(xi,yi)
+on the image ﬁeld of view of the cataloged stars are searched
+by the centerﬁnding pre-processing technique in regions
+centered at their expected locations given by q, then noted
+(x0i,y 0i)q. Considering the line of sight as the beacon
+in the AbC method, i.e. (x,y ) = (0 , 0), Eq. 4 returns a
+solution noted ˆE0 = (εx,εy)(0,0) as the best translation to
+4
+
+ﬁtSi(xi,yi), i.e. the rotation from q toq0 about an axis ⃗T in
+the plane of the ﬁeld of view, perpendicular to this translation.
+In other terms, the beacon measured in (0, 0) corresponds to
+the direction (x0,y 0)=(0, 0)q0 in such a way:
+(x0,y 0)q =−(εx,εy)(0,0)
+= (0, 0)q0
+This solution deﬁnes a small rotation, hence a quaternion
+notedq1, to re-center the ﬁeld of view against the sky, from its
+ADCS-reported quaternion. Hence, the quaternion to be used
+in the new gnomonic projection p′g is adapted from Eq.
+
+7 as
+follows:
+q′ =q1⊗q, where
+q1 = cosθ2 + sinθ2⃗T/‖⃗T‖,
+with ⃗T =⃗ zADCS× p−1g ((−εx,−εy)(0,0))
+andθ =
+√
+ε2x +ε2y.
+(8)
+Fine rotation of the ﬁeld of view — Solving the last degree
+of freedom to characterize the ﬁeld of view against the
+sky consists in correcting its rotation error, assumed to be
+small.
+
+Still using the set of measurements Si(xi,yi) for the
+known stars in the picture (the values are unchanged, it is
+unnecessary to process a centerﬁnding again), a least-squares
+method is used to build a cost function F (ω) whose single
+parameter is the rotation angle about the line of sight of the
+new gnomonic projection p′g of the cataloged stars⃗ si:
+F (ω) =
+n⋆∑
+i=1
+‖−−−−−−→Si Ω(S0i)‖2, (9)
+where Ω(S0i) is the rotation by the angle ω about the center
+of the ﬁeld of view of p′g(⃗ si).
+After some development at the second order (provided in
+appendix), the minimum ofF (ω) is found for:
+ω [rad] =
+∑n⋆
+i=1(x0iyi−y0ixi)∑n⋆
+i=1(x0ixi +y0iyi)
+. (10)
+The value forω in Eq. 10 deﬁnes a new quaternionq2 associ-
+ated with the gnomonic projection pg”, adapted from Eq.
+
+8:
+q” =q2⊗q′ =q2⊗q1⊗q, where
+q2 = cosω2 + sinω2⃗ z0/‖⃗ z0‖,
+with⃗ z0 = (p′g)−1(0, 0).
+(11)
+Hence, the best estimate forq0 isq”.
+Its accuracy is driven by the AbC method in ﬁnding ˆE0 =
+(εx,εy)(0,0) from Eq. 4, we note it Cov(E0), and by the
+accuracy of the rotation in Eq. 8, we note itσω. The estimates
+ˆE0 and ˆE are strongly correlated, and likely close to each
+other, as they use the same set of measurements in the same
+way. Hence, a good approximation for its covariance is the
+one for the beacon itself, as given by Eq. 4:
+Cov(E0,E )≃ Cov(E0)≃ Cov(E). (12)
+Forσω, an upper-value can be found and considered uncor-
+related with the two others. We assume that the ADCS’
+accuracy applies in the whole ﬁeld of view.
+
+The alignment
+error applies proportionally to the off-axis distance of the
+beacon, with a maximum at the edge of the ﬁeld of view.
+Then, the alignment is improved by the number of stars used
+in the least-squares method. As a result, the upper-limit can
+be expressed as:
+σω≃ σAKE√n⋆‖ ˆE‖αFoV, (13)
+where αFoV is the angular half-size of the ﬁeld of view
+and‖ ˆE‖ is the angular off-axis distance of the beacon as
+estimated by the AbC.
+Reverse gnomonic projection — Now, the characterization
+of the ﬁeld of view is deﬁned by pg”. The expected values
+forS0i are recomputed on this basis: (x0i,y 0i)q” = pg”(⃗ si).
+The AbC method is processed and yields a solution (εx,εy)
+given by Eq. 4.
+
+Then, the absolute direction of the beacon ⃗b
+and an upper-limit of its error are estimated as follows:
+(x0,y 0)q′′ = (x,y )− ˆE,
+⃗b = (pg”)−1(x0,y 0),
+Cov
+(
+⃗b
+)
+≃σ2ωI2 + 4Cov(E).
+(14)
+Note: the coefﬁcient 4 before Cov(E) is obtained from
+Cov(E0 + E) = Cov(E0) + Cov(E) + 2 Cov(E0,E ),
+considering the approximation in Eq. 12.
+Discussion on the theoretical approach
+One can note that the expression in Eq. 6 tends to zero. But it
+only relates to the geometrical constraints for the intersection
+of multiple circles (angular distances) to one single beacon
+image. Indeed, it expresses the auto-calibration of the ﬁeld
+of view due to the presence of stars.
+
+It is pretty close
+to the techniques used in ground astrometric reduction of
+space images, except that we looked for a formulation that
+minimises computations: the underlying physical limitations
+of the optical system still apply, as it is expressed in the
+covariance upper-limit Cov(⃗b) in Eq. 14, that also beneﬁts
+from the use of multiple stars in the ﬁeld of view. The
+true limit of the method will be estimated statistically for
+this experiment. For any other mission, and depending on
+the mission planning, it could also be calibrated using star
+clusters, as it has already been done for a spacecraft like
+Cassini, and for sure many others.
+The weighting matrix W , inverse of V = Diag{Var(νi)}
+could also be improved by using the set of SNRs {σSNR,i}.
+This, along with alternative centerﬁnding techniques, shall
+5
+
+Figure 3. ESA’s OPS-SAT launched on 18th Dec 2019.
+Credit ESA.
+be explored in an advanced version of the experiment on
+OPS-SAT. Yet, in the image pre-processing, any particular
+star k with{σSNR,k} < 3 will be ignored and the linear
+system in Eq. 3 will be built with the remaining stars only. Of
+course, the SNR for the beacon itself, even weak, could not be
+ignored. However, the detailed speciﬁcation using {σSNR,i}
+is not ready yet and will not contribute to the commissioning
+results.
+3. OPS-SAT E XPERIMENT ID.156
+Here, we identify the properties of ESA’s OPS-SAT CubeSat
+that are related to our astrometry experiment. The speciﬁc
+challenges of our experiment with OPS-SAT are presented
+to justify the progressive deployment.
+
+Then, the mission
+preparation, the implementation as a wrap-up sequence of the
+AbC’s equations embedded in OPS-SAT and, eventually, the
+post-processing are detailed.
+ESA’s OPS-SAT mission
+OPS-SAT (Fig.3), also called by ESA “the ﬂying soft-
+ware lab”, is a 3-Unit CubeSat (main body within
+30 cm×10 cm×10 cm) and the ﬁrst nanosatellite directly
+owned by ESA and controlled by ESA/ESOC in Darmstadt,
+Germany [9]. It ﬂies in low Earth orbit, on a polar 6-
+18 Sun-synchronous orbit. It is equiped with a full set of
+sensors and actuators, in particular the imager IMS-100 and
+the fully integrated ADCS iADCS-100, both by Berlin Space
+Technologies GmbH (BST). The bus is based on NanoMind
+on-board computers by GOM SPACE and a software interface
+was prepared by GMV Poland.
+
+The main solar panels, once
+deployed, consist of ﬁve strings of 30 cm×10 cm facing−X
+axis. Although the experiment aims at saving datalink budget
+by processing the needed data on board, it will take full
+advantage of OPS-SAT’s high datalink in S-band and X-band
+to download and check on ground the results of the on-board
+experiment.
+The imager is aligned with the satellite’s longitudinal −Z
+axis. The ADCS uses a star tracker, whose axis is in the satel-
+lite’s (+X, +Y ) plane. According to private communications
+with a star tracker manufacturer for CubeSats, the AKE can
+be expected within 15 arcsec transversely to its line of sight,
+but it likely increases by a factor of 5 to 6 for the axis rotation
+error.
+
+For OPS-SAT, whose imager is not aligned with the star
+tracker, the start tracker’s AKE to be considered in the ﬁeld
+of view is likely not isotrope and could reach up to 90 arcsec
+in some directions of the image (not considering estimation
+ﬁlters that are embedded in the ADCS).
+The IMS-100 was developed essentially to image the Earth
+surface. Hence, the calibration and acceptance tests for this
+device addressed rather the risk of image distortion and not
+explicitly the sensitivity. The raw images are coded in the
+IMS-100 on 12 bits per pixel, using an RGGB Bayer pattern,
+on a 2048×1944 matrix of pixels. They are converted on
+board in 3-color 8 bit PNG format, by default, but the raw
+images can still be accessed by an experiment.
+
+The behavior
+at imaging stars is still unknown.
+OPS-SAT allows to ﬂy algorithms directly written for Linux
+shell, in JA V A, in Python or, in the case of this paper, in
+C++. To this aim, the Institute of Communication Net-
+works and Satellite Communications, from Graz University
+of Technology, Austria, prepared the Satellite Experimental
+Processing Platform (SEPP) module as a library of high-level
+functions to interface with various OPS-SAT systems, like the
+imager and the ADCS. Hence, the experimenter’s code uses
+functions of SEPP only and not any functions of the sensors’
+and actuators’ interfaces directly.
+
+SEPP is of great help for
+the experimenter who, nevertheless, still needs to understand
+and care of the correct chronology in the activation of OPS-
+SAT’s systems and of their detailed status before proceeding
+from one step to the next. A full framework in Eclipse
+IDE was prepared to cross-compile the experiment code from
+the experimenter’s environment (Intel, AMD) to the target
+environment, namely OPS-SAT with an ARM processor.
+An “experimenter” can be any kind of team around the world,
+whose idea is deemed feasible and relevant with OPS-SAT
+operations. The experiments are pieces of software to be
+run on board OPS-SAT, under the principle of “develop, ﬂy,
+improve” cycles. When the experiment is ready, a software
+review is performed.
+
+Then, the orbital deployment is decided
+(uploading the software and planning its execution) and a
+validation report terminates the cycle, to assess if debugging
+or a new orbital deployment is required.
+OPS-SAT is fully operational since mid-2020 and a second
+CubeSat, OPS-SAT 2, is under study.
+Experiment Id.156
+We submitted the idea to test the AbC on OPS-SAT and it
+was approved for implementation on 21 st Dec 2020. Our
+experiment was assigned the identiﬁcation number “156”.
+The idea is to characterize the performance of the AbC with
+star-ﬁelds, where the central star plays the role of the beacon.
+Considering the existing feed-back on OPS-SAT’s stability
+with the iADCS-100 and, reversely, the lack of experience
+at imaging star-ﬁelds with the IMS-100, we have anticipated
+successive versions for the on-board code and developed also
+6
+
+a tool for the mission preparation.
+Regarding the inertial pointing, the OPS-SAT team provides
+recorded seminars, prepared by TU Graz, Austria, to teach the
+interface with the iADCS via SEPP. Results of “high-level”
+pointing modes controlled during the commissioning phase
+are reported. For instance, the “Target Pointing Nadir” mode,
+i.e. -Z axis to the surface, meaning that the star tracker points
+tangentially to the surface, illustrates the needed execution
+times: 200 to 1200 s for attitude acquisition, then less than
+300 s for the achievement of the tracking. However, with the
+“Inertial Pointing” mode, some tests failed at acquiring the
+attitude even after 40 mn, while other tests took only 50 s,
+illustrating the dispersion of the performance.
+
+The reasons
+are not provided but, as a star tracker cannot recognize 100 %
+of the sky and may suffer from stray-light, one could suspect
+that the issue is related to particular pointed directions: be-
+cause the imager and the star tracker point to perpendicular
+directions, the latter may suffer from stray-light by the Sun,
+the Earth’s albedo or even the Moon, or from occultation by
+the Earth. An important concern of our experiment will be to
+care of the elongation angles of the imager’s and star tracker’s
+line of sights to the Sun, the Earth and the Moon.
+Although IMS-100 is ﬁt to Earth observation, and considering
+that the same technology is used in the iADCS-100 star
+tracker, one can expect sufﬁcient SNRs for stars up to the
+5th magnitude with short exposure.
+
+According to preparatory
+discussions with OPS-SAT, with exposure times from 100 ms
+and longer, dim stars should be visible as well, possibly
+smeared, and with exposure times of 200 ms, 5 images within
+1 s could possibly be stacked by a built-in function. Then,
+however, the platform pointing is also reported to degrade
+progressively, i.e. to drift away from the target attitude. In
+addition, the Point Spread Function (PSF) of a star will be
+mosaiced by the Bayer pattern of the CCD. But the PSF will
+expand over λ/D∼ 7 to 10 arcsec (with D∼12 mm lens),
+much smaller than the RGGB pattern (30 arcsec×30 arcsec).
+As a result, a PSF-matching centerﬁnding technique could
+become unefﬁcient with stars dimmer in green than in blue or
+red.
+
+We will then take care to download subwindows of the
+stars in their raw format, not demosaiced, for investigation on
+ground.
+Nevertheless, CubeSat hardware is not expected to offer the
+same stability and sensitivity like the hardware for larger
+space missions. Such limitation is compensated by a ﬂex-
+ibility in planing and operating experiments on OPS-SAT,
+that was never offered in the past.
+
+In order to adapt, our
+experiment is designed in a progressive complexity:
+• Series version 0.x: characterize the stability and the sensi-
+tivity of OPS-SAT to image star-ﬁelds up to magnitude 7.1,
+then assess the feasibility of the AbC with this hardware;
+• Series version 1.x: commission the AbC algorithm;
+• Series version 2.x: perform intensive campaigns on various
+star-ﬁelds to gather statistically meaningful datasets, includ-
+ing with various stray-light conditions;
+• Series version 3.x: explore alternative centerﬁnding tech-
+niques and weighting methods.
+The experiment presents some feasibility uncertainties.
+
+In
+our risk assessment, we suggest to re-orient the experiment
+in case of a feasibility issue: then, we would study the
+requirements for CubeSat components, and design in-ﬂight
+acceptance tests, about the needed performances of the ADCS
+and the imagers for astrometry.
+Table 2. Main properties of the six star-ﬁelds
+# central ICRF Nb.of mv
+star direction (◦) stars range
+1 HIP 20889 ( 67.15, 19.18) 18 3.5. . . 7.1
+2 HIP 57380 (176.46, 6.53) 20 2.8. . . 7.1
+3 HIP 60260 (185.34, -60.40) 84 0.0. . . 7.1
+4 HIP 76470 (234.26, -28.14) 15 4.0. . . 7.0
+5 HIP 96662 (294.79, 68.65) 18 4.6. . . 7.1
+6 HIP 114939 (349.21, -7.73) 30 2.9. . . 7.1
+Mission preparation
+First, we selected 6 star-ﬁelds in the sky.
+
+Then, our mission
+preparation tool computes the needed elongation angles all
+over the OPS-SAT future orbits. The results are displayed in
+VTS [10], a specialized free tool for space data published by
+the French space agency CNES.
+Star-ﬁelds —
+In order to accommodate the risk of stray-light all over the
+year, we identiﬁed six star-ﬁelds: four close to the ecliptic
+plane and 2 close to the poles (see Fig. 4). The star-ﬁelds are
+named after the central star and are listed in Table 2 with their
+main properties. The full catalog of stars considered in the
+experiment is listed in appendix C.
+
+Each star in the catalog
+is within an angular radius of 5 ◦ from one central star, it is
+brighter than magnitude 7.1 in blue, green or red and its type
+and immediate vicinity are deemed unambiguous with regard
+to a centerﬁnding technique.
+
+The stars were selected through
+the use of the SIMBAD database search engine [11].
+Elongation angles —
+We compute the angles from the Sun, the Earth-center and the
+Moon to the direction of each central star of the star-ﬁelds.
+To this aim, the ephemerides of OPS-SAT are built from the
+propagation of the latest Two-Line Elements (TLE) available.
+Although TLE are valid for a few days strictly speaking, the
+TLE-based propagator embedded in VTS includes the Earth
+J2 effect at the accuracy we need to plan the operations, i.e.
+the orbit remains Sun-synchronized on 6-18 for a full year
+ahead. Then, these three angles are compared to the thresh-
+olds that deﬁne the cone-avoidance angles for the imager. The
+exact values are still in discussion.
+
+In the presented plots, we
+consider 95◦ from the Sun, 50◦ from the Moon and 50◦ from
+the limb of the Earth (not considering day or night side, at this
+stage). When all three angles are beyond the cone-avoidance
+angles, an “observability” ﬂag is switched on for the star. The
+Fig.5, presents the resulting plots for each star during one
+month, with the observability being the square curve (blue).
+Manual decision —
+From the shown blocks of observability, we decide manually
+the star-ﬁeld that should be observed during each period of
+time. It is labelled “Selected FoV” in Fig. 5 and shown on the
+top. At least one star-ﬁeld should be observable at any time
+of the year, otherwise we would search for additional star-
+ﬁelds if it becomes incompatible with OPS-SAT planning.
+From this selection, the quaternion to be sent to the ADCS
+is computed. At the moment, they are ﬁxed quaternions for
+each star-ﬁeld with the aim of aligning one imager axis with
+the local ICRF longitude to ease the human recognition of the
+7
+
+Figure 4. Sensor View (within CNES’ VTS tool), when aligned with ICRF frame, displaying the selected star-ﬁelds and, at a
+particular epoch time, the area occulted by the Earth (pink) and the directions of the Sun and the Moon.
+Figure 5. Elongations over one full month to Sun, Earth, Moon for each star-ﬁeld, with its observability ﬂag (blue blocks).
+Top blue square curve: manually selected star-ﬁeld.
+star-ﬁeld in the pictures. However, the quaternions may be
+computed to ﬁt with the best rotation about the line-of-sight
+of the imager to accommodate the attitude tracking by the star
+tracker. At the time of writing, this additional optimization is
+still to be discussed with OPS-SAT team.
+Observation planning —
+Then, the exact possible periods of time for observation are
+computed.
+
+Indeed, the blue blocks only tell the period of
+observability. But, when zooming in at a particular epoch
+time (Fig. 6), the detailed elongations to the Earth limb over
+the OPS-SAT orbits, make the observability alternate. Hence,
+the detailed planning of possible executions of the experiment
+are output to OPS-SAT team for orbital deployment and
+planning, as well as stored on-board as an input for the
+experiment itself.
+Initial implementation
+The code of our experiment is written in C++. This language
+was preferred to Python or Java that are also suggested by
+OPS-SAT, but deemed less portable to various non-CubeSat
+platforms.
+
+In order to test our code on ground, without the
+actual OPS-SAT hardware, the SEPP module and the IMS-
+100 had to be shunted: their API “.h” headers are kept but
+a new notional function is coded for every function called by
+our experiment (16 for SEPP and 5 for the imager). Whenever
+the new notional function is called, test data are returned and
+an entry is added in a test log ﬁle, that conﬁrms our variables
+circulate as expected. When the code is deemed satisfactory,
+the shunts are simply removed and the same code is cross-
+compiled in OPS-SAT Eclipse IDE for ﬁnal check before
+delivery.
+The code itself is currently organized in a sequence of four
+sets of operations:
+1. Pointing:
+The iADCS-100 is initialized by the experiment itself on
+the basis of the on-board clock, updated from the ground by
+the OPS-SAT operation team and provided by the Linux op-
+erating system. Then, the high-level “inertial pointing” mode
+is requested to the next target in the observation planning,
+in association with its prepared quaternion, as computed in
+8
+
+Figure 6. Detailed observability for each star-ﬁeld. An
+observability slot typically lasts about 30 mn.
+mission preparation and uploaded. A strategy to command
+the iADCS-100 is still in discussion, due to the risk of failure
+for the star tracker to catch a known constellation. The current
+approach is to turn on the star tracker but to pre-align on
+the basis of the sun sensors and magnetometers only, then
+monitor the reported attitude, then watch whether the iADCS-
+100’s quaternion has reached the target and, in addition, if the
+star tracker also computes a quaternion by itself (as it can be
+accessed directly if acquired). If so, the reported attitude will
+be expected to be in line with the AKE.
+
+Then, a watchdog
+will limit this process in case the star tracker’s quaternion is
+never acquired.
+2. Imaging:
+During the IMS-100 characterization stage for the AbC,
+a series of picture with various sets of gains and exposure
+times will be performed, stored and downloaded for ground
+analysis. The experiment does not attempt to go further at this
+stage. The ADCS-reported quaternions are still monitored
+just before and just after commanding each image. The result
+of the characterization stage may yield to stack a series of 5
+pictures exposed 200 ms each.
+For the commissioning phase of the AbC, series of two
+pictures will be taken (we do not consider the possible de-
+cision of stacking multiple images, yet).
+
+If one of the picture
+contains a cosmic ray that disturbs the centerﬁnding pre-
+processing, the other will be used instead. Otherwise, both
+pictures will be used. Whether a cosmic ray is detected is
+part of the pre-processing, presented below. The full pictures
+will be downloaded for analysis (example of an expected star-
+ﬁeld is shown in Fig. 7).
+At the next stages of the experiment, the main program will
+loop, once the pointing is established: take a new picture as
+long as the experiment is still running and the ADCS-reported
+quaternion is still in range with imaging the central star, and
+process the image. We are interested in the processing results,
+even if the satellite drifts away from the target quaternion, to
+assess the off-axis effects on the beacon measurements.
+
+At
+these stages, the full images are no longer downloaded (but
+the subwindows are).
+3. Pre-processing:
+Considering the Bayer pattern of the imager, the experiment
+derives the value for each color in each pixel by a demosaic-
+ing method and sums up all three channels to form a grey raw
+image of the same original size.
+At the timestamp of the image, an interpolated quaternion
+qADCS is computed, as reported by the ADCS. The gnomonic
+Figure 7. Star-ﬁeld HIP96662 as expected in the imager
+ﬁeld of view (computed in VTS SensorView). The square is
+10◦× 10◦.
+projection pg, based on q from Eq. 7 is processed for all
+cataloged stars of the star-ﬁelds (including the beacon, central
+star), resulting in a set ofexpected locations{(x0i,y 0i)}.
+
+The
+associated subwindows (x0i± 3σAKE,y 0i± 3σAKE) are ex-
+tracted and stored for later download (in raw non-demosaiced
+format). The SNR for each subwindow is computed, consid-
+ering that the level of “noise” is given by the median of the
+pixels and the level of signal by the brightest pixel. If the SNR
+is lower than 2, the subwindow is discarded. If the SNR of a
+subwindow is highly greater than the one of a previous picture
+(at least 2 pictures are taken), this subwindow is suspected to
+have got hitten by a cosmic ray and is discarded too.
+Then, the centerﬁnding method is run on each subwindow,
+which results in a set of measured locations (x,y ) and
+{(xi,yi)}. At the commissioning stage, we will only consider
+a photometric barycenter of the subwindow after removal of
+the median value.
+
+If the method proves to be sufﬁcient to re-
+trieve the beacon with an accuracy better than the size of one
+pixel, we will proceed with the same centerﬁnding technique.
+Otherwise, we will ﬁrst implement a better centerﬁnding
+technique (PSF-ﬁt, pattern-based correlation). Such better
+techniques can be explored anyway on ground, based on the
+already acquired dataset (that includes the raw subwindows)
+or on board in the last stage of the experiment.
+4. AbC:
+The AbC technique is, then, processed: the gnomonic
+projection is consolidated in two steps. First, using AbC to
+consolidate the line of sight and resulting in the gnomonic
+projection p′g based on the quaternions q1 andq′ from Eq.
+
+8.
+Second, the cataloged stars are re-projected with p′g into the
+set of expected locations{(x0i,y 0i)′}, that is ﬁt to the same
+set of measured locations{(xi,yi)} like previously, yielding
+a rotation angle of the ﬁeld of viewω given by Eq. 10 and an
+upgraded gnomonic projection p′′g based on the quaternions
+q2 andq′′ from Eq. 11.
+Then, the cataloged stars are, one last time, re-projected
+in the ﬁeld of view with p′′g, yielding an upgraded set of
+expected locations{(x0i,y 0i)′′}. The AbC is processed again
+with this new projection, but using the same set of measured
+locations (x,y ) and{(xi,yi)}, which results in the estimate
+of (x0,y 0) = (x,y )− ˆE for the beacon in the ﬁeld of view
+(here the central star of the star-ﬁeld), with its covariance
+Cov(E).
+9
+
+Finally, the image of the beacon is converted in a direction
+on the sky with its covariance, by the reverse gnomonic
+projection (p′′g)−1 expressed in Eq. 14.
+Ground processing
+Our OPS-SAT experiment Id.156 is still a work in progress
+at the time of writing.
+
+Nevertheless, as far as possible, it is
+anticipated to produce the following post-processing:
+• Chronograms of ancillary data, for every experiment run,
+over run’s duration:
+– ADCS-reported quaternions (sampling at 0.1 Hz during
+slew, before and after each image during imaging);
+– Statistical evolution compared to inertial pointing com-
+mands;
+– Corresponding elongations to the Sun, the Earth and the
+Moon for the imager and the star tracker.
+• Before AbC commissioning, for ADCS and imager charac-
+terizations:
+– Full-frame images: noise vs. exposure time correlation,
+noise removal, PSF vs.
+
+RGGB Bayer pattern assessment,
+stability and sensitivity initial assessments;
+– Subwindows: ACE, AKE and AKE’s isotropic property
+assessments (before calibration of the ﬁeld of view with the
+AbC).
+• Systematic ground processing for every single on-board
+image:
+– Subwindows: automatic monitoring of individual star
+centerﬁnding and SNR, and manual investigation in case of
+strong deviation;
+– Field of view AbC-calibration: monitoring of ˆE0,
+Cov(E0),ω from Eq. 8 to 12;
+– Beacon AbC-estimates: (x0,y 0) and Cov(E) from Eq. 4
+(in ﬁeld of view),⃗b and Cov(⃗b) from Eq.
+
+14 (on the sky);
+– In-image Centerﬁnding performance assessment;
+– In addition, for AbC commissioning: ground re-
+processing of the subwindows from the downloaded full-
+frame images; manual assessment of quality (cosmic, hot
+pixels, SNR, ambiguities among stars), individual star cen-
+terﬁnding assessment from the subwindows.
+• Overall analysis of the datasets:
+– Statistical properties of Cov(E) and search for correla-
+tions withσout expressed by Eq. 6;
+– Search for correlation with straylight conditions;
+– Radial optical aberration assessment based on AbC-
+calibrated star-ﬁeld.
+An original part of our experiment will be to link the exper-
+iment mission proﬁle, its mission preparation and its post-
+processing altogether.
+
+In this aim, the on-board code will
+directly format log-ﬁles for VTS visualization in our mission
+preparation tool. Such VTS-formatted log-ﬁles will target the
+following data:
+• ADCS requested and reported quaternions;
+• AbC-computed beacons in the ﬁeld of view and on the sky;
+• AbC-calibration of the ﬁeld of view;
+• Number of stars taken into account (acceptable SNR).
+The corresponding datavolume for these log-ﬁles is still
+small, considering the OPS-SAT datalink. The effect will
+be an immediate quick analysis of the results, hence more
+ﬂexibility in the “develop, ﬂy, improve” cycles offered by
+OPS-SAT.
+4.
+
+P OTENTIAL APPLICATIONS
+Although the AbC is meant for astrometry, it can also be used
+as an astrometric tool to characterize ADCS and imagers.
+Here are examples in both application contexts.
+Astrometry to commission ADCS and Imager
+The ADCS performance strongly depends on the rest of the
+platform, its preferred orientation (OPS-SAT observes mainly
+with−Z axis to the Earth, while the ADCS’ star tracker
+points perpendicularly to this direction) and the reliability of
+space-environment models. It makes it very difﬁcult to test
+for acceptance.
+
+Interestingly, our ﬁrst 3-Unit CubeSat at Paris
+Observatory, PICSAT, launched in 2018 (Nowak 2018 [12])
+used the same ADCS like OPS-SAT (BST iADCS-100), but
+provided by Hyperlink Technologies B.V ., Netherlands, with
+the star tracker ST200 aligned with the line of sight of the
+telescope (+Z axis). In 8 weeks of operations, the ADCS
+was never able to align the satellite with the star β−Pictoris,
+its primary target, despite the detumbling reached less than
+0.1◦/s, well below the manufacturer’s request.
+
+As already
+reported, OPS-SAT has also experienced delays, and even
+failures, in establishing an inertial pointing, despite a strong
+endeavour in the development of high-level pointing modes,
+that could result from the same root causes.
+These two examples remind the difﬁculty to test the ADCS
+on ground, and to commission it during ﬂight. In particular,
+monitoring the quaternions is not enough if an absolute ref-
+erence is not available, which can be provided by an imager
+after careful positioning of each image against the sky.
+The rigorous acceptance is also a challenge for a CubeSat
+imager whose market-oriented design is best at observing
+the Earth surface in daylight, but maybe not characterized
+for other uses (although it could ﬁt to such uses).
+
+As a
+highly-integrated subsystem, presented as a “COTS” compo-
+nent (commercial-off-the-shelves), it comes sometimes with
+a poor datasheet, few test results and poor customer support.
+Hence, the elementary and integration tests at CubeSat level
+require a good preparation and specialized tooling, with still
+a risk of delay.
+
+It also needs to anticipate for the search of a
+good setup and a software-based geometric re-calibration and
+picture cleaning in ﬂight.
+As soon as both an ADCS and an imager are present in
+a satellite, our AbC method can serve as a guidance for
+acceptance tests on ground and, later, in ﬂight.
+Autonomous astrometry in CubeSat
+On-board orbit determination — We have developed a
+solution for autonomous orbit determination for CubeSat
+in deep space cruise (Segret 2019 [13], [14], 2021 [15]).
+Several teams also work on the development of autonomous
+navigation solutions, especially because of the likely rise of
+deep space CubeSats, as stand alone or accompanying probes.
+Optical measurements of distant beacons are limited by the
+accuracy of these beacons that is proportionally translated
+into the
+
+overall accuracy of the orbit determination. The
+optical accuracy is usually assumed to be the size of a pixel,
+which is far from true as we have seen in this paper, due
+essentially to AKE, unless a speciﬁc image processing. All
+these attempts are immediate possible applications of the
+presented AbC experiment, with the expectation of a sub-
+pixel and even a sub-arcsec accuracy.
+Close-to-Sun Asteroids — Another application for astrometry
+is the detection of celestial bodies on Sun-side as seen from
+10
+
+the CubeSat, i.e. below 90◦. CubeSats are good candidates
+for such missions in Earth orbit or at some distance (actually
+up to the Moon, provided a datarelay is available). Indeed,
+this goal needs space observation and CubeSats represent a
+low cost, high risk paradigm. Obviously, stray-light is here
+the major concern and imagers like the one on OPS-SAT
+would not ﬁt to this use. Nevertheless, a different set of sensor
+and bafﬂe can be considered and the AbC will be useful as
+a pre-processing technique in the domain of Space Situation
+Awareness (SSA) for early detection, assessment and warning
+system.
+Debris reconnaissance — In the same aim, debris in Earth
+orbit may be difﬁcult to locate and a broad endeavor is ongo-
+ing to propose debris removal solutions.
+
+It can be interesting
+to develop a triangulation method between a space tug and
+an accompanying nanosatellite (or several) to approach the
+debris autonomously from far range. Then, an on-board
+processing of each platform’s images is highly desirable and
+the AbC can provide the required level of accuracy.
+5. S UMMARY
+This paper has detailed the AbC method, an on-board pro-
+cessing to derive the absolute direction of a beacon in an
+image, along with an upper-limit for its accuracy. The the-
+oretical expression of this upper-limit makes the method very
+promising for applications at CubeSat scale, whose wide-
+angle camera can easily image about 10 bright stars along
+with the beacon, despite a weak attitude knowledge.
+
+The
+implementation of the AbC on board an actual ESA CubeSat
+has been presented and will make possible, from 2022, to
+quantify the performance of the method, its sensitivity and,
+as a bonus, the stability and accuracy of the CubeSat pointing
+itself.
+Applications to on-board orbit determination are ﬁrst tar-
+geted.
+
+In addition, the in-ﬂight testing of the AbC method
+has been an opportunity to deﬁne a commissioning process
+for a CubeSat ADCS and for an imager used as a NavCam.
+The ground testing being such a challenge with standardized
+devices of the New Space, CubeSat integrators may feel quiet
+powerless when dealing with their newly delivered hardware.
+Thus, we strongly encourage them to share their experience
+at using the AbC method with their own hardware, on ground
+or in ﬂight, with the hope that it will improve the dialog with
+the device manufacturers.
+APPENDICES
+A. M ATHEMATICAL DEVELOPMENTS
+Development of Cov(V) for Eq.
+
+5
+Considering the centerﬁnding process to be dominated by an
+uniform, zero-mean, Gaussion errorσin on both dimensions:
+∀i∈{ 1..n⋆}, Var(νi)
+= Var(a2i−a2i0), whereai0 not a random variable
+= Var(a2i )
+= Var(x2− 2xxi +x2i +y2− 2yyi +y2i ).
+The random variables x and xi (resp. y and yi) being
+independent and not correlated, Cov(x,xi) = 0 (resp.
+Cov(y,yi) = 0). Hence,
+Var(νi) = Var2(x) + Var2(xi) + Var2(y) + Var2(yi)
+= 4(σ2in)2,
+because the variances ofx,y,xi andyi are taken equal in the
+context of Eq. 5.
+Development of Cov(E) for Eq. 6
+Special case, whereB(x0,y 0) is at the barycenter of a cloud
+of stars whose coordinates {(x0i,y 0i),i = 1 ...n ⋆} have a
+standard deviationd in both dimensions.
+W =
+( 1
+4σ4in
+)
+In⋆,
+C =
+
+
+... ...
+−2(x−x0i) −2(y−y0i)
+...
+
+...
+
+
+i=1...n⋆
+,
+CTWC =
+(
+C1 C0
+C0 C2
+)
+,
+where:
+C1 =
+n⋆∑
+i=1
+−2(x−x0i)
+(−2(x−x0i)
+4σ4in
+)
+= 1σ4in
+n⋆∑
+i=1
+(x−x0i)2
+,
+and, considering that B is at the barycenter with the standard
+deviationd for the cloud of stars:
+C1 = n⋆d2σ4in .
+Similarly:
+C2 =
+n⋆∑
+i=1
+−2(y−y0i)
+(−2(y−y0i)
+4σ4in
+)
+= 1σ4in
+n⋆∑
+i=1
+(y−y0i)2
+= n⋆d2
+σ4in
+.
+And the anti-diagonal elements become null:
+C0 =
+n⋆∑
+i=1
+−2(x−x0i)
+(−2(y−y0i)
+4σ4in
+)
+= 1σ4in
+n⋆∑
+i=1
+(x−x0i)(y−y0i)
+= 0
+.
+11
+
+Hence:
+Cov(E) =
+(
+CTWC)−1 = σ4in
+n⋆d2 I2,
+then ﬁnally the Eq. 6, noting Cov(E) = (σ2out)I2:
+σout = σin√n⋆(σind ).
+Development for the cost functionF (ω) in Eq.
+
+9
+F (ω) =
+n⋆∑
+i=1
+‖−−−−−−→Si Ω(S0i)‖2
+‖−−−−−−→Si Ω(S0i)‖2 = (cosωx0i− sinωy0i−xi)2
++ (sinωx0i + cosωy0i−yi)2
+(then, at second order)
+=
+(
+(1−ω2/2)x0i−ωy0i−xi)2
++
+(
+ωx0i + (1−ω2/2)y0i−yi)2
+=
+(
+(x0i−xi)−ωy0i− (ω2/2)x0i)2
++
+(
+(y0i−yi) +ωx0i− (ω2/2)y0i)2
+developing further, keeping only the terms up to the 2nd order
+and grouping as a polynomial ofω:
+=ω2[y20i−x0i(x0i−xi) +x20i−y0i(y0i−yi)]
++ω [−2y0i(x0i−xi) + 2x0i(y0i−yi)]
++ (x0i−xi)2 + (y0i−yi)2
+Then, the full expression of the cost function:
+F (ω) =ω2
+n⋆∑
+i=1
+(x0ixi +y0iyi)
++ 2ω
+n⋆∑
+i=1
+(y0ixi−x0iyi)
++
+n⋆∑
+i=1
+[
+(x0i−xi)2 + (y0i−yi)2]
+The coefﬁcient of ω2 being positive, the polynomial has got
+a minimum forω the solution ofF′(ω) = 0:
+F′(ω) =2ω
+n⋆∑
+i=1
+(x0ixi +y0iyi)
++ 2
+n⋆∑
+i=1
+(y0ixi−x0iyi)
+F′(ω) = 0
+⇔ω =
+∑n⋆
+i=1(x0iyi−y0ixi)∑n⋆
+i=1(x0ixi +y0
+
+iyi)
+B. Q UATERNION ALGEBRA
+A few reminders on basic properties and operations in the
+quaternion algebra is useful, for instance to check for am-
+biguous syntax in some languages (e.g. Python). The major
+concern is that the product of quaternions is not commutative
+and that the conjugate can only be used, instead of the inverse,
+with a unit quaternion.
+Possible notations
+These notations are equivalent:
+q = (q0,qx,qy,qz), but also sometimes
+= (qx,qy,qz,q 0)
+=q0 +qx⃗i +qy⃗j +qz⃗ z
+= (q0 +⃗ v)
+=|q|(cosθ/2 +sinθ/2.⃗ u),where‖⃗ u‖ = 1, or
+=|q|(cosθ/2,⃗ u) with
+|q| =
+√
+q20 +q2x +q2y +q2z =
+√
+q20 +‖⃗ v‖2
+Meaning: in the form (cosθ/2,⃗ u), this unit quaternion ex-
+presses the rotation byθ about the axis⃗ u, the direction of the
+vector telling the direct rotation, i.e.
+
+ifθ> 0.
+Important properties
+Note that any vector⃗ vcan be written as a quaternion (0 +⃗ v)
+and any scalars can be written as a quaternions +⃗0.
+Operations:
+• The addition is associative, commutative, noted “+”
+(s +⃗ v) + (t + ⃗ w) = (s +t) + (⃗ v+ ⃗ w)
+• The product is associative, not commutative, noted “⊗”
+(cross-product noted “×”, scalar - or dot - product noted “·”)
+(s +⃗ v)⊗ (t + ⃗ w) = [st−⃗ v· ⃗ w] + [s⃗ w+t⃗ v+⃗ v× ⃗ w]
+• Conjugate:
+q =q0 +⃗ v=⇒q⋆ =q0−⃗ v
+Then, (⃗i,⃗j,⃗k) being on orthonormal direct frame:
+⃗i2 =⃗j2 =⃗k2 =−1
+⃗i⊗⃗j =⃗i×⃗j =⃗k
+⃗j⊗⃗k =⃗j×⃗k =⃗i
+⃗k⊗⃗i =⃗k×⃗i =⃗j
+And:
+|q| = 1⇐⇒q−1 =q⋆
+q≡ rotation byθ⇐⇒q⋆≡ rotation by (−θ)
+12
+
+Product:
+q1,q 2 two rotations
+=⇒q =q2⊗q1 is a rotation byq1 ﬁrst, thenq2
+Warning: in python, the operator “*” in the package
+pyquaternion may be confusing, as qa∗qb, there, means a
+rotation composed by the rotationsqa ﬁrst, thenqb.
+Transform of a vector, example:
+With|q| = 1 , the transform of a vector ⃗ vby the rotation
+associated with q is a vector ⃗ v′ whose coordinates are (the
+frame is not transformed, here):
+(0 +⃗ v′) =q⊗ (0 +⃗ v)⊗q⋆
+If the attitude of a satellite is expressed by q, with ICRF as
+the reference frame, it means that its body-frame was trans-
+formed by the rotation of ICRF associated with q, meaning
+that its axes have ICRF-coordinates given by:
+⃗X =q⊗ (0 + ⃗XICRF)⊗q⋆
+⃗Y =q⊗ (0 +⃗YICRF)⊗q⋆
+⃗Z =q⊗ (0 +⃗ZICRF)⊗q⋆
+Hence, if a vector ⃗ v(with coordinates in ICRF) is projected
+
+in the body-frame rotated byq, it will appear as a vector⃗ v′ in
+the body-frame, whose coordinates are obtained by:
+(0 +⃗ v′) =q⋆⊗ (0 +⃗ v)⊗q.
+C. S TAR CATALOG
+See Tbl. 3.
+Note that the Id. of a star is for internal use only. It is either
+the Hipparcos catalog number (HIP) or an arbitrary negative
+number when lacking a HIP number.
+ACKNOWLEDGMENTS
+This work was ﬁnanced by PSL Universit ´e Paris as an out-
+come of the support provided to various nanosatellite projects
+by CENSUS, the space pole of PSL Universit ´e Paris, hosted
+by Paris Observatory.
+The SensorView and the mission preparation plots come from
+CNES’ free software VTS [10]. This work has made use of
+the SIMBAD database, operated at CDS, Strasbourg, France.
+REFERENCES
+[1] N.J.
+
+Cooper et al., “The Caviar software package for the
+astrometric reduction of Cassini ISS images: description
+and examples,” Astronomy and Astrophysics, vol. 610,
+2018.
+[2] J. E. Riedel et al., “Navigation for the new millennium:
+Autonomous navigation for Deep-Space 1,” in ISSFD-
+1997, 1997, pp. 303–320.
+Table 3. Stars selected for the on-board catalog.
+Id.
+
+ICRF mv
+direction (◦) (max)
+19960 ( 64.202871, 16.214387) 6.6
+-10 ( 65.396156, 21.188503) 7.1
+20789 ( 66.822714, 22.996329) 5.4
+20493 ( 65.884861, 20.982045) 6.0
+20780 ( 66.770272, 18.207550) 6.9
+20889 ( 67.154162, 19.180429) 3.5
+20205 ( 64.948349, 15.627643) 3.6
+20916 ( 67.248976, 16.159070) 6.3
+20877 ( 67.109877, 16.359674) 5.0
+20215 ( 64.978572, 16.522591) 6.9
+20440 ( 65.684047, 15.056089) 7.1
+20732 ( 66.651549, 14.713786) 4.0
+21094 ( 67.804890, 23.346060) 7.1
+21158 ( 68.032945, 21.632356) 7.1
+21408 ( 68.927355, 19.881749) 6.3
+21257 ( 68.408696, 16.323338) 6.6
+21365 ( 68.759870, 17.201231) 6.8
+21588 ( 69.539371, 16.033253) 5.8
+20995 ( 67.535824, 15.637839) 5.4
+-1 ( 70.550805, 22.942361) 7.1
+-7 ( 68.387722, 18.016722) 7.0
+-8 ( 68.386812, 18.016822) 7.0
+56079 (172.416647, 7.599375) 6.7
+56
+
+618 (174.142338, 6.106440) 6.8
+56445 (173.591453, 3.060165) 5.5
+56756 (174.540965, 8.883792) 6.2
+56779 (174.615030, 8.134296) 5.4
+57328 (176.321001, 8.258115) 4.8
+57562 (176.978734, 8.245895) 5.3
+57339 (176.350672, 7.030039) 7.1
+57380 (176.464832, 6.529373) 2.8
+57401 (176.526216, 7.174190) 6.9
+57107 (175.606422, 2.362110) 7.0
+57888 (178.087086, 9.948064) 6.9
+58110 (178.763052, 8.443945) 5.6
+58329 (179.437913, 6.974628) 6.8
+57636 (177.279630, 5.183376) 5.8
+58377 (179.558042, 3.482009) 6.7
+58510 (179.987137, 3.655207) 5.3
+57757 (177.673826, 1.764720) 3.1
+58590 (180.218293, 6.614321) 4.6
+58809 (180.935170, 5.557751) 6.1
+57644 (177.303030, -57.691561) 6.8
+58041 (178.547920, -57.410197) 6.0
+58059 (178.611078, -56.969775) 6.9
+58465 (179.848897, -57.167986) 6.8
+58334 (179.442643, -60.451347) 6.8
+57439 (176.628427, -61.178399) 4.1
+57808 (177.804115, -61.846152) 6.6
+57064 (175.473819, -60.230810) 6.8
+57004 (175.293746, -61.141066) 6.9
+58326 (179.416698, -62.448748) 5.4
+58103 (178.750049, -63.279180) 5.7
+58469 (179.856744, -62.830946) 6.3
+58427 (179.698579, -64.339559) 5.6
+57175 (175.879964, -62.489396) 4.3
+58756 (180.754458, -57.260129) 6.7
+13
+
+59965 (184.480362, -57.850149) 6.7
+59747 (183.786320, -58.748927) 2.6
+58642 (180.371635, -57.503777) 6.1
+59560 (183.217097, -59.655312) 7.1
+59266 (182.348246, -59.769257) 7.0
+59528 (183.105660, -60.067804) 6.8
+58942 (181.285704, -61.179558) 6.7
+59200 (182.103045, -60.847130) 6.2
+59396 (182.771276, -61.277424) 6.1
+58748 (180.734803, -62.175287) 6.8
+58758 (180.756255, -63.312928) 4.3
+58867 (181.080093, -63.165694) 4.6
+58960 (181.345450, -62.975752) 6.7
+59502 (183.042808, -63.454114) 7.0
+59517 (183.091583, -62.950774) 5.6
+59865 (184.159280, -63.197906) 7.0
+60128 (184.973768, -62.854183) 6.8
+60009 (184.609317, -64.003087) 3.9
+60259 (185.338033, -62.281632) 6.6
+59072 (181.720412, -64.613729) 4.1
+59488 (183.003157, -64.510403) 6.6
+59678 (183.570523, -64.408519) 6.2
+59111 (181.816481, -64.681778)
+
+6.8
+59457 (182.934551, -64.948788) 7.0
+61179 (188.036661, -56.129540) 6.5
+60308 (185.489282, -56.374384) 5.9
+60870 (187.139976, -56.407817) 6.1
+60969 (187.475830, -56.524936) 5.8
+60379 (185.705967, -57.676129) 5.3
+-5 (187.819664, -57.081330) 6.5
+60780 (186.870150, -58.316447) 6.3
+61154 (187.970072, -58.290614) 7.1
+61084 (187.791498, -57.113213) -0.0
+60781 (186.870326, -58.991766) 5.5
+61136 (187.918042, -59.423923) 5.5
+61019 (187.581384, -60.989894) 6.7
+60455 (185.907035, -61.629127) 6.4
+60260 (185.340039, -60.401147) 3.6
+60845 (187.070330, -61.765709) 6.8
+60861 (187.107019, -61.794841) 6.2
+61444 (188.874366, -61.740805) 6.6
+-256 (186.628679, -63.122232) 4.7
+60771 (186.853441, -63.788985) 6.0
+62027 (190.709440, -63.058625) 5.3
+60905 (187.228590, -61.870913) 6.9
+61158 (187.983802, -63.505839
+
+) 5.9
+60644 (186.442779, -64.022088) 7.0
+60570 (186.233154, -65.211014) 7.0
+62179 (191.145816, -57.286894) 6.6
+62680 (192.661215, -58.166283) 7.1
+62428 (191.913362, -58.297570) 6.9
+62084 (190.868006, -58.902741) 6.4
+62986 (193.591655, -58.430615) 6.6
+62434 (191.930287, -59.688772) 1.0
+62268 (191.408542, -60.981320) 4.7
+62646 (192.549173, -60.400530) 6.7
+61966 (190.485701, -59.685821) 4.9
+62732 (192.824901, -60.329787) 5.3
+63007 (193.663261, -59.146701) 4.5
+62651 (192.558422, -62.641299) 6.6
+63489 (195.131362, -60.375367) 7.1
+62894 (193.341225, -60.328489) 5.8
+62953 (193.499163, -60.335418) 6.8
+62913 (193.406747, -60.357062) 6.8
+57741 (177.613653, -62.649381) 5.7
+60851 (187.080253, -64.340993) 6.1
+61443 (188.872681, -61.841528) 6.2
+62931 (193.453831, -60.376241) 5.9
+58921 (181.238392, -60.9
+
+68253) 6.0
+58901 (181.188581, -59.253253) 6.1
+59360 (182.675277, -56.442319) 7.0
+-2 (186.649567, -63.099092) 1.1
+-3 (186.651842, -63.099522) 1.4
+76048 (232.959292, -32.881115) 6.5
+74675 (228.914044, -27.596291) 6.8
+75272 (230.688367, -29.341935) 6.5
+-11 (234.053774, -28.998852) 6.9
+76259 (233.655533, -28.046997) 5.1
+76470 (234.256042, -28.135081) 3.6
+76567 (234.565879, -28.206656) 6.3
+77235 (236.553560, -28.061487) 6.5
+-12 (233.289642, -24.490417) 6.9
+76742 (235.070410, -23.818076) 4.0
+77394 (236.985218, -25.986953) 7.0
+77840 (238.402995, -25.327141) 4.5
+77635 (237.744771, -25.751295) 4.6
+77984 (238.875308, -26.265984) 5.6
+-13 (233.287292, -24.489144) 7.0
+-14 (238.402989, -25.327136) 4.6
+-15 (238.402361, -25.327135) 7.0
+77985 (238.877221, -31.083616) 6.2
+75288 (230.737740, -26.688762) 6.5
+
+77900 (238.625455, -27.338635) 6.1
+97831 (298.198683, 64.176045) 6.8
+99090 (301.749940, 66.308018) 7.0
+98583 (300.368934, 64.820971) 5.3
+98658 (300.584238, 64.634419) 6.3
+97988 (298.705870, 64.721225) 6.9
+99291 (302.335673, 68.599553) 7.0
+99435 (302.737129, 68.272214) 6.8
+101349 (308.104858, 70.532093) 6.7
+95081 (290.167056, 65.714530) 4.5
+94993 (289.942247, 64.390807) 6.4
+96662 (294.792961, 68.652572) 6.8
+97122 (296.076739, 69.337061) 5.9
+94140 (287.440857, 65.978515) 6.3
+93517 (285.679068, 68.325168) 7.1
+94505 (288.516316, 67.115559) 6.8
+95978 (292.751123, 70.989341) 6.1
+92137 (281.691037, 67.771485) 7.1
+92672 (283.253770, 71.787228) 7.0
+114536 (347.998206, -11.933554) 7.0
+115015 (349.417015, -11.712948) 6.3
+115839 (352.021646, -11.449756) 6.4
+113583 (345.083121, -8.880515) 6.8
+114600 (348.244228, -9.570473) 7.0
+114750 (348.667386, -10.688719) 6.1
+114855 (348.972897, -9.087734) 3.5
+115033 (349.475891, -9.182519) 4.3
+115495 (350.938821, -8.460103) 6.7
+115115 (349.740319, -9.610748) 5.0
+115906 (352.252764, -9.266104) 6.2
+113674 (345.348507, -7.061154) 6.2
+113781 (345.635654, -6.574013) 6.2
+14
+
+114054 (346.468881, -7.936714) 6.7
+113996 (346.290778, -7.693801) 5.5
+114006 (346.327164, -7.754690) 7.1
+114445 (347.665090, -5.960274) 6.8
+114724 (348.580665, -6.049000) 2.9
+114952 (349.246463, -7.160803) 6.7
+114939 (349.212247, -7.726501) 5.1
+115257 (350.170361, -5.907971) 6.2
+116060 (352.754760, -6.288080) 6.4
+116428 (353.883632, -7.464431) 6.4
+113686 (345.382122, -4.711461) 5.9
+113896 (345.988640, -4.794862) 6.7
+114822 (348.892740, -3.496379) 5.5
+115220 (350.066040, -3.919138) 6.7
+115316 (350.339756, -4.672761) 6.8
+115892 (352.194565, -5.389421) 7.0
+115953 (352.383672, -4.532745) 6.3
+-20 (350.938854, -8.460075) 7.1
+[3] S. P. Synnott, A. J. Donegan, J. E. Riedel, and J. A. Stuve,
+“Interplanetary optical navigation: V oyager Uranus en-
+counter,” Astrodyn. Conf. 1986, 1986.
+[4] J. E.
+
+Riedel, W. M. Owen, J. A. Stuve, S. P. Synnott, and
+R. M. Vaughant, “Optical navigation during the voyager
+neptune encounter,” Astrodyn. Conf. 1990, pp. 118–128,
+1990.
+[5] R. Vaughan, J. Riedel, R. Davis, W. Owen, JR., and
+S. Synnott, “Optical navigation for the Galileo Gaspra
+encounter,” 2013.
+[6] P. G. Antreasian, F. T. Nicholson, P. H. Kallemeyn, S.
+Bhaskaran, R. J. Haw, and P. Halamek, “Galileo orbit
+determination for the Ida encounter,” Adv. Astronaut.
+Sci., vol. 87, no. 2, pp. 1027–1048, 1994.
+[7] Paris Observatory, “CENSUS, Space Pole of PSL Uni-
+versit´e Paris.” cceres.psl.eu. [Accessed: 14-Sep-2021].
+[8] M. D. Rayman, P. Varghese, D. H. Lehman, and L. L.
+Livesay, “Results from the Deep Space 1 technology
+validation mission,” Acta Astronaut., vol. 47, no.
+
+2–9, pp.
+475–487, 2000.
+[9] D. Evans and A. Lange, “OPS-SAT: Operational concept
+for ESA’S ﬁrst mission dedicated to operational technol-
+ogy,” SpaceOps 2016 Conf., no. January, 2016.
+[10] CNES, “VTS, Visualization Too for Space data”, avail-
+able at https://timeloop.fr/vts, Centre National d’Etudes
+Spatiales.
+[11] SIMBAD database, operated at CDS, Strasbourg,
+France, https://simbad.u-strasbg.fr/simbad/
+[12] M. Nowak, S. Lacour, A. Crouzier, L. David, V .
+Lapeyr`ere, and G. Schworer, “Short life and abrupt death
+of PicSat, a small 3U CubeSat dreaming of exoplanet
+detection,” arXiv:1901.02677v1, 2018.
+[13] B. Segret, D. Hestroffer, G. Quinsac, M. Agnan, J. Van-
+nitsen, and B. Mosser, “Optimizations of Autonomous
+Orbit Determination for a Deep-Space CubeSat,” in
+ISSFD-2019, 2019, vol.
+
+Peer Review, pp. 1129–1134.
+[14] B. Segret, “Algorithme embarqu ´e de navigation optique
+autonome pour nanosatellites interplan ´etaires,” Univer-
+sit´e Paris Sciences et Lettres, HAL Id : tel-02889414,
+2019.
+[15] B. Segret and B. Mosser, “Autonomous Orbit De-
+termination for a CubeSat Cruising in Deep Space,”
+arXiv:2104.09989, 2021.
+BIOGRAPHY [
+Boris Segret obtained his Ph.D on
+the subject of autonomous navigation
+in deep space. He received an M.Sc.
+degree in Aerospace Engineering from
+ISAE-ENSMA (France), an M.Sc. degree
+in Space Instrumentation and his Ph.D
+from Paris Observatory.
+
+He is the Tech-
+nical Director of CENSUS [7] , space
+pole of PSL Universit ´e Paris dedicated
+to scientiﬁc nanosatellites.
+Y oussoupha Diaw was a student of
+the Graduate Program AstroParis by
+PSL Universit´e Paris (France), intern at
+CENSUS [7], at the time of his contri-
+bution in 2021 for this paper. He is
+now graduating to a Master’s degree in
+Space Instrumentation at Paris Observa-
+tory.
+V al´ery Lainey defended his Ph.D
+in 2002 on orbital dynamics of the
+Galilean moon system. He was Deputy
+Coordinator of the FP7-ESPaCE net-
+work and the coordinator of the ENCE-
+LADE international team. Recently, he
+spent two years at JPL (Caltech, USA)
+working on Cassini data.
+15

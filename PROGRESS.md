@@ -21,3 +21,16 @@ Timestamps are IST (UTC+5:30). Deadline: 2026-10-31 23:59 PDT = 2026-11-01 12:29
   - Overall agreement is 99.97%.
   - Bug found and fixed: the segments contain 22,115 duplicate timestamps, and re-sorting with a non-stable sort changed the diff-based features. We now keep file order.
 - 21:05 SQLite built (303,493 telemetry points). API skeleton up. Frontend fixtures and `docs/ARCHITECTURE.md` written.
+- 21:10 TabPFN CV moved to MPS. TabPFN refuses CPU above 1,000 samples, and MPS is faster with identical AUPRC. Run-to-run MPS nondeterminism is about ±0.0002 AUPRC.
+- 21:20 **Bug: torch and xgboost/lightgbm OpenMP runtimes clash in one process** (segfault 139 / OMP Error #179). Fix: TabPFN and tree baselines now run as separate subprocess stages (train.py / evaluate.py `--stage`).
+- 21:25 PMC returned 403 to scripted fetches. Fetched via the official Europe PMC REST full-text API instead (no bot circumvention). Tables 3 and 4 of the paper were re-verified programmatically from the JATS XML.
+- 21:30 Document archive: 20 sources, 304 chunks. Full text only for CC-BY / CC-BY-SA / MIT sources; ESA and publisher pages keep excerpts of 300 characters or fewer. All 11 timeline entries are verified as verbatim quotes.
+- 21:45 CV selection (train only):
+  - Feature groups zeros_gaps, autocorr and robust each improved CV AUPRC; spectral and channel did not.
+  - The combination of the three groups is best.
+  - n_estimators=8 is best (CV AUPRC 0.9781).
+- 21:50 Thresholds from training OOF: max-F1 0.617, high 0.80 (precision ≥ 0.95), low 0.05 (recall ≥ 0.98).
+- 21:55 **ONE official test run** (logged in `test_run_log.jsonl`):
+  - TabPFN-v2: AUPRC 0.996, F1 0.982, MCC 0.977. Published FCNN: 0.979 / 0.946 / 0.932.
+  - Confusion matrix: 1 FP, 3 FN.
+  - Baselines on our features are close: RF 0.994, XGB 0.993, LGBM 0.990. Against RF the result is a statistical tie.

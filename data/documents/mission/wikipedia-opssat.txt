@@ -1,0 +1,148 @@
+SOURCE: https://en.wikipedia.org/wiki/OPS-SAT
+TITLE: OPS-SAT (Wikipedia)
+LICENSE: CC-BY-SA-4.0
+
+| OPS-SAT | | 
+|---|---|
+| Mission type | Technological demonstrator | 
+|---|---|
+| Operator | ESA | 
+| SATCAT no. | 44878 | 
+| Website | www.esa.int/Our\_Activities/Operations/OPS-SAT | 
+| Spacecraft properties | | 
+| Bus | 3U CubeSat | 
+| Manufacturer | Graz University of Technology, Austria | 
+| Launch mass | 7 kg | 
+| Dimensions | 96 mm × 96 mm × 290 mm (3.8 in × 3.8 in × 11.4 in) | 
+| Start of mission | | 
+| Launch date | 18 December 2019 <sup>\[1\]</sup> | 
+| Rocket | Soyuz VS23 <sup>\[2\]</sup>·<sup>\[3\]</sup> | 
+| Launch site | Centre Spatial Guyanais ( *Ensemble de Lancement Soyouz*) | 
+| Contractor | Arianespace <sup>\[4\]</sup>·<sup>\[5\]</sup> | 
+| | |
+
+**OPS-SAT** was a CubeSat by the European Space Agency (ESA), intended to demonstrate the improvements in mission control capabilities that will arise when satellites can fly more powerful on-board computers. The mission had the objective to break the cycle of "has never flown, will never fly" in the area of satellite control. It was the first CubeSat operated directly by ESA.<sup>\[1\]</sup>
+
+The satellite had an experimental computer that is ten times more powerful than traditional ESA on-board computers. This on-board computer provided an experimental platform to run software experiments on board. One innovative concept was the deployment of space software in the form of apps. This concept was enabled by the NanoSat MO Framework (NMF) and allowed Apps to be uploaded to the spacecraft and then started on board. This was a new concept that ESA has successfully demonstrated in space.<sup>\[6\]</sup>
+
+OPS-SAT was launched at 08:54:20 UTC on 18 December 2019, exactly twenty-four hours later than originally planned. The satellite deorbited on 22 May 2024.<sup>\[7\]</sup><sup>\[8\]</sup> During its descent, ESA collaborated with amateur radio enthusiasts to collect as much data as possible, observing the effects on the satellite as it passed through the Earth's lower atmosphere.<sup>\[9\]</sup>
+
+\[edit\]
+OPS-SAT provided an in-orbit test-bed environment for the deployment of different experiments to test new protocols, new algorithms, and new techniques. The satellite was designed to be robust and no single point of failure should exist, so that it was always possible to recover the spacecraft if something went wrong with one of the software experiments. The robustness of the basic satellite itself allowed ESA flight control teams to upload and try out new, innovative control software submitted by experimenters.
+
+OPS-SAT payload devices:
+
+- Experimental Platform: Critical Link MityARM 5CSX
+- Fine ADCS
+- GPS
+- Camera
+- Software-defined radio
+- Optical Receiver
+
+Communication links to ground:
+
+\[edit\]
+The Experimental Platform of OPS-SAT was where experiments were executed. It had two Critical Link MityARM 5CSX in cold redundancy (if one failed, the second one was used). These had a Dual-core 800 MHz ARM Cortex-A9 processor, an Altera Cyclone V FPGA, 1 GB DDR3 RAM, and an external mass memory device with 8 GB.<sup>\[10\]</sup>
+
+ESA's aim was to remove as many barriers to experimentation as possible. For example, there was little to no paperwork, ESOC's infrastructure was set up to do automated tests on the experiments, with the aim of reducing the overheads close to zero. Additionally, the experiments could be easily developed in form of apps using the NanoSat MO Framework.
+
+\[edit\]
+In March 2023, the OPS-SAT Mission Control Team was awarded with the International SpaceOps 2023 Award for Outstanding Achievement.<sup>\[11\]</sup>
+
+\[edit\]
+OPS-SAT achieved several significant firsts in various areas.<sup>\[12\]</sup>
+
+\[edit\]
+- First space mission dedicated to operational technology.<sup>\[6\]</sup>
+- First nanosatellite directly owned and operated by ESA.<sup>\[6\]</sup>
+- First in-orbit laboratory where the public can load and test software/firmware.<sup>\[13\]</sup>
+- First ESA mission directly controllable in real-time over the internet by the public.<sup>\[14\]</sup>
+- First mission to offer an on-board environment (NMF) that allows the easy development of apps for upload and execution, comparable to the concept of modern smartphones.<sup>\[15\]</sup>
+- First ESA mission to reconfigure an in-orbit FPGA on a daily basis.<sup>\[12\]</sup>
+- First mission commanded with Europe’s next-generation mission control system EGS-CC.<sup>\[16\]</sup>
+- First in-orbit decoding and processing of ground-based emergency beacons.<sup>\[17\]</sup>
+- First ground-to-space API access of an in-orbit hosted Software-as-a-Service (SaaS) application.<sup>\[18\]</sup>
+
+\[edit\]
+- First in-orbit neural network deployment for onboard AI.<sup>\[19\]</sup>
+- First onboard machine learning for in-orbit training of supervised and unsupervised models.<sup>\[19\]</sup>
+- First in-orbit AI model for FDIR.<sup>\[19\]</sup>
+- First European deep learning processing of an image using an on-board FPGA.<sup>\[20\]</sup>
+- First re-training of an on-board AI model with live in-flight data.<sup>\[21\]</sup>
+- First on-board update of an ANN (artificial neural network) in space in an institutional mission.<sup>\[22\]</sup>
+- First onboard Generative AI (WGANs).<sup>\[23\]</sup><sup>\[24\]</sup>
+- First re-use of pre-trained neural networks originally developed for terrestrial applications.<sup>\[23\]</sup>
+
+\[edit\]
+- First ESA mission to use CFDP (CCSDS File Delivery Protocol) operationally.<sup>\[25\]</sup>
+- First ESA mission to use CCSDS Mission Operations Services (MO) on-board, on the space-to-ground link, and on ground.<sup>\[25\]</sup>
+- First in-orbit implementation of a Spacewire protocol on top of an existing LVDS connection.<sup>\[12\]</sup>
+- First mission to use the CCSDS Housekeeping Data Compression Standard 124.0-B-1 (based on POCKET+) on OPS-SAT-1.<sup>\[26\]</sup>
+
+\[edit\]
+The most innovative concept in OPS-SAT was the deployment of space software in the form of apps. The European Space Agency in collaboration with Graz University of Technology investigated and developed the NanoSat MO Framework – Open source software.<sup>\[34\]</sup>
+
+The NanoSat MO Framework (NMF) is a software framework for nanosatellites based on CCSDS Mission Operations services. It includes a Software Development Kit (SDK) to develop experiments as NMF Apps which can then be installed, started, and stopped in space. The framework also includes monitoring and control capabilities for the apps which will allow experimenters from the ground to take control of their software when it is running in space.<sup>\[35\]</sup>
+
+The OPS-SAT system image comes with the NanoSat MO Framework which interfaces with all of the OPS-SAT payload systems and provides it in the form of services to the experimenter application. The NanoSat MO Framework allows simple integration of other libraries and applications. During the development of the experiments, the NMF SDK can be used and it includes a simulator, providing most of the platform functionalities accessible to the experimenter. The simulator allows developers to make their NMF Apps without the need to access an advanced satellite testbed hardware platform.
+
+\[edit\]
+The original OPS-SAT is known as OPS-SAT-1 in retrospect. PRETTY was originally a separate program for a cube satellite, but was taken under the leadership of the OPS-SAT Space Lab and became OPS-SAT PRETTY.<sup>\[36\]</sup> It was launched in 2023, and is still in orbit as of 2026. OPS-SAT VOLT and OPS-SAT ORIOLE are two additional follow-ups; both are scheduled to launch in 2027.<sup>\[37\]</sup>
+
+\[edit\]
+1. 1 2 "OPS-SAT". ESA. 27 April 2017. Retrieved 19 September 2017.
+2. ↑ CHEOPS exoplanet mission meets key milestones en route to 2017 launch. *ESA*, 11 July 2014
+3. ↑ CHEOPS has arrived in Kourou. Barbara Vonarburg. 16 October 2019
+4. ↑ "CHEOPS will ride on a Soyuz rocket". *cheops.unibe.ch*. 6 April 2017. Archived from the original on 17 September 2017. Retrieved 19 September 2017.
+5. ↑ CHEOPS - Mission Status & Summary
+6. 1 2 3 Evans, David; Labrèche, Georges; Mladenov, Tom; Marszk, Dominik; Zelenevskiy, Vladimir; Shiradhonkar, Vasundhara (2022). *OPS-SAT LEOP and Commissioning: Running a Nanosatellite Project in a Space Agency Context*. Small Satellite Conference. Utah State University, Logan, UT. Retrieved 21 January 2024.
+7.
+
+↑ "Austrian Mini-Satellite OPS-SAT Burns Up after Successful Mission" (Press release). TU Graz - Graz University of Technology. 23 May 2024. Retrieved 2026-02-03.
+8. ↑ ESA Operations \[@esaoperations\] (May 23, 2024). "OPS-SAT's deorbiting is complete. The final telemetry was received at 21:30 UTC, 22 May, as the satellite passed over Australia. Thank you for helping us gather data during its final orbits. They are now being analysed but already promise to be very interesting" (Tweet) – via X (formerly Twitter).
+9. ↑ "OPS-SAT Reentry Tomorrow: Follow Live!". European Space Agency. 21 May 2024. Retrieved 23 May 2024.
+10. ↑ "ESAW 2017" (PDF). ESA. 20 June 2017. Archived from the original (PDF) on 23 December 2017. Retrieved 19 December 2017.
+11.
+
+↑ "OPS-SAT Flying Laboratory Wins 2023 International SpaceOps Award". ESA. Retrieved 21 January 2024.
+12. 1 2 3 "OPS-SAT Significant Firsts". European Space Operations Centre. Retrieved 21 January 2024.
+13. ↑ "How to Become an Experimenter on OPS-SAT". European Space Agency. Retrieved 21 January 2024.
+14. ↑ "OPS-SAT – opening a satellite to the internet" (PDF). European Space Agency. Retrieved 21 January 2024.
+15. ↑ Coelho, César; Koudelka, Otto; Merri, Mario (2017). "NanoSat MO framework: When OBSW turns into apps". *2017 IEEE Aerospace Conference*. pp. 1–8. doi:10.1109/AERO.2017.7943951.
+16. ↑ "First Test of Europe's New Space Brain". European Space Agency. Retrieved 21 January 2024.
+17. ↑ Mladenov, Tom; Evans, David; Zelenevskiy, Vladimir (2022).
+
+"Implementation of a GNU Radio-Based Search and Rescue Receiver on ESA's OPS-SAT Space Lab". *IEEE Aerospace and Electronic Systems Magazine*. **37** (5): 4–12. doi:10.1109/AESM.2022.9684957 (inactive 12 July 2025). Retrieved 21 January 2024.`{{cite journal}}`: CS1 maint: DOI inactive as of July 2025 (link)
+18. ↑ Labrèche, Georges; Alvarez, Cesar Guzman (2023). *SaaSyML: Software as a Service for Machine Learning On-board the OPS-SAT Spacecraft*. 2023 IEEE Aerospace Conference. pp. 1–9. doi:10.1109/AERO55745.2023.10115531.
+19. 1 2 3 Labrèche, Georges; Evans, David; Marszk, Dominik; Mladenov, Tom; Shiradhonkar, Vasundhara; Soto, Tanguy; Zelenevskiy, Vladimir (2022). "OPS-SAT Spacecraft Autonomy with TensorFlow Lite, Unsupervised Learning, and Online Machine Learning".
+
+*2022 IEEE Aerospace Conference (AERO)*. pp. 1–17. doi:10.1109/AERO53065.2022.9843402.
+20. ↑ Lemaire, Edgar; Moretti, Matthieu; Daniel, Lionel; Miramond, Benoît; Millet, Philippe; Feresin, Frédéric; Bilavarn, Sébastien (2020). "An FPGA-Based Hybrid Neural Network Accelerator for Embedded Satellite Image Classification". *2020 IEEE International Symposium on Circuits and Systems (ISCAS)*. pp. 1–5. doi:10.1109/ISCAS45731.2020.9180625.
+21. ↑ Kacker, Shreeyam; Meredith, Alex; Cahoy, Kerri; Labrèche, Georges (2022). *Machine Learning Image Processing Algorithms Onboard OPS-SAT*. Small Satellite Conference. Retrieved 21 January 2024.
+22. ↑ "First On-Board Update of an ANN in Space in an Institutional Mission". IRT Saint Exupéry. Retrieved 21 January 2024.
+23.
+
+1 2 Labrèche, Georges; Guzman, Cesar; Bammens, Sam (2024). "Generative AI... in Space! Adversarial Networks to Denoise Images Onboard the OPS-SAT-1 Spacecraft". *2024 IEEE Aerospace Conference*. pp. 1–17. doi:10.1109/AERO58975.2024.10521090. ISBN 979-8-3503-0462-6.
+24. ↑ Labrèche, Georges. "Generative AI and Autoencoders to Denoise Images Onboard the European Space Agency's OPS-SAT-1 Spacecraft". GitHub. Retrieved 21 January 2024.
+25. 1 2 Marszk, Dominik; Evans, David; Mladenov, Tom; Labrèche, Georges; Zelenevskiy, Vladimir; Shiradhonkar, Vasundhara (2022). *MO Services and CFDP in Action on OPS-SAT*. Small Satellite Conference. Retrieved 21 January 2024.
+26.
+
+↑ Evans, David; Labrèche, Georges; Marszk, Dominik; Bammens, Sam; Hernández-Cabronero, Miguel; Zelenevskiy, Vladimir; Shiradhonkar, Vasundhara; Starcik, Milenko; Henkel, Maximilian (2022). *Implementing the New CCSDS Housekeeping Data Compression Standard 124.0-B-1 (Based on POCKET+) on OPS-SAT-1*. Small Satellite Conference. Retrieved 21 January 2024.
+27. ↑ Terzo, Noemi (2023). *Design and in-orbit Demonstration of a Post-Quantum Cryptographic Solution Based on KEMTLS-PDK to Enhance Satellite Communication Security* (laurea). Politecnico di Torino. Retrieved 21 January 2024.
+28. ↑ Calabrese, Matteo; Kavallieratos, Georgios; Falco, Gregory. *A Hosted Payload Cyber Attack Against Satellites*. AIAA SCITECH 2024 Forum. doi:10.2514/6.2024-0270. Retrieved 21 January 2024.
+29.
+
+↑ "Trading in Space: ESA Bolsters European Business". European Space Operations Centre. Retrieved 21 January 2024.
+30. ↑ "First In-Orbit Game of Chess". Chess-OPS. Retrieved 21 January 2024.
+31. ↑ Waage, Ólafur. "OPS-SAT DOOM". GitHub. Retrieved 21 January 2024.
+32. ↑ Waage, Ólafur (29 March 2024). "Running DOOM on ESA's OPS-SAT Satellite". YouTube. Retrieved 30 November 2024.
+33. ↑ Lane, Rick (22 April 2024). "Doom played in space by satellite computer 'ten times more powerful than any current ESA spacecraft'". PC Gamer. Retrieved 30 November 2024.
+34. ↑ "NanoSat MO Framework". Retrieved 19 December 2017.
+35. ↑ Coelho, Cesar; Koudelka, Otto; Merri, Mario (2017). "NanoSat MO Framework: When OBSW turns into apps". *2017 IEEE Aerospace Conference*. pp. 1–8. doi:10.1109/AERO.2017.7943951.
+
+ISBN 978-1-5090-1613-6. S2CID 9033794.
+36. ↑ Schoklitsch, Falko (6 November 2025). "Austrian Satellite Mission PRETTY Continues under the Leadership of TU Graz". *TU Graz*. Graz University of Technology. Retrieved 19 August 2026.
+37. ↑ 
+ - "OPS-SAT PRETTY". *OPS-SAT Space Lab*. ESA. Retrieved 19 August 2026.
+ - "OPS-SAT ORIOLE". *OPS-SAT Space Lab*. ESA. Retrieved 19 August 2026.
+ - "OPS-SAT VOLT". *OPS-SAT Space Lab*. ESA. Retrieved 19 August 2026.

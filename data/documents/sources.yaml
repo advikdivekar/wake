@@ -1,0 +1,61 @@
+# Public sources for the Mission Memory archive.
+# stored_mode: full    -> openly licensed text (CC-BY / CC-BY-SA / MIT); stored and chunked in full, with attribution
+#              excerpt -> not openly licensed (e.g. ESA web terms); only short excerpts (<=300 chars) + link stored
+#              meta    -> metadata only (paywalled or unknown licence)
+# license "detect-arxiv" -> licence read from the arXiv abstract page; full only if CC-licensed.
+- {doc_id: opssat-ad-paper, category: research, stored_mode: full, license: CC-BY-4.0, publication_date: 2025-04-29,
+   title: "The OPS-SAT benchmark for detecting anomalies in satellite telemetry (Sci Data 2025)",
+   url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12041257/",
+   fetch_url: "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12041257/fullTextXML"}
+- {doc_id: opssat-ad-correction, category: research, stored_mode: full, license: CC-BY-4.0, publication_date: 2025-08-18,
+   title: "Correction: The OPS-SAT benchmark for detecting anomalies in satellite telemetry",
+   url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12361492/",
+   fetch_url: "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12361492/fullTextXML"}
+- {doc_id: opssat-ad-arxiv, category: research, stored_mode: full, license: detect-arxiv, publication_date: 2024-07-05,
+   title: "The OPS-SAT benchmark for detecting anomalies in satellite telemetry (arXiv preprint)",
+   url: "https://arxiv.org/abs/2407.04730"}
+- {doc_id: opssat-ad-readme, category: telemetry, stored_mode: full, license: MIT, publication_date: null,
+   title: "OPS-SAT-AD repository README (kplabs-pl)",
+   url: "https://raw.githubusercontent.com/kplabs-pl/OPS-SAT-AD/main/README.md"}
+- {doc_id: opssat-ad-generator, category: telemetry, stored_mode: full, license: MIT, publication_date: null,
+   title: "OPS-SAT-AD dataset_generator.ipynb (feature definitions)",
+   url: "https://raw.githubusercontent.com/kplabs-pl/OPS-SAT-AD/main/dataset_generator.ipynb"}
+- {doc_id: opssat-ad-zenodo, category: telemetry, stored_mode: full, license: CC-BY-4.0, publication_date: 2024-06-29,
+   title: "OPSSAT-AD - anomaly detection dataset for satellite telemetry (Zenodo record)",
+   url: "https://zenodo.org/records/12588359"}
+- {doc_id: wikipedia-opssat, category: mission, stored_mode: full, license: CC-BY-SA-4.0, publication_date: null,
+   title: "OPS-SAT (Wikipedia)", url: "https://en.wikipedia.org/wiki/OPS-SAT"}
+- {doc_id: esa-rocketscience-final-hours, category: mission, stored_mode: excerpt, license: ESA website terms, publication_date: 2024-05-22,
+   title: "Work continues to wrap up OPS-SAT's final experiments with just hours left on the mission clock (ESA Rocket Science blog)",
+   url: "https://blogs.esa.int/rocketscience/?p=5299"}
+- {doc_id: esa-reentry-workshop-2025, category: mission, stored_mode: excerpt, license: ESA (all rights reserved unless stated), publication_date: 2025-01-15,
+   title: "OPS-SAT re-entry workshop (ESA, 15 Jan 2025)",
+   url: "https://indico.esa.int/event/549/attachments/6499/11473/OPS-SAT_re-entry_WS_15Jan2025.pdf"}
+- {doc_id: esa-eol-abstract-2024, category: mission, stored_mode: excerpt, license: ESA (all rights reserved unless stated), publication_date: 2024-10-08,
+   title: "OPS-SAT end-of-life operations (ESA conference contribution, Oct 2024)",
+   url: "https://indico.esa.int/event/516/contributions/9989/"}
+- {doc_id: esoc-opssat, category: mission, stored_mode: excerpt, license: ESA website terms, publication_date: null,
+   title: "OPS-SAT (ESOC)", url: "https://esoc.esa.int/content/ops-sat"}
+- {doc_id: opssat-esa-missions, category: mission, stored_mode: excerpt, license: ESA website terms, publication_date: null,
+   title: "OPS-SAT missions (opssat.esa.int)", url: "https://opssat.esa.int/missions"}
+- {doc_id: tugraz-opssat-mission, category: mission, stored_mode: excerpt, license: TU Graz website terms, publication_date: null,
+   title: "OPS-SAT Mission (TU Graz IKS)", url: "https://www.tugraz.at/en/institute/iks/space-missions/ops-sat/mission"}
+- {doc_id: solardaily-mission-concludes, category: mission, stored_mode: excerpt, license: publisher terms, publication_date: 2024-06-04,
+   title: "ESA's OPS-SAT CubeSat Mission Concludes (Solar Daily, reprint of ESA release)",
+   url: "https://www.solardaily.com/reports/ESAs_OPS_SAT_CubeSat_Mission_Concludes_999.html"}
+- {doc_id: smallsatnews-mission-completed, category: mission, stored_mode: excerpt, license: publisher terms, publication_date: 2024-06-04,
+   title: "Mission completed for ESA's OPS-SAT laboratory (SmallSat News)",
+   url: "https://smallsatnews.com/2024/06/04/mission-completed-for-esas-ops-sat-laboratory/"}
+- {doc_id: esa-reentry-radio-campaign, category: mission, stored_mode: excerpt, license: ESA website terms, publication_date: 2024-04-01,
+   title: "OPS-SAT reentry amateur radio campaign (ESA multimedia)",
+   url: "https://esa.int/ESA_Multimedia/Images/2024/04/OPS-SAT_reentry_amateur_radio_campaign"}
+- {doc_id: arxiv-refined-astrometry, category: research, stored_mode: full, license: detect-arxiv, publication_date: 2022-03-14,
+   title: "Refined Astrometry on Board a CubeSat (OPS-SAT experiment)", url: "https://arxiv.org/abs/2203.07254"}
+- {doc_id: usu-smallsat-2022-ml, category: research, stored_mode: excerpt, license: repository terms, publication_date: 2022-08-01,
+   title: "Machine Learning Image Processing Algorithms Onboard OPS-SAT (SmallSat 2022)",
+   url: "https://digitalcommons.usu.edu/smallsat/2022/all2022/65"}
+- {doc_id: satnogs-44878, category: telemetry, stored_mode: meta, license: CC-BY-SA-4.0 (SatNOGS DB), publication_date: null,
+   title: "OPS-SAT in SatNOGS DB (NORAD 44878)", url: "https://db.satnogs.org/satellite/44878"}
+- {doc_id: iccs-2023-opssat-ml, category: research, stored_mode: meta, license: Springer (paywalled), publication_date: 2023-06-26,
+   title: "Machine Learning Detects Anomalies in OPS-SAT Telemetry (ICCS 2023)",
+   url: "https://doi.org/10.1007/978-3-031-35995-8_21"}

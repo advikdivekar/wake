@@ -1,0 +1,60 @@
+{
+  "produced_by": "python -m training.tabpfn.threshold",
+  "git_sha": "cd57b5a",
+  "created_at": "2026-10-31T15:36:17+00:00",
+  "model": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+  "source": "training OOF",
+  "bins": [
+    {
+      "p_mean": 0.00010922357046183606,
+      "frac_pos": 0.0,
+      "count": 160
+    },
+    {
+      "p_mean": 0.00018642554403745435,
+      "frac_pos": 0.0,
+      "count": 159
+    },
+    {
+      "p_mean": 0.00035623857341838546,
+      "frac_pos": 0.0,
+      "count": 159
+    },
+    {
+      "p_mean": 0.0006749494994437554,
+      "frac_pos": 0.0,
+      "count": 160
+    },
+    {
+      "p_mean": 0.0012713626258473538,
+      "frac_pos": 0.0,
+      "count": 159
+    },
+    {
+      "p_mean": 0.003062512136925504,
+      "frac_pos": 0.006289308176100629,
+      "count": 159
+    },
+    {
+      "p_mean": 0.010426418558927253,
+      "frac_pos": 0.025,
+      "count": 160
+    },
+    {
+      "p_mean": 0.16654974418991017,
+      "frac_pos": 0.10062893081761007,
+      "count": 159
+    },
+    {
+      "p_mean": 0.9285006144511625,
+      "frac_pos": 0.8805031446540881,
+      "count": 159
+    },
+    {
+      "p_mean": 0.9996543683111667,
+      "frac_pos": 1.0,
+      "count": 160
+    }
+  ],
+  "brier": 0.022794380146329177
+}

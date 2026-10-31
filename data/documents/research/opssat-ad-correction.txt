@@ -1,0 +1,7 @@
+SOURCE: https://pmc.ncbi.nlm.nih.gov/articles/PMC12361492/
+TITLE: Correction: The OPS-SAT benchmark for detecting anomalies in satellite telemetry
+LICENSE: CC-BY-4.0
+
+Correction to: Scientific Data 10.1038/s41597-025-05035-3, published online 29 April 2025
+
+In this article several of the figures were inadvertently interchanged. While the figure numbers and labels are accurate, Figures 3, 4, 5, 6, 7, 8, 9, and 10 are not in the correct order. The original article has been corrected.

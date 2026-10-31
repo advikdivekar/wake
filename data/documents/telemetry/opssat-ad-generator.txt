@@ -1,0 +1,112 @@
+SOURCE: https://raw.githubusercontent.com/kplabs-pl/OPS-SAT-AD/main/dataset_generator.ipynb
+TITLE: OPS-SAT-AD dataset_generator.ipynb (feature definitions)
+LICENSE: MIT
+
+import pandas as pd
+import numpy as np
+from scipy import signal as sig
+from scipy.stats import kurtosis, skew
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+
+source_df = pd.read_csv("data/segments.csv", parse_dates=['timestamp'])
+print(f"Number of input rows: {len(source_df)}, and segments: {len(source_df.segment.unique())}")
+
+def number_of_peaks_finding(array):
+ prominence = 0.1 * (np.max(array)-np.min(array))
+ peaks = sig.find_peaks(array, prominence=prominence)[0]
+ return len(peaks)
+
+def duration(df):
+ t1 = pd.Timestamp(df.head(1).timestamp.values[0])
+ t2 = pd.Timestamp(df.tail(1).timestamp.values[0])
+ return (t2 - t1).seconds
+
+def smooth10_n_peaks(array):
+ kernel = np.ones(10)/10
+ array_convolved = np.convolve(array, kernel, mode="same")
+ return number_of_peaks_finding(array_convolved)
+
+def smooth20_n_peaks(array):
+ kernel = np.ones(20)/20
+ array_convolved = np.convolve(array, kernel, mode="same")
+ return number_of_peaks_finding(array_convolved)
+
+def diff_peaks(array):
+ array_diff = np.diff(array)
+ return number_of_peaks_finding(array_diff)
+
+def diff2_peaks(array):
+ array_diff = np.diff(array, n=2)
+ return number_of_peaks_finding(array_diff)
+
+def diff_var(array):
+ array_diff = np.diff(array)
+ return np.var(array_diff)
+
+def diff2_var(array):
+ array_diff = np.diff(array, n=2)
+ return np.var(array_diff)
+
+def gaps_squared(df):
+ df = df.copy()
+ # df["timestamp"] = pd.to_datetime(df["timestamp"])
+ df['timestamp2'] = df['timestamp'].shift(1)
+ df = df.reset_index().iloc[1:, :]
+ df['time_delta'] = (df.timestamp - df.timestamp2).dt.seconds
+ df['time_delta_squared'] = df['time_delta']**2
+ return df.time_delta_squared.sum()
+
+transformations = {
+ "len" : len,
+ "mean" : np.mean,
+ "var" : np.var,
+ "std" : np.std,
+ "kurtosis" : kurtosis,
+ "skew" : skew,
+ "n_peaks" : number_of_peaks_finding,
+ "smooth10_n_peaks": smooth10_n_peaks,
+ "smooth20_n_peaks": smooth20_n_peaks,
+ "diff_peaks" : diff_peaks,
+ "diff2_peaks" : diff2_peaks,
+ "diff_var" : diff_var,
+ "diff2_var" : diff2_var,
+}
+
+def generate_dataset(source_df, target_name):
+ dataset = []
+ for i in tqdm(source_df.segment.unique()):
+ res = []
+ tdf = source_df.loc[source_df.segment == i, :]
+ if tdf.loc[:, "anomaly"].head(1).values == 1:
+ anomaly = 1
+ else:
+ anomaly = 0
+
+res.append(i)
+ res.append(anomaly)
+ res.append(tdf.loc[:, "train"].head(1).values[0])
+ res.append(tdf.loc[:, "channel"].head(1).values[0])
+ res.append(tdf.loc[:, "sampling"].head(1).values[0])
+ res.append(duration(tdf))
+
+for transformation in transformations.values():
+ res.append(transformation(tdf.value.values))
+ res.append(gaps_squared(tdf))
+
+dataset.append(res)
+
+dataset = pd.DataFrame(data=dataset, columns=\
+ ["segment", "anomaly", "train", "channel", "sampling", "duration"]
+ +list(transformations)+["gaps_squared"])
+
+dataset["len_weighted"] = dataset["sampling"] * dataset["len"]
+ dataset["var_div_duration"] = dataset["var"] / dataset["duration"]
+ dataset["var_div_len"] = dataset["var"] / dataset["len"]
+
+dataset.to_csv("data/"+target_name+".csv", index=None)
+ return dataset
+
+dataset = generate_dataset(source_df, "__dataset")
+
+dataset.groupby(by=['train', 'anomaly'])['segment'].count()

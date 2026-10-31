@@ -1,0 +1,92 @@
+{
+  "produced_by": "python -m training.tabpfn.evaluate",
+  "git_sha": "cd57b5a",
+  "created_at": "2026-10-31T15:37:11+00:00",
+  "tests": [
+    {
+      "tabpfn": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+      "baseline": "iforest:base18+zeros_gaps+autocorr+robust",
+      "mcnemar": {
+        "a_correct_b_wrong": 206,
+        "a_wrong_b_correct": 3,
+        "exact_mcnemar_p": 3.699120718273295e-57
+      },
+      "auprc_diff_mean": 0.5920713629583219,
+      "auprc_diff_ci95": [
+        0.5103755748568456,
+        0.6697074972855901
+      ]
+    },
+    {
+      "tabpfn": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+      "baseline": "lightgbm:base18+zeros_gaps+autocorr+robust",
+      "mcnemar": {
+        "a_correct_b_wrong": 3,
+        "a_wrong_b_correct": 0,
+        "exact_mcnemar_p": 0.25
+      },
+      "auprc_diff_mean": 0.006147513627967085,
+      "auprc_diff_ci95": [
+        0.0005369307993012358,
+        0.014048937750011327
+      ]
+    },
+    {
+      "tabpfn": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+      "baseline": "lr:base18+zeros_gaps+autocorr+robust",
+      "mcnemar": {
+        "a_correct_b_wrong": 6,
+        "a_wrong_b_correct": 0,
+        "exact_mcnemar_p": 0.03125
+      },
+      "auprc_diff_mean": 0.00906216738710983,
+      "auprc_diff_ci95": [
+        0.0020978692752122137,
+        0.020016788236505934
+      ]
+    },
+    {
+      "tabpfn": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+      "baseline": "rf:base18+zeros_gaps+autocorr+robust",
+      "mcnemar": {
+        "a_correct_b_wrong": 3,
+        "a_wrong_b_correct": 1,
+        "exact_mcnemar_p": 0.625
+      },
+      "auprc_diff_mean": 0.0020907003441669307,
+      "auprc_diff_ci95": [
+        -0.0005077969154717504,
+        0.00623552137939633
+      ]
+    },
+    {
+      "tabpfn": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+      "baseline": "rule:zero_fraction",
+      "mcnemar": {
+        "a_correct_b_wrong": 193,
+        "a_wrong_b_correct": 3,
+        "exact_mcnemar_p": 2.49933618433437e-53
+      },
+      "auprc_diff_mean": 0.7001054359318383,
+      "auprc_diff_ci95": [
+        0.6392039292735358,
+        0.7549358308468374
+      ]
+    },
+    {
+      "tabpfn": "tabpfn-v2:n8:base18+zeros_gaps+autocorr+robust",
+      "baseline": "xgboost:base18+zeros_gaps+autocorr+robust",
+      "mcnemar": {
+        "a_correct_b_wrong": 3,
+        "a_wrong_b_correct": 0,
+        "exact_mcnemar_p": 0.25
+      },
+      "auprc_diff_mean": 0.003124771001643652,
+      "auprc_diff_ci95": [
+        0.00018406577652272665,
+        0.008362155801305612
+      ]
+    }
+  ],
+  "note": "exact McNemar on thresholded decisions; paired bootstrap (1000x) of the AUPRC difference TabPFN minus baseline"
+}

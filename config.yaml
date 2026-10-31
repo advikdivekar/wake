@@ -9,9 +9,10 @@ language_model:
 tabular_classifier:
   backend: tabpfn              # tabpfn | xgboost | rf | lr
   path: models/tabpfn_final.pkl
-thresholds:                    # filled by training/tabpfn/threshold.py from out-of-fold predictions
-  high: null
-  low: null
+thresholds:                    # from training/tabpfn/threshold.py (OOF)
+  high: 0.8
+  low: 0.05
+  f1: 0.6169
 retrieval:
   embedding_model: BAAI/bge-small-en-v1.5
   fusion: rrf
