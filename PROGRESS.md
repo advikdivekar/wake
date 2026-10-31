@@ -64,3 +64,11 @@ Timestamps are IST (UTC+5:30). Deadline: 2026-10-31 23:59 PDT = 2026-11-01 12:29
   - Conversion path: PEFT export (`unembed_tokens` renamed to `lm_head`), llama.cpp `convert_lora_to_gguf` (b11669), `models/adapter.gguf`.
   - Offline run (llama.cpp, no Tinker key, HF offline): VAL 0.925, with 100% field agreement with the same checkpoint's Tinker outputs.
 - 00:15 The app interpreter backend is now `llamacpp` (local adapter). Runtime extraction falls back to the regex reading for flagged channel and date fields. Estimated Tinker total: $0.83.
+- 01:00 (1 Nov IST) **Web console (`web/`)** built: Vite, React, react-three-fiber, Lenis and Framer Motion.
+  - Live API mode, with a labelled snapshot fallback that holds real API responses (`scripts/export_snapshot.py`).
+  - Visually QA'd in real Chrome at desktop and mobile widths with `web/shoot.mjs` and `web/shoot_mobile.mjs`.
+  - QA fixes: gaps no longer drawn on downsampled channel views; the Q&A missing-list shows real words instead of stems; a reverted ranking hack that had broken the "cause unknown" guard.
+- 01:20 The DEV post is written at `dev/the-last-satellite.md`. Every number was re-checked against `evaluations/`.
+- 01:25 The GitHub repo was renamed to `advikdivekar/wake` (public) by the author.
+  - Pushes after the rename were blocked by the agent's permission classifier, so the author pushes.
+  - The Pages workflow was not added (blocked as a new public surface).
