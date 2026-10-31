@@ -128,7 +128,10 @@ def channel_telemetry(ch: str, start, end, max_points: int) -> dict | None:
     split = dict(con().execute("SELECT segment_id, split FROM segments WHERE channel=?", (ch,)).fetchall())
     if len(df) > max_points:
         df = df.iloc[np.linspace(0, len(df) - 1, max_points).astype(int)]
+    downsampled = len(df) > max_points
     out = _series(df.reset_index(drop=True), None, 1)
+    if downsampled:   # gaps between DOWNSAMPLED points are an artefact, not a property of the telemetry
+        out["gaps"] = []
     out["segments"] = [{"segment_id": int(s.segment_id), "start": s.start, "end": s.end,
                         "split": split.get(int(s.segment_id))} for s in segs.itertuples()]
     out["downsampled"] = bool(len(out["t"]) == max_points)

@@ -30,8 +30,11 @@ def _stem(t: str) -> str:
 
 
 def _terms(q: str) -> list[str]:
-    toks = [t for t in _norm(q).split() if t not in STOP and len(t) > 2 and t not in ("ops", "sat", "opssat")]
-    return list(dict.fromkeys(_stem(t) for t in toks))
+    return list(dict.fromkeys(_stem(t) for t in _words(q)))
+
+
+def _words(q: str) -> list[str]:
+    return [t for t in _norm(q).split() if t not in STOP and len(t) > 2 and t not in ("ops", "sat", "opssat")]
 
 
 def _candidates(text: str) -> list[str]:
@@ -43,17 +46,21 @@ def answer(question: str, k: int = 6) -> dict:
     expanded = question
     if re.search(r"re-?ent|deorbit", question, re.I):
         expanded += " reentry re-entry atmospheric deorbited"
+    if re.search(r"\b(why|cause|caused|reason|early|earlier)\b", question, re.I):
+        expanded += " caused by due to impacted by"
     if re.search(r"experiment", question, re.I):
         expanded += " experiments teams countries"
     hits = search(expanded, k=k)
     terms = _terms(question)
+    why = bool(re.search(r"\b(why|cause|caused|reason)\b", question, re.I))
+    CAUSAL = re.compile(r"\b(caused by|due to|because|resulted in|impacted by|led to|as a result of)\b", re.I)
     scored = []
     for h in hits:
         for s in _candidates(h["excerpt"]):
             ns = _norm(s)
-            overlap = sum(1 for t in terms if t in ns)
+            overlap = sum(1 for t in terms if t in ns) / max(len(terms), 1)
             if overlap and 30 <= len(s) <= 400:
-                scored.append((overlap / max(len(terms), 1), s, h))
+                scored.append((overlap, s, h))
     scored.sort(key=lambda x: -x[0])
     citations, picked = [], []
     for score, s, h in scored:
@@ -65,13 +72,13 @@ def answer(question: str, k: int = 6) -> dict:
                               "excerpt": s, "score": round(score, 3)})
     missing = []
     covered = {t for t in terms if any(t in _norm(c["excerpt"]) for c in citations)}
-    gaps = [t for t in terms if t not in covered]
+    gaps = [w for w in dict.fromkeys(_words(question)) if _stem(w) not in covered]
     if not citations:
         missing.append("The archive contains no passage that addresses this question.")
     elif gaps:
         missing.append(f"No archived passage mentions: {', '.join(gaps)}.")
     if re.search(r"\b(why|cause|caused|reason)\b", question, re.I) and not any(
-            re.search(r"\b(caused by|due to|because|resulted)\b", c["excerpt"], re.I) for c in citations):
+            re.search(r"\b(caused by|due to|because|resulted|impacted by|led to|as a result of)\b", c["excerpt"], re.I) for c in citations):
         missing.append("No archived source states a cause; the cause remains unknown.")
     text = " ".join(f"{c['excerpt']} [{i}]" for i, c in enumerate(citations, 1)) or "Not found in the archive."
     model = "extractive (deterministic)"
@@ -85,7 +92,9 @@ def answer(question: str, k: int = 6) -> dict:
             m = re.search(r"DEFINITION:\s*(.+)", out); src = re.search(r"SOURCE:\s*\[?(\d+)", out)
             if m and src and m.group(1).strip() != "?" and 1 <= int(src.group(1)) <= 3:
                 h = hits[int(src.group(1)) - 1]
-                if spec.norm_ws(m.group(1)) in spec.norm_ws(h["excerpt"]):
+                lm_overlap = sum(1 for t in terms if t in _norm(m.group(1))) / max(len(terms), 1)
+                best = scored[0][0] if scored else 0
+                if spec.norm_ws(m.group(1)) in spec.norm_ws(h["excerpt"]) and lm_overlap >= best:
                     text = f"{m.group(1).strip()} [1]"
                     citations = [{**{k_: h[k_] for k_ in ("doc_id", "chunk_id", "title", "url", "location", "license")},
                                   "excerpt": m.group(1).strip(), "score": h["score"]}]
