@@ -6,7 +6,7 @@ export default function Nav() {
   const { scrollYProgress } = useScroll();
   const w = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-candle/[0.06] bg-void/70 backdrop-blur-xl">
       <motion.div className="h-px origin-left bg-gradient-to-r from-marigold via-candle to-ember" style={{ scaleX: w }} />
       <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-8">
         <a href="#top" className="flex items-center gap-2.5">
